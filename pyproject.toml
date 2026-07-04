@@ -1,0 +1,17 @@
+[project]
+name = "AI_Engineer"
+version = "0.1.0"
+description = "Text-interface for AI Agent Engineer"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.1",
+    "jupyter>=1.1.1",
+    "mcp[cli]>=1.23.1",
+    "numpy-quaternion>=2024.0.8",
+    "pandas>=2.2.3",
+    "pillow>=11.2.1",
+    "python-fcl>=0.7.0.8",
+    "scipy>=1.15.3",
+    "trimesh>=4.6.10",
+]

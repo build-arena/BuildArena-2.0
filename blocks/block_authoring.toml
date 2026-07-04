@@ -1,0 +1,578 @@
+# Manual authoring source of truth per block id.
+# Required fields: summary, description, descriptor.
+
+[by_id.0]
+block_name = "Starting Block"
+summary = "The default required base block to begin construction."
+description = "A cubic block with six attachable faces."
+descriptor = ""
+
+[by_id.1]
+block_name = "Double Wooden Block"
+summary = "A 1x1x2 rectangular wooden block."
+description = "Shape is like two Starting Blocks stacked along the long axis: one attachable face at each end of that axis. The four side faces are 1x2 rectangles; on each side, two attachable faces sit centered at 0.5 and 1.5 units along the long axis, for 4x2+2=10 attachable faces in total. Not fireproof; can be destroyed by fire or explosions."
+descriptor = ""
+
+[by_id.2]
+block_name = "Wheel"
+summary = "Powered wooden wheel."
+description = "Radius 1, thickness 2: a wooden wheel with active power output, a fixed maximum speed, and very high acceleration torque. Default spin direction can be flipped as needed. One attachable face on the axis at the wheel hub. Not fireproof."
+descriptor = ""
+
+[by_id.3]
+block_name = "Metal Blade"
+summary = "Metal blade."
+description = "A thin metal blade about 1 unit wide, 0.1 unit thick, and 3.8 units long, sharpened on both long edges; while moving it deals cutting damage to living targets. Not fireproof."
+descriptor = "metal_blade"
+
+[by_id.4]
+block_name = "Decoupler"
+summary = "Decoupler."
+description = "A 1x1x1 connection module with one attachable face on an end face. When triggered, it separates from the attachable face it was mounted on and ejects away with relatively low force."
+descriptor = ""
+
+[by_id.5]
+block_name = "Hinge"
+summary = "Passive free hinge."
+description = "A 1x1x1 passive hinge with low friction: it can swing without motor torque about an axis through the center of its mounted face in one degree of freedom. Its attachable faces are distributed like a cubic block after mounting: four side faces centered halfway along the hinge body plus one free end cap."
+descriptor = "hinge"
+
+[by_id.6]
+block_name = "Metal Ball"
+summary = "Metal spiked ball."
+description = "A metal spiked ball occupying about a 2x2x2 volume, with strong damage potential. It has no attachable faces."
+descriptor = ""
+
+[by_id.7]
+block_name = "Brace"
+summary = "Steel brace (connector)."
+description = "A high-strength brace for rigid connections between two faces. Its mass does not change with span length. It has no physical collider volume, so it can pass through geometry without causing overlap-based collisions."
+descriptor = ""
+
+[by_id.9]
+block_name = "Spring"
+summary = "Spring rope (connector)."
+description = "A springy connector that provides elastic linkage between two faces. When activated it can contract to generate pulling tension. It has no physical collider volume."
+descriptor = ""
+
+[by_id.10]
+block_name = "Wooden Panel"
+summary = "Wooden armor panel."
+description = "A wooden armor panel about 1 unit wide, 1.5 units long, and 0.6 units thick. Its build origin is the center of the attach face; it covers about 0.5 unit along that adhesive face plus 1 unit in the adjacent in-plane direction. Not fireproof."
+descriptor = "wooden_panel"
+
+[by_id.11]
+block_name = "Cannon"
+summary = "Cannon."
+description = "A cannon roughly 3 units long, 1 wide, and 1 tall. The barrel occupies a 1x1x1 region on the attach face and extends 1 unit forward and 1 unit backward along the barrel axis. When triggered it fires a single projectile, can be triggered by fire, and produces strong recoil."
+descriptor = "cannon"
+
+[by_id.13]
+block_name = "Steering Block"
+summary = "Powered rotation module."
+description = "A 1x1x1 cube-shaped powered rotating block with six attachable faces. It rotates slowly."
+descriptor = ""
+
+[by_id.14]
+block_name = "Flying Block"
+summary = "Flying fan module."
+description = "A 1x1x1 flying fan block that produces directed lift perpendicular to the mounted face—about 3.25 units of weight in gravity-equivalent thrust. It does not spin in place and has no reaction torque from rotation. Drag is relatively high in flight. Not fireproof."
+descriptor = "flying_block"
+
+[by_id.15]
+block_name = "Single Wooden Block"
+summary = "Single wooden cube."
+description = "A 1x1x1 wooden cube with six attachable faces (one per side). Not fireproof."
+descriptor = ""
+
+[by_id.16]
+block_name = "Suspension"
+summary = "Suspension strut."
+description = "A prismatic suspension block about 2 units long, 1 wide, and 1 tall, with spring-and-damper behavior: it compresses along its long axis under compression and extends along that axis under tension. From the mounted face along the long axis, the upper 1 unit is a spring section without attach points; the lower 1 unit is a 1x1x1 cube with five attachable faces."
+descriptor = "suspension"
+
+[by_id.17]
+block_name = "Circular Saw"
+summary = "Circular saw blade."
+description = "A metal saw disc about radius 1 and thickness 0.5, with high spin rate and high damage. It begins spinning automatically when the simulation starts and does not stop; the default spin direction can be flipped."
+descriptor = ""
+
+[by_id.18]
+block_name = "Piston"
+summary = "Piston module."
+description = "A 1x1x1 cube-style piston with five attachable faces (four sides and one end cap). Under tension it can extend along the axis perpendicular to the mounted face (outward) with elastic stroke behavior, then returns to its rest length when tension is released. When actively triggered it can push the cube end out by up to 1 unit."
+descriptor = "piston"
+
+[by_id.19]
+block_name = "Swivel"
+summary = "Swivel joint module."
+description = "A 1x1x1 cube-style swivel that can spin freely (extremely low friction) without motor torque about the install axis. It has five attachable faces (four sides and one end cap)."
+descriptor = "swivel"
+
+[by_id.20]
+block_name = "Spike"
+summary = "Metal spike."
+description = "A metal spike about 0.2 units thick and 2.4 units long, mounted perpendicular to the attach face, with high damage potential."
+descriptor = "spike"
+
+[by_id.21]
+block_name = "Flamethrower"
+summary = "Flamethrower."
+description = "A cylindrical flamethrower about 0.5 units thick and 2.2 units long, mounted perpendicular to the attach face. Its flame cone is roughly 2.5 units wide and about 6 units long from the nozzle, with no recoil. After triggering, the flame lasts about 10 seconds by default, and consuming fuel can extend the burn duration."
+descriptor = "flamethrower"
+
+[by_id.22]
+block_name = "Spinning Block"
+summary = "Powered rotation module."
+description = "A 1x1x1 cube-shaped powered rotating block with five attachable faces (four sides and one end cap). After the simulation starts it spins at a constant rate (the same RPM class as the Wheel), and its default spin direction can be flipped."
+descriptor = ""
+
+[by_id.23]
+block_name = "Bomb"
+summary = "Bomb."
+description = "A spherical bomb about radius 1. After placement it is not rigidly welded to the surface: it freely hovers slightly above the attach face by about 0.2 units, unless held by a Grabber. It detonates from violent impacts or fire, causing a large blast and burning. The Position line in the standard block caption is the sphere center."
+descriptor = ""
+
+[by_id.24]
+block_name = "Armor Plate Small"
+summary = "Square metal armor plate."
+description = "A 1x1 square metal armor plate about 0.3 units thick. After mounting it covers a 1x1 square region on the attach face."
+descriptor = ""
+
+[by_id.25]
+block_name = "Wing"
+summary = "Dragon-style wing panel."
+description = "A roughly rectangular flat wing about 0.5 units thick, 6 units long, and 2.5 units wide. It generates substantial lift and drag from the airflow component perpendicular to the wing plane."
+descriptor = "wing"
+
+[by_id.26]
+block_name = "Propeller"
+summary = "Aerodynamic propeller blade."
+description = "A thin wooden propeller blade about 3 units long, 0.4 units wide, and 0.1 units thick, with a default mount angle around 23°. In airflow it develops a large force component perpendicular to the blade."
+descriptor = "propeller"
+
+[by_id.27]
+block_name = "Grabber"
+summary = "Automatic grab module."
+description = "A 1x1x1 module with one attachable face on an end cap for mounting another block. Mounted blocks are not rigidly welded at build time; at simulation start the grabber automatically grabs them. With nothing held, it auto-grabs solid blocks within about 0.2 units of that end face (connectors without physical colliders cannot be grabbed). After a grab, the connection behaves rigidly."
+descriptor = "grabber"
+
+[by_id.28]
+block_name = "Steering Hinge"
+summary = "Powered steering hinge."
+description = "A 1x1x1 powered steering hinge that can actively pivot about an axis through the center of its mounted face in one degree of freedom. It has one attachable face on the free end cap."
+descriptor = "steering_hinge"
+
+[by_id.29]
+block_name = "Armor Plate Round"
+summary = "Round metal armor plate."
+description = "A circular metal armor plate about radius 1 and 0.3 units thick. Like the small square armor plate, after mounting it covers the corresponding region on the attach face—here a circular disk matching its radius."
+descriptor = ""
+
+[by_id.30]
+block_name = "Bomb Holder"
+summary = "Hemispherical metal cage holder."
+description = "Two-part metal holder: the lower section is a 1x1x1 cube base with four attachable side faces; the upper section is a hemispherical metal cage about 3 units wide (diameter) and 1.5 units tall. There is also an attachable face at the cage bottom (the interface with the base) for cradling bombs, flame balls, boulders, and similar payloads."
+descriptor = "bomb_holder"
+
+[by_id.31]
+block_name = "Flame Ball"
+summary = "Flame ball."
+description = "A fire sphere about radius 1 that continuously emits flame. The flame influence region is a sphere of radius 1.5 around the ball center; fire can be put out by water. Mounting behaves like the bomb: after placement it freely hovers slightly above the attach face instead of forming a rigid connection, unless held by a Grabber."
+descriptor = "flame_ball"
+
+[by_id.32]
+block_name = "Armor Plate Large"
+summary = "Rectangular metal armor plate."
+description = "A rectangular metal armor plate about 2 units long, 1 unit wide, and 0.3 units thick. The mount point is centered on the plate, so after mounting it covers 1 unit along the long axis on each side of the attach point (2 total) and 0.5 unit on each side across the width (1 total); rotation adjusts plate orientation on the face."
+descriptor = "armor_plate_large"
+
+[by_id.33]
+block_name = "Plow"
+summary = "Metal plow."
+description = "A metal plow shaped as about a quarter-circle arc, roughly 3 units wide, 2 units from the mount point to the plow tip (overall thickness), and 2 units along the plow length. It has very low friction."
+descriptor = "plow"
+
+[by_id.34]
+block_name = "Wing Panel"
+summary = "Pentagonal wing panel."
+description = "A pentagonal wing panel about 3 units wide, 3 units long, and 0.3 units thick. From the install reference, the outline is an isosceles right-triangle front with 45° sides and 1.5-unit half-width, plus a 1.5-by-3 rectangular rear section. It has five attachable faces: one at the chordwise end, two on the top/bottom through the wing center perpendicular to the chord plane, and one on each side edge. Aerodynamically it behaves like the Wing block: large lift and drag from the flow component normal to the wing plane."
+descriptor = "wing_panel"
+
+[by_id.35]
+block_name = "Ballast"
+summary = "Dense ballast cube for mass and balance."
+description = "A 1×1×1 cube ballast block. All six faces are attachable."
+descriptor = ""
+
+[by_id.36]
+block_name = "Boulder"
+summary = "Stone sphere that can shatter into fragments."
+description = "A stone sphere of diameter 1. Under violent impact it can break apart into fragments. Mounting matches the Flame Ball: after placement it freely hovers slightly above the attach face instead of forming a rigid connection, unless held by a Grabber."
+descriptor = "boulder"
+
+[by_id.37]
+block_name = "Half Pipe"
+summary = "Low-friction metal half-pipe trough."
+description = "A curved metal half-pipe: semicircular opening diameter 3, extrusion (pipe) length 2, base height 0.5, overall height 1.5. The riding surface has very low friction."
+descriptor = "half_pipe"
+
+[by_id.38]
+block_name = "Cog Medium Unpowered"
+summary = "Unpowered medium spur gear with very low axis friction."
+description = "An 8-tooth spur gear: outer radius 1, inner radius 0.6, tooth height 0.4, tooth width 0.2, thickness 1 along the axis. One attachable face on an axial end cap. Unpowered; bearing-like axis drag is very small."
+descriptor = "cog_medium_unpowered"
+
+[by_id.39]
+block_name = "Cog Medium Powered"
+summary = "Powered medium spur gear; same body as the unpowered version."
+description = "An 8-tooth spur gear with outer radius 1, inner radius 0.6, tooth height 0.4, tooth width 0.2, thickness 1 along the axis, and one attachable face on an axial end cap. When driven it spins at a constant rate with the same speed cap as the powered Wooden Wheel; default spin direction can be flipped in the block UI."
+descriptor = ""
+
+[by_id.40]
+block_name = "Wheel Unpowered"
+summary = "Unpowered wooden wheel; same size and hub attach as the powered wheel."
+description = "Radius 1, thickness 2: same wooden wheel geometry and attach layout as the powered Wheel—one attachable face on the axis at the wheel hub. Unpowered; it spins freely with very low axis friction instead of motor drive. Not fireproof."
+descriptor = "wheel_unpowered"
+
+[by_id.41]
+block_name = "Wooden Pole"
+summary = "Wooden pole: 1×1×2-style layout with ten attachable faces; lower drag than a plain wooden prism."
+description = "The body reads like two unit cubes stacked end-to-end along the long axis, with one attachable face on each end cap. The four long sides are 1×2 rectangles; on every side, two attachable faces are centered at 0.5 and 1.5 units along that long axis, giving four side strips times two faces each plus two ends, i.e. ten attachable faces overall. In airflow its drag coefficient is zero. Not fireproof; can be destroyed by fire or explosions."
+descriptor = ""
+
+[by_id.42]
+block_name = "Slider"
+summary = "Passive linear slider."
+description = "A 1×1×1 cube-style slider with five attachable faces (four sides and one end cap). Under even small tension it can extend along the axis perpendicular to the mounted face (outward) with elastic stroke behavior, then returns to its rest length when tension is released. It has no powered push-out stroke when triggered."
+descriptor = "slider"
+
+[by_id.43]
+block_name = "Balloon"
+summary = "Spherical lift balloon on a deployable tether."
+description = "A lift balloon modeled as a sphere of radius 1. When the machine starts, a 2.5-unit rope unreels from the attach point to the balloon. The balloon supplies roughly constant lift equivalent to about 0.92 units of mass. It is not fireproof and can be destroyed."
+descriptor = "balloon"
+
+[by_id.44]
+block_name = "Ball Joint"
+summary = "Frictionless ball-joint foot on a 1×1×1 cube; no torque transfer."
+description = "A 1×1×1 cube module with five attachable faces (four side faces and one end cap). Where the bottom meets the mounted surface it behaves as a frictionless spherical joint without angular dead zones: the upper body can pivot freely in all directions and does not transmit torque through the joint."
+descriptor = ""
+
+[by_id.45]
+block_name = "Rope Winch"
+summary = "Connector rope winch: inextensible line between two anchors."
+description = "Connection block: an inextensible rope runs between its two attach points. When triggered, the winch can take up slack or pay out rope along that span."
+descriptor = ""
+
+[by_id.46]
+block_name = "Large Wheel"
+summary = "Large powered wheel (radius 1.5, tread thickness 1)."
+description = "A powered wheel of radius 1.5 and tread thickness 1. On the tire side, four attachable faces sit at the top, bottom, left, and right around the tread; each face normal is perpendicular to both the tread surface and the wheel axis. One attachable face sits at the center of the axle end cap. On the rim at 1 unit radius from the hub center, four more attachable faces sit at the same cardinal positions; those faces lie in planes parallel to the spin axis and perpendicular to the axle end faces, so their normals lie in the wheel mid-plane. Nine attachable faces in total (4 + 4 + 1)."
+descriptor = ""
+
+[by_id.47]
+block_name = "Torch"
+summary = "Pointer torch; spherical heating zone ahead of the flame nozzle."
+description = "Pointer-type block: a short horizontal support about 0.5 units long and a vertical shaft about 1 unit long, with the flame at the end of the shaft (per block layout). It heats a sphere of radius 0.3 centered at the body position plus the outward orientation vector—the same center reported by the torch descriptor. Flammable blocks, structures, and entities in that region can catch fire; water cannons and steam can extinguish or interfere, and other burning blocks can reignite. Common use is preheating water cannons for steam. No attachable faces for further chaining beyond the mount."
+descriptor = "torch"
+
+[by_id.48]
+block_name = "Drill"
+summary = "Self-driving spiral drill bit; high-speed spin when the machine runs."
+description = "A conical spiral drill with bottom radius 1 and total length 3, cutting teeth on the surface. After the machine starts it spins at high speed automatically and delivers strong damage. Default spin direction can be flipped in the block UI."
+descriptor = "drill"
+
+[by_id.49]
+block_name = "Grip Pad"
+summary = "High-friction square armor pad."
+description = "A 1x1 square metal armor pad about 0.3 units thick. After mounting it covers a 1x1 square region on the attach face. Its contact surface has high friction for stronger grip."
+descriptor = ""
+
+[by_id.50]
+block_name = "Small Wheel"
+summary = "Small caster-style wheel module."
+description = "Overall length about 1.1 and thickness about 0.3. The end carries a small unpowered wheel of diameter 0.7 that can swivel freely in any direction, working much like a shopping-trolley castor wheel."
+descriptor = "small_wheel"
+
+[by_id.51]
+block_name = "Cog Large Unpowered"
+summary = "Large unpowered spur gear with free rotation."
+description = "A large unpowered gear with radius 2.5 and thickness 1. The inner ring radius is 2, tooth height is 0.5, tooth width is 0.3, and there are 16 teeth. One attachable face is at the center of the axle end face; four additional attachable faces are located top/bottom/left/right at radius 1 from center. Those four mounting faces are parallel to the gear axis (their face planes are perpendicular to the gear plane and point outward). Unpowered and free-spinning."
+descriptor = "cog_large_unpowered"
+
+[by_id.53]
+block_name = "Shrapnel Cannon"
+summary = "Mortar-style shrapnel cannon with heavy recoil."
+description = "A cannon that launches short-range shrapnel bursts. It can be triggered by flame and generates strong recoil. Body shape, attach behavior, and pointing/orientation conventions are the same as the Water Cannon."
+descriptor = "shrapnel_cannon"
+
+[by_id.54]
+block_name = "Grenade"
+summary = "Medium-power spherical grenade."
+description = "A spherical bomb of radius 0.7. When triggered it explodes with medium blast force and fire, and it can also be triggered by flame. After placement it freely hovers slightly above the attach face instead of forming a rigid connection, unless held by a Grabber."
+descriptor = "grenade"
+
+[by_id.55]
+block_name = "Small Propeller"
+summary = "Compact aerodynamic propeller blade."
+description = "A thin wooden propeller blade about 2 units long, 0.4 units wide, and 0.1 units thick, with a default mount angle around 23°. In airflow it develops a large force component perpendicular to the blade."
+descriptor = "small_propeller"
+
+[by_id.56]
+block_name = "Water Cannon"
+summary = "Pointer water cannon with fixed spray direction."
+description = "A pointer block that sprays water in a fixed direction determined by mount orientation. It produces stable recoil while firing and can be bound to hold-to-fire controls. If heated, it switches to steam mode with much stronger recoil output. Body layout matches the config shape (about 1.75 long, 1 wide, 1 high) with inlet and outlet at opposite ends; the runtime descriptor reports inlet/outlet coordinates and spray direction."
+descriptor = "water_cannon"
+
+[by_id.57]
+block_name = "Pin"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.58]
+block_name = "Camera Block"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.59]
+block_name = "Rocket"
+summary = "Explosive rocket with delayed detonation."
+description = "A rectangular rocket body about 2.5 long, 1 wide, and 1 high, with three attachable faces (one on top and one on each side). After placement it freely hovers slightly above the attach face instead of forming a rigid connection, unless held by a Grabber. When triggered it produces rear thrust to launch, then after about 1.8 seconds detonates and generates both blast and fire."
+descriptor = "rocket"
+
+[by_id.60]
+block_name = "Large Wheel Unpowered"
+summary = "Large unpowered wheel (radius 1.5, tread thickness 1)."
+description = "An unpowered wheel of radius 1.5 and tread thickness 1. On the tire side, four attachable faces sit at the top, bottom, left, and right around the tread; each face normal is perpendicular to both the tread surface and the wheel axis. One attachable face sits at the center of the axle end cap. On the rim at 1 unit radius from the hub center, four more attachable faces sit at the same cardinal positions; those faces lie in planes parallel to the spin axis and perpendicular to the axle end faces, so their normals lie in the wheel mid-plane. Nine attachable faces in total (4 + 4 + 1). The wheel is unpowered and rotates freely with low axle resistance."
+descriptor = "large_wheel_unpowered"
+
+[by_id.61]
+block_name = "Crossbow"
+summary = "Crossbow launcher with repeat-fire bolts."
+description = "A crossbow body about 0.7 high, with total body length 2.5 (extending 1 forward and 1.5 backward from the mount point) and bow-arm width 2. When triggered it launches bolts with about a 1-second firing interval, carries roughly 30 shots total, and produces recoil."
+descriptor = "crossbow"
+
+[by_id.62]
+block_name = "Vacuum"
+summary = "Directional vacuum module with no self-recoil."
+description = "A vacuum block with the same body size and mount/orientation convention as the short-range shrapnel mortar form factor (matching nozzle and inlet placement). When triggered, it applies suction to objects within a forward region about 9 long, 3 wide, and 3 high along the facing direction. It has no self-reaction force from airflow and does not push/pull itself by intake."
+descriptor = "vacuum"
+
+[by_id.63]
+block_name = "Log"
+summary = "Long wooden block (1x1x3) with extended side attachment coverage."
+description = "A 1x1x3 rectangular wooden block aligned along its long axis. One attachable face is at each end cap. The four side faces are 1x3 rectangles; each side has three centered attachable faces distributed along the long axis, giving 4x3 + 2 = 14 attachable faces in total (four more than the 1x1x2 version). Not fireproof; can be destroyed by fire or explosions."
+descriptor = ""
+
+[by_id.65]
+block_name = "Sensor"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.66]
+block_name = "Timer"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.67]
+block_name = "Altimeter"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.68]
+block_name = "Logic Gate"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.69]
+block_name = "Anglometer"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.70]
+block_name = "Speedometer"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.74]
+block_name = "Sqr Balloon"
+summary = "Hot-air cube balloon for stable hover lift."
+description = "A 3x3x3 cubic balloon. One attachable face is centered on each 3x3 face center of four side faces plus one end face, for 5 attachable faces total. It can generate lift to hover stably at a fixed altitude, with lift roughly equivalent to the weight force on 5.4 units of mass. It is not fireproof, and when damaged it produces flame."
+descriptor = ""
+
+[by_id.75]
+block_name = "Rope Measure"
+summary = ""
+description = ""
+descriptor = ""
+
+[by_id.76]
+block_name = "Axle"
+summary = "Constant-velocity universal joint module."
+description = "A universal-joint module about 1 unit long and 0.6 in diameter, with one attachable point at the far end. The joint at the mount side can pivot freely to arbitrary angles. It transmits torque at constant angular speed: when mounted on an output shaft, the far-end attach point can swing to any direction while staying rotationally synchronized with the input side."
+descriptor = ""
+
+[by_id.77]
+block_name = "Metal Jaw"
+summary = "Low-friction metal trap jaw module."
+description = "A half metal trap-jaw module about 1.6 wide, 1.5 long, and 0.7 high. One attachable face is at the jaw center on the side opposite the bite direction. After the machine starts, the jaw opens 90 degrees about the mount-side pivot to store energy; when triggered it snaps shut, then automatically re-opens to the armed state. Surface friction is low."
+descriptor = "metal_jaw"
+
+[by_id.78]
+block_name = "Sail"
+summary = "Square sail panel generating horizontal wind thrust."
+description = "A square sail panel 3x3 with thickness 0.3. The mount point is at the center of the bottom edge. After mounting, one attachable face is centered on each side edge and one on the top edge, for 3 attachable faces total. The sail generates thrust only in the world-horizontal plane (no vertical thrust component). Thrust magnitude decreases as the sail tilts away from upright: it is maximal when the sail is vertical and becomes zero when the sail is laid horizontal. Not fireproof; when submerged it loses thrust."
+descriptor = "sail"
+
+[by_id.79]
+block_name = "Rudder"
+summary = "Hydrodynamic rudder blade module."
+description = "Rudder shaft length is 1.8. Rudder blade thickness is 0.2, and the blade extends backward from the shaft with width 1. In water flow, drag is low when motion is parallel to the blade plane and high when motion is perpendicular to the blade plane."
+descriptor = "rudder"
+
+[by_id.80]
+block_name = "Nautical Screw"
+summary = "Wooden right-hand screw propulsion module."
+description = "A wooden screw module of length 1 with outer radius 0.7, inner shaft radius 0.2, and thread height 0.5. The thread makes one full 360-degree turn per 1 unit axial length (single-start lead/pitch = 1). One attachable face is on the shaft end. When triggered in water, it rotates (slightly faster than a powered wheel) and generates axial thrust from screw-thread interaction with the medium; default spin direction can be flipped. Multiple modules can be chained end-to-end to form a longer screw. The propulsion effect is physics-based from thread-medium mechanical interaction."
+descriptor = "nautical_screw"
+
+[by_id.81]
+block_name = "Paddle"
+summary = "Wooden paddle blade with modest steering effect."
+description = "A wooden paddle blade about 1 wide, 1.5 long, and 0.2 thick. It has no attachable faces. Its steering/deflection effect in water is weaker than the Rudder."
+descriptor = "paddle"
+
+[by_id.82]
+block_name = "Buoyancy"
+summary = "Small floating barrel module."
+description = "A 1x1x1 small wooden barrel module with one attachable face on an end cap. When fully submerged, it provides buoyant force roughly equivalent to the weight force on 2 units of mass."
+descriptor = ""
+
+[by_id.83]
+block_name = "Big Barrel"
+summary = "Large floating wooden barrel module."
+description = "A 3x3x3 large wooden barrel block. One attachable face is centered on each 3x3 face center of four side faces plus one end face, for 5 attachable faces total. When fully submerged, it provides buoyant force roughly equivalent to the weight force on 1.6 units of mass."
+descriptor = ""
+
+[by_id.84]
+block_name = "Harpoon"
+summary = "Harpoon launcher with retracting tether."
+description = "A harpoon launcher with the same body geometry and mount convention as the cannon. When triggered, it fires a harpoon carrying a rope; after the harpoon hits and connects to a target, the rope is reeled in automatically. It can be fired repeatedly and has destructive impact potential."
+descriptor = "harpoon"
+
+[by_id.85]
+block_name = "Corner Wooden Block"
+summary = "Quarter-arc wooden corner block with perpendicular end faces."
+description = "A wooden quarter-arc segment (90 degrees) with arc radius 2. The start end is a 1x1x1 cube wood section with four side attachable faces plus one end face (5 total). The terminal end is also a 1x1x1 cube section with four side attachable faces plus one end face (5 total). The whole part forms a single 90-degree bend, so the two end faces are perpendicular. Total attachable faces: 10."
+descriptor = ""
+
+[by_id.86]
+block_name = "Skate Wheel"
+summary = "Unpowered hard skateboard wheelset module."
+description = "A wheelset module built from a pair of hard unpowered skateboard wheels of about 0.4 diameter mounted on an axle bracket. Axle height is 0.5, so wheel bottoms are about 0.7 from the mount face. After installation, total side-to-side width is 1.4 (0.7 to each side). Axle friction is low."
+descriptor = "skate_wheel"
+
+[by_id.87]
+block_name = "Bouncy Pad"
+summary = "Square elastic bounce pad."
+description = "A 1x1 square bounce pad about 0.4 units thick. After mounting it covers a 1x1 square region on the attach face. Under impact it returns strong rebound force, but the bounce is lossy (energy is not fully preserved)."
+descriptor = ""
+
+[by_id.88]
+block_name = "Fly Wheel"
+summary = "Unpowered metal flywheel with very low contact and axle friction."
+description = "An unpowered metal flywheel of radius 1 and thickness 0.5. One attachable face is at the center of the axle end face. Metal contact friction is very low, and axle rotational friction is also very low."
+descriptor = "fly_wheel"
+
+[by_id.89]
+block_name = "Drag Block"
+summary = "Air-drag bowl module."
+description = "A hemispherical bowl module of diameter 1, with one attachable face on the end side. In airflow it generates high drag inward along the bowl normal (into the bowl opening). For example, if the opening faces north and the block moves north, the drag force points south."
+descriptor = "drag_block"
+
+[by_id.90]
+block_name = "Booster"
+summary = "Compact fuel-burning rocket engine."
+description = "A 1x1x1 rocket engine with mass 1. The four side-face centers are attachable fuel-supply connection points, and the engine can also receive fuel when mounted directly on a fuel supply. It starts with 1 unit of fuel, consumes fuel while running, and produces thrust equivalent to about 24 units of mass under normal gravity."
+descriptor = "booster"
+
+[by_id.91]
+block_name = "Steering Thruster"
+summary = "Fuel-free paired RCS attitude thruster."
+description = "An RCS thruster module about 1.4 units wide, with two small side nozzles pointing in opposite directions. Each nozzle can produce thrust equivalent to about 0.4 units of mass under normal gravity. By default it automatically stabilizes the machine body, has no attachable faces, and does not consume fuel."
+descriptor = "steering_thruster"
+
+[by_id.92]
+block_name = "Fuel Barrel"
+summary = "Small cubic fuel tank."
+description = "A 1x1x1 cubic fuel tank. When full it stores 10 units of fuel by volume, has mass 0.5, and when empty has mass 0.25. It has five fuel-flow-capable attachable faces: the four side faces plus one end face. It explodes when exposed to impact or flame."
+descriptor = ""
+
+[by_id.93]
+block_name = "Fuel Gauge"
+summary = "Compact automation fuel-level gauge."
+description = "A rectangular automation module 0.8 units long, 0.2 units wide, and 0.3 units high. It measures or reports fuel level and is handled like the existing automation modules."
+descriptor = ""
+
+[by_id.94]
+block_name = "Grid Fin"
+summary = "Foldable grid-fin stabilizer."
+description = "A grid fin with length 1.8, width 1.0, thickness 0.4, and mass 0.3. In its default deployed state the control surface is perpendicular to the mount base and provides aerodynamic stability in air. It can fold closed so the control surface becomes parallel to the mount face."
+descriptor = "grid_fin"
+
+[by_id.95]
+block_name = "Steering Fin"
+summary = "Rotating trapezoid aerodynamic steering fin."
+description = "A trapezoid aerodynamic control surface that can rotate about its install axis. Along the install axis, the upper section is 0.6 units and the lower section is 1.3 units. It produces aerodynamic effects in air."
+descriptor = "steering_fin"
+
+[by_id.96]
+block_name = "Fuel Line"
+summary = "Controllable fuel-transfer connector."
+description = "A fuel line connector with mass 0.2. When it connects two attachable faces that both support fuel flow, it normally links the two fuel systems so the fuller system supplies fuel to the emptier system. Its total weight does not depend on span length. The line has no physical collider volume, so it does not interfere with other components, but destructive forces can cut it. Its open or closed state can be controlled."
+descriptor = ""
+
+[by_id.97]
+block_name = "Parachute"
+summary = "Compact deployable parachute pack."
+description = "A 1x1x0.5 parachute pack with mass 0.2. When triggered, it deploys into a hemispherical parachute with radius about 1.5, providing drag while descending."
+descriptor = ""
+
+[by_id.98]
+block_name = "Fuel Coupler"
+summary = "Fuel-flow grabber coupler."
+description = "A fuel coupler that reuses the grabber/connector form factor. Its four side faces are fuel-flow-capable attachable faces. When installed on a fuel-flow-capable face, it can transfer fuel between that face and a grabbed connected face that also supports fuel flow. It can release the connected module with some pushing force, then re-dock and grab another fuel-flow-capable face."
+descriptor = "fuel_coupler"
+
+[by_id.99]
+block_name = "Fuel Barrel Big"
+summary = "Large 3x3x3 fuel tank."
+description = "A large 3x3x3 fuel tank. When full it stores 100 units of fuel by volume, has mass 5, and when empty has mass 1.5. The top and bottom end faces each have 9 fuel-flow-capable attach points: one face center, four inner points at (+/-0.5, +/-0.5) in the face plane, and four edge-center points at (+/-1.0, 0) and (0, +/-1.0). Each of the four side faces has 3 fuel-flow-capable attach points: the face center plus one point 1 unit above and one point 1 unit below the face center. It has 30 fuel-flow-capable attach points in total and is flammable and explosive under flame or impact."
+descriptor = ""
+
+[by_id.100]
+block_name = "Space Wheel"
+summary = "Powered metal rover wheel."
+description = "A powered metal wheel shaped like a lunar rover wheel, with radius 1, tread width 1.5, and mass 1. It has one attachable face at the center of the axle end face, the length of its axle is 2. It uses the active rotating wheel behavior and can have its default spin direction flipped."
+descriptor = ""
+
+[by_id.101]
+block_name = "Reaction Steering Block"
+summary = "Powered reaction-wheel attitude-control module."
+description = "A powered metal flywheel with mass 0.25, rotation radius 0.7, and thickness 0.7. It changes mechanical attitude by generating angular momentum through wheel rotation, and by default automatically compensates for attitude instability. It has no attachable faces."
+descriptor = "reaction_steering_block"
+
+[by_id.102]
+block_name = "Fuel Cannon"
+summary = "Fuel-consuming repeating fireball cannon."
+description = "A weapon that consumes fuel as ammunition and can fire powerful fireballs repeatedly. Its lower body is a 1x1x1 fuel tank that stores 10 units of fuel by volume when full. Each shot consumes 3 units of fuel by volume. A slender cannon barrel extends 2.3 units from the tank with radius about 0.2. The centers of two opposite side faces on the tank are fuel-flow-capable attachable faces."
+descriptor = "fuel_cannon"

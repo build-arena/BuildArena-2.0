@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "build-arena": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "path/to/your/project/directory",
+        "python",
+        "-m",
+        "buildarena.mcp_server"
+      ]
+    }
+  }
+}

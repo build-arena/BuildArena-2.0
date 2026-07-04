@@ -1,0 +1,401 @@
+[roles.0]
+block_name = "Starting Block"
+type = "basic"
+
+[roles.1]
+block_name = "Double Wooden Block"
+type = "basic"
+
+[roles.2]
+block_name = "Wheel"
+type = "basic"
+
+[roles.3]
+block_name = "Metal Blade"
+type = "basic"
+
+[roles.4]
+block_name = "Decoupler"
+type = "basic"
+
+[roles.5]
+block_name = "Hinge"
+type = "basic"
+
+[roles.6]
+block_name = "Metal Ball"
+type = "basic"
+
+[roles.7]
+block_name = "Brace"
+type = "connection"
+
+[roles.9]
+block_name = "Spring"
+type = "connection"
+
+[roles.10]
+block_name = "Wooden Panel"
+type = "basic"
+
+[roles.11]
+block_name = "Cannon"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.12]
+block_name = "Scaling Block"
+type = "basic"
+
+[roles.13]
+block_name = "Steering Block"
+type = "basic"
+
+[roles.14]
+block_name = "Flying Block"
+type = "basic"
+
+[roles.15]
+block_name = "Single Wooden Block"
+type = "basic"
+
+[roles.16]
+block_name = "Suspension"
+type = "basic"
+
+[roles.17]
+block_name = "Circular Saw"
+type = "basic"
+
+[roles.18]
+block_name = "Piston"
+type = "basic"
+
+[roles.19]
+block_name = "Swivel"
+type = "basic"
+
+[roles.20]
+block_name = "Spike"
+type = "basic"
+
+[roles.21]
+block_name = "Flamethrower"
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.22]
+block_name = "Spinning Block"
+type = "basic"
+
+[roles.23]
+block_name = "Bomb"
+type = "basic"
+
+[roles.24]
+block_name = "Armor Plate Small"
+type = "basic"
+
+[roles.25]
+block_name = "Wing"
+type = "basic"
+
+[roles.26]
+block_name = "Propeller"
+type = "basic"
+
+[roles.27]
+block_name = "Grabber"
+type = "basic"
+
+[roles.28]
+block_name = "Steering Hinge"
+type = "basic"
+
+[roles.29]
+block_name = "Armor Plate Round"
+type = "basic"
+
+[roles.30]
+block_name = "Bomb Holder"
+type = "basic"
+
+[roles.31]
+block_name = "Flame Ball"
+type = "basic"
+
+[roles.32]
+block_name = "Armor Plate Large"
+type = "basic"
+
+[roles.33]
+block_name = "Plow"
+type = "basic"
+
+[roles.34]
+block_name = "Wing Panel"
+type = "basic"
+
+[roles.35]
+block_name = "Ballast"
+type = "basic"
+
+[roles.36]
+block_name = "Boulder"
+type = "basic"
+
+[roles.37]
+block_name = "Half Pipe"
+type = "basic"
+
+[roles.38]
+block_name = "Cog Medium Unpowered"
+type = "basic"
+
+[roles.39]
+block_name = "Cog Medium Powered"
+type = "basic"
+
+[roles.40]
+block_name = "Wheel Unpowered"
+type = "basic"
+
+[roles.41]
+block_name = "Wooden Pole"
+type = "basic"
+
+[roles.42]
+block_name = "Slider"
+type = "basic"
+
+[roles.43]
+block_name = "Balloon"
+type = "basic"
+
+[roles.44]
+block_name = "Ball Joint"
+type = "basic"
+
+[roles.45]
+block_name = "Rope Winch"
+type = "connection"
+
+[roles.46]
+block_name = "Large Wheel"
+type = "basic"
+
+[roles.47]
+block_name = "Torch"
+type = "pointer"
+pointer_axis = [0, 1, 0]
+
+[roles.48]
+block_name = "Drill"
+type = "basic"
+
+[roles.49]
+block_name = "Grip Pad"
+type = "basic"
+
+[roles.50]
+block_name = "Small Wheel"
+type = "basic"
+
+[roles.51]
+block_name = "Cog Large Unpowered"
+type = "basic"
+
+[roles.53]
+block_name = "Shrapnel Cannon"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.54]
+block_name = "Grenade"
+type = "basic"
+
+[roles.55]
+block_name = "Small Propeller"
+type = "basic"
+
+[roles.56]
+block_name = "Water Cannon"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.57]
+block_name = "Pin"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.58]
+block_name = "Camera Block"
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.59]
+block_name = "Rocket"
+type = "pointer"
+pointer_axis = [0, 1, 0]
+
+[roles.60]
+block_name = "Large Wheel Unpowered"
+type = "basic"
+
+[roles.61]
+block_name = "Crossbow"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.62]
+block_name = "Vacuum"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.63]
+block_name = "Log"
+type = "basic"
+
+[roles.65]
+block_name = "Sensor"
+type = "basic"
+
+[roles.66]
+block_name = "Timer"
+type = "basic"
+
+[roles.67]
+block_name = "Altimeter"
+type = "basic"
+
+[roles.68]
+block_name = "Logic Gate"
+type = "basic"
+
+[roles.69]
+block_name = "Anglometer"
+type = "basic"
+
+[roles.70]
+block_name = "Speedometer"
+type = "basic"
+
+[roles.74]
+block_name = "Sqr Balloon"
+type = "basic"
+
+[roles.75]
+block_name = "Rope Measure"
+type = "connection"
+
+[roles.76]
+block_name = "Axle"
+type = "basic"
+
+[roles.77]
+block_name = "Metal Jaw"
+type = "basic"
+
+[roles.78]
+block_name = "Sail"
+type = "basic"
+
+[roles.79]
+block_name = "Rudder"
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.80]
+block_name = "Nautical Screw"
+type = "basic"
+
+[roles.81]
+block_name = "Paddle"
+type = "basic"
+
+[roles.82]
+block_name = "Buoyancy"
+type = "basic"
+
+[roles.83]
+block_name = "Big Barrel"
+type = "basic"
+
+[roles.84]
+block_name = "Harpoon"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.85]
+block_name = "Corner Wooden Block"
+type = "basic"
+
+[roles.86]
+block_name = "Skate Wheel"
+type = "basic"
+
+[roles.87]
+block_name = "Bouncy Pad"
+type = "basic"
+
+[roles.88]
+block_name = "Fly Wheel"
+type = "basic"
+
+[roles.89]
+block_name = "Drag Block"
+type = "basic"
+
+[roles.90]
+block_name = "Booster"
+type = "basic"
+
+[roles.91]
+block_name = "Steering Thruster"
+type = "basic"
+
+[roles.92]
+block_name = "Fuel Barrel"
+type = "basic"
+
+[roles.93]
+block_name = "Fuel Gauge"
+type = "basic"
+
+[roles.94]
+block_name = "Grid Fin"
+type = "basic"
+
+[roles.95]
+block_name = "Steering Fin"
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.96]
+block_name = "Fuel Line"
+type = "connection"
+
+[roles.97]
+block_name = "Parachute"
+type = "basic"
+
+[roles.98]
+block_name = "Fuel Coupler"
+type = "basic"
+
+[roles.99]
+block_name = "Fuel Barrel Big"
+type = "basic"
+
+[roles.100]
+block_name = "Space Wheel"
+type = "basic"
+
+[roles.101]
+block_name = "Reaction Steering Block"
+type = "basic"
+
+[roles.102]
+block_name = "Fuel Cannon"
+type = "pointer"
+pointer_axis = [0, 0, 1]

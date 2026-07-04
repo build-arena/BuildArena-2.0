@@ -1,0 +1,1500 @@
+skin_set = "Template"
+
+# Auto-generated from collider_dump.toml (fresh mode)
+# [blocks] keeps mesh keys discoverable; obj_file is intentionally omitted.
+
+[blocks.StartingBlock]
+enabled = true
+
+[blocks.DoubleWoodenBlock]
+enabled = true
+
+[blocks.Wheel]
+enabled = true
+
+[blocks.MetalBlade]
+enabled = true
+
+[blocks.Decoupler]
+enabled = true
+
+[blocks.Hinge]
+enabled = true
+
+[blocks.MetalBall]
+enabled = true
+
+[blocks.Brace]
+enabled = true
+
+[blocks.Spring]
+enabled = true
+
+[blocks.WoodenPanel]
+enabled = true
+
+[blocks.Cannon]
+enabled = true
+
+[blocks.ScalingBlock]
+enabled = true
+
+[blocks.SteeringBlock]
+enabled = true
+
+[blocks.FlyingBlock]
+enabled = true
+
+[blocks.SingleWoodenBlock]
+enabled = true
+
+[blocks.Suspension]
+enabled = true
+
+[blocks.CircularSaw]
+enabled = true
+
+[blocks.Piston]
+enabled = true
+
+[blocks.Swivel]
+enabled = true
+
+[blocks.Spike]
+enabled = true
+
+[blocks.Flamethrower]
+enabled = true
+
+[blocks.SpinningBlock]
+enabled = true
+
+[blocks.Bomb]
+enabled = true
+
+[blocks.ArmorPlateSmall]
+enabled = true
+
+[blocks.Wing]
+enabled = true
+
+[blocks.Propeller]
+enabled = true
+
+[blocks.Grabber]
+enabled = true
+
+[blocks.SteeringHinge]
+enabled = true
+
+[blocks.ArmorPlateRound]
+enabled = true
+
+[blocks.BombHolder]
+enabled = true
+
+[blocks.FlameBall]
+enabled = true
+
+[blocks.ArmorPlateLarge]
+enabled = true
+
+[blocks.Plow]
+enabled = true
+
+[blocks.WingPanel]
+enabled = true
+
+[blocks.Ballast]
+enabled = true
+
+[blocks.Boulder]
+enabled = true
+
+[blocks.HalfPipe]
+enabled = true
+
+[blocks.CogMediumUnpowered]
+enabled = true
+
+[blocks.CogMediumPowered]
+enabled = true
+
+[blocks.WheelUnpowered]
+enabled = true
+
+[blocks.WoodenPole]
+enabled = true
+
+[blocks.Slider]
+enabled = true
+
+[blocks.Balloon]
+enabled = true
+
+[blocks.BallJoint]
+enabled = true
+
+[blocks.RopeWinch]
+enabled = true
+
+[blocks.LargeWheel]
+enabled = true
+
+[blocks.Torch]
+enabled = true
+
+[blocks.Drill]
+enabled = true
+
+[blocks.GripPad]
+enabled = true
+
+[blocks.SmallWheel]
+enabled = true
+
+[blocks.CogLargeUnpowered]
+enabled = true
+
+[blocks.ShrapnelCannon]
+enabled = true
+
+[blocks.Grenade]
+enabled = true
+
+[blocks.SmallPropeller]
+enabled = true
+
+[blocks.WaterCannon]
+enabled = true
+
+[blocks.Pin]
+enabled = true
+
+[blocks.CameraBlock]
+enabled = true
+
+[blocks.Rocket]
+enabled = true
+
+[blocks.LargeWheelUnpowered]
+enabled = true
+
+[blocks.Crossbow]
+enabled = true
+
+[blocks.Vacuum]
+enabled = true
+
+[blocks.Log]
+enabled = true
+
+[blocks.Magnet]
+enabled = true
+
+[blocks.Sensor]
+enabled = true
+
+[blocks.Timer]
+enabled = true
+
+[blocks.Altimeter]
+enabled = true
+
+[blocks.LogicGate]
+enabled = true
+
+[blocks.Anglometer]
+enabled = true
+
+[blocks.Speedometer]
+enabled = true
+
+[blocks.SqrBalloon]
+enabled = true
+
+[blocks.RopeMeasure]
+enabled = true
+
+[blocks.Axle]
+enabled = true
+
+[blocks.MetalJaw]
+enabled = true
+
+[blocks.Sail]
+enabled = true
+
+[blocks.Rudder]
+enabled = true
+
+[blocks.NauticalScrew]
+enabled = true
+
+[blocks.Paddle]
+enabled = true
+
+[blocks.Buoyancy]
+enabled = true
+
+[blocks.BigBarrel]
+enabled = true
+
+[blocks.Harpoon]
+enabled = true
+
+[blocks.CornerWoodenBlock]
+enabled = true
+
+[blocks.SkateWheel]
+enabled = true
+
+[blocks.BouncyPad]
+enabled = true
+
+[blocks.FlyWheel]
+enabled = true
+
+[blocks.DragBlock]
+enabled = true
+
+[blocks.Booster]
+enabled = true
+
+[blocks.SteeringThruster]
+enabled = true
+
+[blocks.FuelBarrel]
+enabled = true
+
+[blocks.FuelGauge]
+enabled = true
+
+[blocks.GridFin]
+enabled = true
+
+[blocks.SteeringFin]
+enabled = true
+
+[blocks.FuelLine]
+enabled = true
+
+[blocks.Parachute]
+enabled = true
+
+[blocks.FuelCoupler]
+enabled = true
+
+[blocks.FuelBarrelBig]
+enabled = true
+
+[blocks.SpaceWheel]
+enabled = true
+
+[blocks.ReactionSteeringBlock]
+enabled = true
+
+[blocks.FuelCannon]
+enabled = true
+
+[connectors.Brace]
+enabled = true
+
+[connectors.FuelLine]
+enabled = true
+
+[connectors.RopeMeasure]
+enabled = true
+
+[connectors.RopeWinch]
+enabled = true
+
+[connectors.Spring]
+enabled = true
+
+[runtime_defaults]
+collider_mode = "obb"
+collider_shrink = 0.85
+mesh_fit_mode = "shape_extents"
+
+[runtime_defs.0]
+enabled = true
+category = ["basic"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 6
+tooltip_title = "BLOCK"
+
+[runtime_defs.1]
+enabled = true
+category = ["basic"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "BLOCK"
+
+[runtime_defs.2]
+enabled = true
+category = ["basic", "locomotion"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 1
+tooltip_title = "WHEEL"
+
+[runtime_defs.3]
+enabled = true
+category = ["weaponry"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BLADE"
+
+[runtime_defs.4]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 4
+tooltip_title = "DECOUPLER"
+
+[runtime_defs.5]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "HINGE"
+
+[runtime_defs.6]
+enabled = true
+category = ["armour"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "SPIKE BALL"
+
+[runtime_defs.7]
+enabled = true
+category = ["basic"]
+weight = 0.5
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "BRACE"
+
+[runtime_defs.9]
+enabled = true
+category = ["mechanical"]
+weight = 0.3
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "S  P  R  I  N  G"
+
+[runtime_defs.10]
+enabled = true
+category = ["armour"]
+weight = 0.35
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "PANEL"
+
+[runtime_defs.11]
+enabled = true
+category = ["weaponry"]
+weight = 1.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 7
+tooltip_title = "CANNON"
+
+[runtime_defs.12]
+enabled = true
+category = ["basic"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE WEIGHT"
+block_points = 4
+tooltip_title = "BLOCK"
+
+[runtime_defs.13]
+enabled = true
+category = ["locomotion"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "right" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 2
+tooltip_title = "BLOCK"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 1.0
+
+[runtime_defs.14]
+enabled = true
+category = ["flight"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 6
+tooltip_title = "B L O C K"
+buoyancy_state = "down"
+buoyancy_density = 2.0
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.15]
+enabled = true
+category = ["basic"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BLOCK"
+
+[runtime_defs.16]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 4
+tooltip_title = "SUSPENSION"
+buoyancy_state = "down"
+buoyancy_density = 2.95564
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.17]
+enabled = true
+category = ["weaponry"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "SAW"
+
+[runtime_defs.18]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 4
+tooltip_title = "PISTON"
+buoyancy_state = "down"
+buoyancy_density = 6.0
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.19]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "J O I N T"
+
+[runtime_defs.20]
+enabled = true
+category = ["weaponry"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "SPIKE"
+
+[runtime_defs.21]
+enabled = true
+category = ["weaponry"]
+weight = 0.3
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 0.0, 1.0]
+block_points = 12
+tooltip_title = "THROWER"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 0.3
+
+[runtime_defs.22]
+enabled = true
+category = ["mechanical"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 6
+tooltip_title = "BLOCK"
+
+[runtime_defs.23]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 16
+tooltip_title = "BOMB"
+
+[runtime_defs.24]
+enabled = true
+category = ["armour"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "PLATE"
+
+[runtime_defs.25]
+enabled = true
+category = ["flight"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "WING"
+
+[runtime_defs.26]
+enabled = true
+category = ["flight"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "PROPELLER"
+
+[runtime_defs.27]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "GRABS ANYTHING\nIT TOUCHES"
+block_points = 2
+tooltip_title = "GRABBER"
+
+[runtime_defs.28]
+enabled = true
+category = ["basic", "locomotion"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 2
+tooltip_title = "H I N G E"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 1.0
+
+[runtime_defs.29]
+enabled = true
+category = ["armour"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "PLATE"
+
+[runtime_defs.30]
+enabled = true
+category = ["armour"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 4
+tooltip_title = "HOLDER"
+
+[runtime_defs.31]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 10
+tooltip_title = "BALL"
+
+[runtime_defs.32]
+enabled = true
+category = ["armour"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "PLATE"
+
+[runtime_defs.33]
+enabled = true
+category = ["armour"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "PLOW"
+
+[runtime_defs.34]
+enabled = true
+category = ["flight"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 3
+tooltip_title = "WING PANEL"
+
+[runtime_defs.35]
+enabled = true
+category = ["flight"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE WEIGHT"
+block_points = 4
+tooltip_title = "BALLAST"
+buoyancy_state = "down"
+buoyancy_density = 5.0
+buoyancy_original_mass_density = 0.25
+
+[runtime_defs.36]
+enabled = true
+category = ["weaponry"]
+weight = 5.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BOULDER"
+
+[runtime_defs.37]
+enabled = true
+category = ["armour"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "HALF PIPE"
+
+[runtime_defs.38]
+enabled = true
+category = ["locomotion"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "C O G"
+
+[runtime_defs.39]
+enabled = true
+category = ["locomotion"]
+weight = 0.5
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 3
+tooltip_title = "C O G"
+
+[runtime_defs.40]
+enabled = true
+category = ["locomotion"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "WHEEL"
+
+[runtime_defs.41]
+enabled = true
+category = ["basic"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "POLE"
+
+[runtime_defs.42]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "SLIDER"
+buoyancy_state = "down"
+buoyancy_density = 2.0
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.43]
+enabled = true
+category = ["flight"]
+weight = 0.22
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE BUOYANCY"
+block_points = 6
+tooltip_title = "BALLOON"
+
+[runtime_defs.44]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BALL JOINT"
+
+[runtime_defs.45]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "WINCH"
+
+[runtime_defs.46]
+enabled = true
+category = ["locomotion"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 2
+tooltip_title = "WHEEL"
+
+[runtime_defs.47]
+enabled = true
+category = ["armour"]
+weight = 1.0
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 1.0, 0.0]
+block_points = 12
+tooltip_title = "TORCH"
+
+[runtime_defs.48]
+enabled = true
+category = ["weaponry"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 5
+tooltip_title = "DRILL"
+
+[runtime_defs.49]
+enabled = true
+category = ["armour"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "GRIP PAD"
+
+[runtime_defs.50]
+enabled = true
+category = ["locomotion"]
+weight = 0.5
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 1
+tooltip_title = "WHEEL"
+
+[runtime_defs.51]
+enabled = true
+category = ["locomotion"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "C O G"
+
+[runtime_defs.53]
+enabled = true
+category = ["weaponry"]
+weight = 1.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 5
+tooltip_title = "CANNON"
+
+[runtime_defs.54]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "GRENADE"
+
+[runtime_defs.55]
+enabled = true
+category = ["flight"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "PROPELLER"
+
+[runtime_defs.56]
+enabled = true
+category = ["weaponry"]
+weight = 1.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 3
+tooltip_title = "CANNON"
+buoyancy_state = "down"
+buoyancy_density = 3.95853
+buoyancy_original_mass_density = 1.5
+
+[runtime_defs.57]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "pointer"
+spin = false
+locomotion = false
+description = "FREEZE BLOCKS\nIN PLACE"
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 8
+tooltip_title = "PIN BLOCK"
+buoyancy_state = "up"
+buoyancy_density = 0.0
+buoyancy_original_mass_density = 1.0
+
+[runtime_defs.58]
+enabled = false
+category = ["automation"]
+weight = 1.0
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 0.0, 1.0]
+tooltip_title = "BLOCK"
+buoyancy_state = "up"
+buoyancy_density = 0.0
+buoyancy_original_mass_density = 1e-07
+
+[runtime_defs.59]
+enabled = true
+category = ["weaponry"]
+weight = 0.2
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 1.0, 0.0]
+block_points = 7
+tooltip_title = "ROCKET"
+
+[runtime_defs.60]
+enabled = true
+category = ["locomotion"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "WHEEL"
+
+[runtime_defs.61]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 1
+tooltip_title = "CROSSBOW"
+buoyancy_state = "down"
+buoyancy_density = 2.58782
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.62]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 1
+tooltip_title = "BLOCK"
+buoyancy_state = "down"
+buoyancy_density = 9.0
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.63]
+enabled = true
+category = ["basic"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "LOG BLOCK"
+
+[runtime_defs.65]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "OBSERVES AREA\nIN FRONT OF IT"
+block_points = 2
+tooltip_title = "SENSOR"
+buoyancy_state = "down"
+buoyancy_density = 2.5
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.66]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "ON ACTIVATION\nSTARTS TIMER"
+block_points = 2
+tooltip_title = "BLOCK"
+buoyancy_state = "down"
+buoyancy_density = 4.21903
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.67]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "TRACKS ALTITUDE"
+block_points = 2
+tooltip_title = "ALTIMETER"
+buoyancy_state = "down"
+buoyancy_density = 6.21119
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.68]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "TAKES TWO\nKEYBOARD INPUTS"
+block_points = 2
+tooltip_title = "LOGIC GATE"
+buoyancy_state = "down"
+buoyancy_density = 6.21119
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.69]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "TRACKS ANGLE"
+block_points = 2
+tooltip_title = "ANGLOMETER"
+buoyancy_state = "down"
+buoyancy_density = 6.21119
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.70]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "TRACKS VELOCITY"
+block_points = 2
+tooltip_title = "SPEEDOMETER"
+buoyancy_state = "down"
+buoyancy_density = 5.30505
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.74]
+enabled = true
+category = ["flight"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 8
+tooltip_title = "BALLOON"
+buoyancy_state = "up"
+buoyancy_density = 0.0
+buoyancy_original_mass_density = 0.0
+
+[runtime_defs.75]
+enabled = false
+category = ["automation"]
+weight = 0.5
+type = "connection"
+spin = false
+locomotion = false
+description = "TRACKS LENGTH"
+block_points = 1
+tooltip_title = "DETECTOR"
+
+[runtime_defs.76]
+enabled = true
+category = ["mechanical"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "LINKAGE"
+
+[runtime_defs.77]
+enabled = true
+category = ["weaponry"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 3
+tooltip_title = "JAW"
+
+[runtime_defs.78]
+enabled = true
+category = ["water"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "PANEL"
+buoyancy_state = "neutral"
+buoyancy_density = 1.0
+buoyancy_original_mass_density = 0.5
+
+[runtime_defs.79]
+enabled = true
+category = ["water"]
+weight = 0.35
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 0.0, 1.0]
+block_points = 1
+tooltip_title = "RUDDER"
+
+[runtime_defs.80]
+enabled = true
+category = ["water"]
+weight = 0.3
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 3
+tooltip_title = "SCREW"
+
+[runtime_defs.81]
+enabled = true
+category = ["water"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "PADDLE"
+
+[runtime_defs.82]
+enabled = true
+category = ["water"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE\nBUOYANCY"
+block_points = 1
+tooltip_title = "BARREL"
+buoyancy_state = "adjustable"
+buoyancy_density = 0.0
+buoyancy_original_mass_density = 0.5
+buoyancy_multiplier = 1.0
+buoyancy_step = 2.0
+
+[runtime_defs.83]
+enabled = true
+category = ["water"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE\nBUOYANCY"
+block_points = 1
+tooltip_title = "BARREL"
+buoyancy_state = "adjustable"
+buoyancy_density = 0.0
+buoyancy_original_mass_density = 1.0
+buoyancy_multiplier = 1.0
+buoyancy_step = 2.0
+
+[runtime_defs.84]
+enabled = true
+category = ["water"]
+weight = 0.75
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 9
+tooltip_title = "LAUNCHER"
+buoyancy_state = "down"
+buoyancy_density = 2.0
+buoyancy_original_mass_density = 0.0
+
+[runtime_defs.85]
+enabled = true
+category = ["water"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BLOCK"
+
+[runtime_defs.86]
+enabled = true
+category = ["locomotion"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "WHEEL"
+
+[runtime_defs.87]
+enabled = true
+category = ["armour"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "BOUNCE PAD"
+
+[runtime_defs.88]
+enabled = true
+category = ["locomotion"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 5
+tooltip_title = "FLYWHEEL"
+
+[runtime_defs.89]
+enabled = true
+category = ["flight"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = "ADJUSTABLE DRAG"
+block_points = 1
+tooltip_title = "DRAG BLOCK"
+
+[runtime_defs.90]
+enabled = true
+category = ["space-flight"]
+weight = 1.0
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "BOOSTER"
+
+[runtime_defs.91]
+enabled = true
+category = ["space-flight"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "THRUSTER"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 0.2
+
+[runtime_defs.92]
+enabled = true
+category = ["space-flight"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BARREL"
+buoyancy_state = "down"
+buoyancy_density = 4.0
+buoyancy_original_mass_density = 0.0
+
+[runtime_defs.93]
+enabled = false
+category = ["automation"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = "TRACKS FUEL LEVEL"
+block_points = 2
+tooltip_title = "FUEL GAUGE"
+
+[runtime_defs.94]
+enabled = true
+category = ["space-flight"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "GRID FIN"
+
+[runtime_defs.95]
+enabled = true
+category = ["space-flight"]
+weight = 0.35
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 1
+tooltip_title = "ROCKET FIN"
+
+[runtime_defs.96]
+enabled = true
+category = ["space-flight"]
+weight = 0.2
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "FUEL HOSE"
+
+[runtime_defs.97]
+enabled = true
+category = ["space-flight"]
+weight = 0.2
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 3
+tooltip_title = "PARACHUTE"
+
+[runtime_defs.98]
+enabled = true
+category = ["space-flight"]
+weight = 0.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "COUPLER"
+
+[runtime_defs.99]
+enabled = true
+category = ["space-flight"]
+weight = 1.5
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 4
+tooltip_title = "BARREL"
+buoyancy_state = "down"
+buoyancy_density = 2.25
+buoyancy_original_mass_density = 0.0
+
+[runtime_defs.100]
+enabled = true
+category = ["space-flight"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 2
+tooltip_title = "METAL WHEEL"
+
+[runtime_defs.101]
+enabled = true
+category = ["space-flight"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+mesh_key = "ReactionSteeringBlock"
+description = ""
+block_points = 4
+tooltip_title = "STEERING"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 0.25
+
+[runtime_defs.102]
+enabled = true
+category = ["space-flight"]
+weight = 1.0
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 0.0, 1.0]
+block_points = 9
+tooltip_title = "BLASTER"
+buoyancy_state = "down"
+buoyancy_density = 3.0
+buoyancy_original_mass_density = 0.5

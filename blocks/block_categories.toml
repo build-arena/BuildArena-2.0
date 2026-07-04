@@ -1,0 +1,37 @@
+# Human-authored summaries for block registry categories.
+
+[categories.automation]
+enable = false
+summary = "Logic, sensor, measurement, and control modules used to automate behavior or react to simulation state."
+
+[categories.armour]
+enable = true
+summary = "Protective and structural covering modules used to shield, reinforce, shape, or decorate a machine."
+
+[categories.basic]
+enable = true
+summary = "General-purpose building blocks and simple connectors that form the core frame or baseline structure."
+
+[categories.flight]
+enable = true
+summary = "Atmospheric lift and air-control modules used for planes, gliders, fans, balloons, and aerodynamic steering."
+
+[categories.locomotion]
+enable = true
+summary = "Ground movement modules such as wheels, tracks, rolling supports, and parts that help a machine travel or steer."
+
+[categories.mechanical]
+enable = true
+summary = "Mechanical joints, actuators, couplers, and motion-transfer modules used to articulate or transform builds."
+
+[categories.space-flight]
+enable = true
+summary = "Rocket, fuel, and space-oriented control modules used for thrust, fuel routing, and high-energy flight systems."
+
+[categories.water]
+enable = true
+summary = "Nautical modules for buoyancy, water propulsion, steering, sails, paddles, and marine weaponry."
+
+[categories.weaponry]
+enable = true
+summary = "Offensive modules that damage, ignite, launch projectiles, grab targets, drill, cut, or otherwise attack."
