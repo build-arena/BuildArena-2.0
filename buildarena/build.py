@@ -1527,13 +1527,12 @@ class Machine:
             for block_id, block in self.blocks.items()
             if block.name == "Starting Block"
         ]
-        if len(starting_block_ids) != 1:
-            raise ValueError(
-                f"Expected exactly one Starting Block before export, found {len(starting_block_ids)}."
-            )
+        if len(starting_block_ids) == 0:
+            raise ValueError("Expected at least one Starting Block before export, found 0.")
+        target_block_id = starting_block_ids[0] if len(starting_block_ids) == 1 else starting_block_ids
         self._configure_tracker(
             sample_rate_hz=10.0,
-            target_block_id=starting_block_ids[0],
+            target_block_id=target_block_id,
         )
 
     # Machine export
