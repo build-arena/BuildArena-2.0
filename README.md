@@ -70,6 +70,22 @@ That's what the steps below wire up. Let's go slowly and get it right. 🌱
 
 ---
 
+## Start here: use the setup script first ⭐
+
+For most users, the best first move is to run the **one-command setup script**
+in Step 0 below. It handles the boring path setup, checks what's missing, and
+stops only when the game needs a real human action.
+
+Two practical notes before you begin:
+
+- If this is your first time installing `uv`, **close and reopen your
+  PowerShell/terminal** after the install so Windows can refresh `PATH`.
+- Besiege is a real game with its own building UI. Spend a few minutes entering
+  sandbox, loading a machine, placing blocks, and running the simulation. A
+  little hands-on play makes the BuildArena steps much easier to understand.
+
+---
+
 ## Step 0 — One-command setup (the fast path) 🚀
 
 Before doing anything by hand, try the **one-command setup**. From the repo
@@ -139,6 +155,10 @@ The quickest way on Windows (PowerShell):
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
+
+If this is your first time installing `uv`, close this PowerShell/terminal
+window and open a new one before continuing. This lets Windows pick up the new
+`uv` command on `PATH`.
 
 Then confirm it's alive:
 
@@ -222,6 +242,33 @@ Workshop — click **Subscribe** on each and Steam will download them:
    are toggled **ON**.
 
 > 🎉 Both glowing green? Beautiful. That's the game side almost done.
+
+---
+
+## New to Besiege? Enter sandbox, load, and build 🕹️
+
+If you've never played Besiege before, the game can feel a little mysterious at
+first. BuildArena only needs a few basic in-game actions:
+
+Take a moment to press every visible button on the page once so you can learn
+what each part of the interface does.
+
+1. From the main menu, enter a **sandbox** or any level.
+2. Use the machine browser / load button to open a machine that BuildArena saved
+   into your `SAVED_MACHINE_DIR`.
+3. Press the simulation/play button to test it in the level.
+
+<p align="center">
+  <img src="./docs/assets/besiege-open-sandbox-machine.webp" alt="Entering a Besiege sandbox and opening a saved machine" width="720" />
+</p>
+
+To make a tiny test machine yourself, pick blocks from the block list, place
+them on the starting block, then run the simulation. A few connected blocks are
+enough for the Inspector mod to capture the data BuildArena needs.
+
+<p align="center">
+  <img src="./docs/assets/besiege-build-simple-machine.webp" alt="Building a simple machine in Besiege" width="720" />
+</p>
 
 ---
 
@@ -377,17 +424,42 @@ That's it — the agent now has everything it needs: real block geometry, a plac
 to save machines, and a live tool interface. Hand it a goal and let it start
 constructing. 🏗️
 
+Once the agent finishes a build through MCP, go back into Besiege, load the
+saved machine, run it, and play with it yourself. Today's AI builds are still
+often awkward, funny, or outright bad, and that is exactly why the in-game
+check matters.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./docs/assets/agent-build-codex-5-3.webp" alt="An example Codex-built Besiege machine" width="240" /><br />
+      <strong>Codex 5.3</strong>
+    </td>
+    <td align="center">
+      <img src="./docs/assets/agent-build-fable-5.webp" alt="An example Fable-built Besiege machine" width="240" /><br />
+      <strong>Fable 5</strong>
+    </td>
+    <td align="center">
+      <img src="./docs/assets/agent-build-glm-5-2.webp" alt="An example GLM-built Besiege machine" width="240" /><br />
+      <strong>GLM 5.2</strong>
+    </td>
+  </tr>
+</table>
+
 Before you jump in, keep this final reminder in mind:
 
 - BuildArena writes all run outputs into your game-side folders (the
   `SAVED_MACHINE_DIR` path under `Besiege_Data/SavedMachines/...` and the
   BuildArena mod data folder under `Besiege_Data/Mods/Data/...`).
-- For each build, three files are mission-critical and required for challenge
+- For each build, four artifacts are mission-critical and required for challenge
   submission: the raw `.bsg` machine file (the runnable machine), the valid-action
   history JSON (clean build history that keeps only operations that produced
-  effective structural updates, used for `.bsg` rebuild), and the full-action
+  effective structural updates, used for `.bsg` rebuild), the full-action
   history JSON (complete history including non-edit actions such as queries and
-  rollback/error-recovery traces).
+  rollback/error-recovery traces), and the Tracker trajectory `.csv`.
+- The trajectory `.csv` is written by the BuildArena Block Tracker mod under a
+  game-side path like
+  `C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\Data\BuildArenaBlockTracker_<GUID>\<machine>__<timestamp>.csv`.
 - You can open these files from the game folders to load, inspect, drive, and
   tune control parameters.
 - The BuildArena Construction Challenge rules strictly forbid editing machine
