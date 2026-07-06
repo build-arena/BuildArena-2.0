@@ -1,7 +1,7 @@
 [project]
-name = "AI_Engineer"
-version = "0.1.0"
-description = "Text-interface for AI Agent Engineer"
+name = "BuildArena"
+version = "2.0.0"
+description = "BuildArena 2.0.0"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
