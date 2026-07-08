@@ -28,6 +28,18 @@ put them to the test.
   of LLMs for Engineering Construction"* and its project page. 2.0 stands on the
   shoulders of this legacy. 🙏
 
+> **Human BOSS Challenge:** If you choose to show the AI your superior human building
+> skills instead of co-building through the BuildArena MCP tools, your hand-made
+> `.bsg` still needs tracker metadata before it can be used as a competition
+> submission. After saving the machine in Besiege, run:
+>
+> ```powershell
+> uv run python scripts/inject_starting_block_tracker.py --bsg "path\to\your_machine.bsg"
+> ```
+>
+> This only finds the Starting Block GUID and injects the BuildArena Block
+> Tracker config so the machine's run trajectory can be recorded.
+
 ---
 
 # BuildArena Setup Skill 🛠️

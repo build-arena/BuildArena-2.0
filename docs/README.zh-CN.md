@@ -25,6 +25,17 @@ _✗ 自己一个人建造 · ✓ 和你的 Agents 一起建造_
   这里有我们的 ICML 2026 论文 *"BuildArena: A Physics-Aligned Interactive Benchmark
   of LLMs for Engineering Construction"* 及项目页面。2.0 建立在这份积累之上。🙏
 
+> **Human BOSS Challenge：** 如果你决定以 human boss 的姿态向 AI 展示强大的建造能力，
+> 而不是通过 BuildArena MCP 工具和 AI 合作建造，那么手搓出来的 `.bsg` 在作为比赛提交前
+> 仍然需要注入 tracker 元数据。请先在 Besiege 中保存机器，然后运行：
+>
+> ```powershell
+> uv run python scripts/inject_starting_block_tracker.py --bsg "path\to\your_machine.bsg"
+> ```
+>
+> 这个脚本只会找到 Starting Block 的 GUID，并注入 BuildArena Block Tracker 配置，
+> 让机器运行轨迹可以被记录下来。
+
 ---
 
 # BuildArena 配置技能 🛠️
