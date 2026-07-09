@@ -129,11 +129,6 @@ def _load_block_categories() -> dict[str, dict[str, str | bool]]:
         for category in runtime_categories & authored_categories
         if categories[category]["enable"] is not True
     )
-    enabled_extra_categories = sorted(
-        category
-        for category in authored_categories - runtime_categories
-        if categories[category]["enable"] is not False
-    )
     if missing_categories:
         raise ValueError(
             "Block category summary file is missing runtime categories: "
@@ -144,13 +139,13 @@ def _load_block_categories() -> dict[str, dict[str, str | bool]]:
             "Runtime categories must be enabled in the block category summary file: "
             f"{', '.join(disabled_runtime_categories)}."
         )
-    if enabled_extra_categories:
-        raise ValueError(
-            "Categories without enabled runtime blocks must set enable = false: "
-            f"{', '.join(enabled_extra_categories)}."
-        )
-
-    return {category: categories[category] for category in sorted(categories)}
+    # Platform-specific DLC availability can remove every runtime block from a
+    # category. Keep those categories invisible to MCP instead of forcing the
+    # authored category file to change per platform.
+    return {
+        category: categories[category]
+        for category in sorted(runtime_categories)
+    }
 
 
 def _format_category_summary_lines(*, category_summaries: dict[str, dict[str, str | bool]]) -> list[str]:
@@ -186,6 +181,14 @@ def _block_authoring_by_name() -> dict[str, tuple[int, dict[str, str]]]:
             )
         by_name[block_name] = (block_id, entry)
     return by_name
+
+
+def _available_runtime_block_names() -> set[str]:
+    return {
+        block_name
+        for block_summaries in _block_category_index().values()
+        for block_name, _summary in block_summaries
+    }
 
 class Block:
     # Basic Block class for managing the block's geometry, collider, faces, and caption
@@ -976,11 +979,14 @@ class Machine:
             raise ValueError("module_name must be a non-empty exact module name without edge whitespace.")
 
         authoring_by_name = _block_authoring_by_name()
-        if module_name not in authoring_by_name:
+        available_block_names = _available_runtime_block_names()
+        if module_name not in available_block_names:
             raise ValueError(
                 f"Unknown module_name '{module_name}'. Use list_blocks_by_category first "
                 "and pass one of the returned module names exactly."
             )
+        if module_name not in authoring_by_name:
+            raise ValueError(f"Block authoring entry for '{module_name}' is missing.")
 
         _block_id, entry = authoring_by_name[module_name]
         description = str(entry.get("description", "")).strip()

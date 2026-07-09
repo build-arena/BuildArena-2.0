@@ -96,7 +96,7 @@ def get_besiege_data_path(*, data_path: str | Path | None = None) -> Path:
         if install_root_hint.is_dir():
             hint = f" It looks like an install root; use BESIEGE_DATA_PATH={install_root_hint}."
         raise FileNotFoundError(
-            f"BESIEGE_DATA_PATH must point to Besiege_Data containing a Skins directory: {resolved_path}.{hint}"
+            f"BESIEGE_DATA_PATH must point to the game data folder containing a Skins directory: {resolved_path}.{hint}"
         )
 
     return resolved_path
@@ -155,7 +155,7 @@ ENV_REQUIREMENTS: tuple[EnvRequirement, ...] = (
         env_var="BESIEGE_DATA_PATH",
         kind="besiege_data",
         purpose="Besiege game data folder (holds the block Skins / .obj meshes we load).",
-        readme_step="Step 3 & Step 7 - install Besiege, then point BESIEGE_DATA_PATH at ...\\Besiege\\Besiege_Data",
+        readme_step="Step 3 & Step 7 - install Besiege, then point BESIEGE_DATA_PATH at the Unity data folder containing Skins",
     ),
     EnvRequirement(
         env_var="COLLIDER_DUMP_PATH",
@@ -167,7 +167,7 @@ ENV_REQUIREMENTS: tuple[EnvRequirement, ...] = (
         env_var="SAVED_MACHINE_DIR",
         kind="dir",
         purpose="Folder where generated .bsg machines are written so the game can load them.",
-        readme_step="Step 7 - set SAVED_MACHINE_DIR to Besiege's SavedMachines\\BuildArena folder",
+        readme_step="Step 7 - set SAVED_MACHINE_DIR to Besiege's SavedMachines/BuildArena folder",
     ),
     EnvRequirement(
         env_var="BLOCK_REGISTRY_PATH",
@@ -222,7 +222,7 @@ def _check_requirement(*, requirement: EnvRequirement) -> EnvCheckResult:
             return EnvCheckResult(
                 requirement=requirement,
                 ok=False,
-                detail=f"must be Besiege_Data containing a Skins directory: {resolved_path}.{hint}",
+                detail=f"must be the game data folder containing a Skins directory: {resolved_path}.{hint}",
                 resolved_path=resolved_path,
             )
         return EnvCheckResult(

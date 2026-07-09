@@ -54,6 +54,28 @@ BESIEGE_APP_ID = "346010"
 INSPECTOR_DIR_PREFIX = "BuildArenaBlockInspector_"
 COLLIDER_DUMP_RELATIVE = ".local/collider_dump.toml"
 SAVED_MACHINE_SUBDIR = ("SavedMachines", "BuildArena")
+WINDOWS_DEFAULT_BESIEGE_DATA = (
+    r"C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data"
+)
+WINDOWS_DEFAULT_SAVED_MACHINE_DIR = (
+    r"C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\SavedMachines\BuildArena"
+)
+OLD_MACOS_DEFAULT_BESIEGE_DATA = (
+    Path.home()
+    / "Library"
+    / "Application Support"
+    / "Steam"
+    / "steamapps"
+    / "common"
+    / "Besiege"
+    / "Besiege.app"
+    / "Contents"
+    / "Resources"
+    / "Data"
+)
+OLD_MACOS_DEFAULT_SAVED_MACHINE_DIR = OLD_MACOS_DEFAULT_BESIEGE_DATA.joinpath(
+    *SAVED_MACHINE_SUBDIR
+)
 
 _DIVIDER = "─" * 64
 
@@ -81,12 +103,17 @@ def _section(*, zh: str, en: str) -> None:
 
 
 # ── Platform guard ────────────────────────────────────────────────────
-def ensure_windows() -> None:
-    if platform.system() != "Windows":
+def current_platform() -> str:
+    return platform.system()
+
+
+def ensure_supported_platform() -> None:
+    system_name = current_platform()
+    if system_name not in {"Windows", "Darwin"}:
         raise RuntimeError(
-            "BuildArena setup only supports Windows (Besiege paths assume Windows). "
-            f"Detected platform: {platform.system()}. "
-            "本配置脚本仅支持 Windows（Besiege 路径按 Windows 设计）。"
+            "BuildArena setup currently supports Windows and macOS only. "
+            f"Detected platform: {system_name}. "
+            "本配置脚本目前仅支持 Windows 与 macOS。"
         )
 
 
@@ -147,6 +174,58 @@ def set_env_var(*, env_path: Path, key: str, value: str) -> None:
     os.environ[key] = value
 
 
+def _macos_default_besiege_data() -> Path:
+    return (
+        Path.home()
+        / "Library"
+        / "Application Support"
+        / "Steam"
+        / "steamapps"
+        / "common"
+        / "Besiege"
+        / "Besiege.app"
+        / "Contents"
+    )
+
+
+def _macos_default_saved_machine_dir() -> Path:
+    return _macos_default_besiege_data().joinpath(*SAVED_MACHINE_SUBDIR)
+
+
+def _read_env_value(*, env_path: Path, key: str) -> str | None:
+    pattern = re.compile(rf"^\s*{re.escape(key)}\s*=")
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        if pattern.match(raw_line):
+            _env_key, value = raw_line.split("=", 1)
+            return value.strip().strip('"').strip("'")
+    return None
+
+
+def adjust_platform_default_env_values(*, env_path: Path) -> None:
+    """Replace template Windows defaults with macOS defaults on macOS only."""
+    if current_platform() != "Darwin":
+        return
+
+    besiege_data = _read_env_value(env_path=env_path, key="BESIEGE_DATA_PATH")
+    if besiege_data in {WINDOWS_DEFAULT_BESIEGE_DATA, str(OLD_MACOS_DEFAULT_BESIEGE_DATA)}:
+        set_env_var(
+            env_path=env_path,
+            key="BESIEGE_DATA_PATH",
+            value=str(_macos_default_besiege_data()),
+        )
+
+    saved_machine_dir = _read_env_value(env_path=env_path, key="SAVED_MACHINE_DIR")
+    if saved_machine_dir in {
+        WINDOWS_DEFAULT_SAVED_MACHINE_DIR,
+        str(OLD_MACOS_DEFAULT_SAVED_MACHINE_DIR),
+    }:
+        set_env_var(
+            env_path=env_path,
+            key="SAVED_MACHINE_DIR",
+            value=str(_macos_default_saved_machine_dir()),
+        )
+
+
 # ── Steam / Besiege detection ─────────────────────────────────────────
 def _steam_roots_from_registry() -> list[Path]:
     import winreg
@@ -183,13 +262,23 @@ def _library_paths_from_steam_root(*, steam_root: Path) -> list[Path]:
 
 
 def _candidate_steam_roots() -> list[Path]:
-    roots: list[Path] = list(_steam_roots_from_registry())
-    for default_root in (
-        Path(r"C:\Program Files (x86)\Steam"),
-        Path(r"C:\Program Files\Steam"),
-    ):
+    system_name = current_platform()
+    roots: list[Path] = []
+
+    if system_name == "Windows":
+        roots.extend(_steam_roots_from_registry())
+        for default_root in (
+            Path(r"C:\Program Files (x86)\Steam"),
+            Path(r"C:\Program Files\Steam"),
+        ):
+            if default_root.is_dir():
+                roots.append(default_root)
+    elif system_name == "Darwin":
+        default_root = Path.home() / "Library" / "Application Support" / "Steam"
         if default_root.is_dir():
             roots.append(default_root)
+    else:
+        raise RuntimeError(f"Unsupported platform for Steam detection: {system_name}")
 
     unique: list[Path] = []
     seen: set[str] = set()
@@ -205,27 +294,42 @@ def _is_besiege_data(*, path: Path) -> bool:
     return path.is_dir() and (path / "Skins").is_dir()
 
 
+def _besiege_data_candidates_from_install_root(*, install_root: Path) -> list[Path]:
+    system_name = current_platform()
+    if system_name == "Windows":
+        return [install_root / "Besiege_Data"]
+    if system_name == "Darwin":
+        return [
+            install_root / "Besiege.app" / "Contents",
+            install_root / "Besiege.app" / "Contents" / "Resources" / "Data",
+            install_root / "Besiege.app" / "Contents" / "Resources" / "Besiege_Data",
+            install_root / "Besiege_Data",
+        ]
+    raise RuntimeError(f"Unsupported platform for Besiege detection: {system_name}")
+
+
 def detect_besiege_data() -> Path | None:
     for steam_root in _candidate_steam_roots():
         for library in _library_paths_from_steam_root(steam_root=steam_root):
-            besiege_data = (
-                library / "steamapps" / "common" / "Besiege" / "Besiege_Data"
-            )
-            if _is_besiege_data(path=besiege_data):
-                return besiege_data
+            install_root = library / "steamapps" / "common" / "Besiege"
+            for besiege_data in _besiege_data_candidates_from_install_root(
+                install_root=install_root
+            ):
+                if _is_besiege_data(path=besiege_data):
+                    return besiege_data
     return None
 
 
 def _normalize_besiege_data_input(*, raw: str) -> Path:
-    """Accept either the install root or Besiege_Data and resolve to Besiege_Data."""
+    """Accept either the install root or Unity data folder and resolve to data."""
     candidate = Path(raw.strip().strip('"'))
     if _is_besiege_data(path=candidate):
         return candidate
-    nested = candidate / "Besiege_Data"
-    if _is_besiege_data(path=nested):
-        return nested
+    for nested in _besiege_data_candidates_from_install_root(install_root=candidate):
+        if _is_besiege_data(path=nested):
+            return nested
     raise FileNotFoundError(
-        f"Not a valid Besiege_Data folder (no Skins directory inside): {candidate}"
+        f"Not a valid Besiege data folder (no Skins directory inside): {candidate}"
     )
 
 
@@ -238,14 +342,15 @@ def prompt_for_besiege_data() -> Path | None:
     _say(
         zh=(
             "自动探测没有找到 Besiege 安装目录（可能装在非默认盘符）。\n"
-            "请粘贴 Besiege_Data 目录路径（Steam 里右键 Besiege → 管理 → 浏览本地文件，\n"
-            "打开的就是安装目录，Besiege_Data 就在里面）。\n"
+            "请粘贴 Besiege 的 Unity 数据目录路径，或粘贴 Steam 打开的 Besiege 安装目录。\n"
+            "Windows 通常是 Besiege_Data；macOS 通常是 Besiege.app/Contents。\n"
             "如果还没安装游戏，输入 skip 跳过。"
         ),
         en=(
             "Auto-detection could not find Besiege (it may be on a non-default drive).\n"
-            "Paste the Besiege_Data folder path (in Steam: right-click Besiege → Manage →\n"
-            "Browse local files; Besiege_Data sits inside that folder).\n"
+            "Paste Besiege's Unity data folder, or paste the Besiege install folder opened by Steam.\n"
+            "On Windows this is usually Besiege_Data; on macOS it is usually\n"
+            "Besiege.app/Contents.\n"
             "If the game is not installed yet, type skip."
         ),
     )
@@ -285,19 +390,25 @@ def find_collider_dump(*, besiege_data: Path) -> Path | None:
     The dump is identified structurally (a top-level ``[blocks]`` table), not
     by filename, so it works regardless of what the mod names its files.
     """
-    mods_data = besiege_data / "Mods" / "Data"
-    if not mods_data.is_dir():
-        return None
+    candidate_mods_data_dirs = [besiege_data / "Mods" / "Data"]
+    if current_platform() == "Darwin":
+        # Older setup drafts used Besiege.app/Contents/Resources/Data. The
+        # actual macOS game-side folders live under Besiege.app/Contents.
+        app_contents = besiege_data if besiege_data.name == "Contents" else besiege_data.parent.parent
+        candidate_mods_data_dirs.append(app_contents / "Mods" / "Data")
 
     matches: list[Path] = []
-    for inspector_dir in sorted(mods_data.iterdir()):
-        if not inspector_dir.is_dir():
+    for mods_data in candidate_mods_data_dirs:
+        if not mods_data.is_dir():
             continue
-        if not inspector_dir.name.startswith(INSPECTOR_DIR_PREFIX):
-            continue
-        for toml_path in sorted(inspector_dir.glob("*.toml")):
-            if _toml_is_collider_dump(toml_path=toml_path):
-                matches.append(toml_path)
+        for inspector_dir in sorted(mods_data.iterdir()):
+            if not inspector_dir.is_dir():
+                continue
+            if not inspector_dir.name.startswith(INSPECTOR_DIR_PREFIX):
+                continue
+            for toml_path in sorted(inspector_dir.glob("*.toml")):
+                if _toml_is_collider_dump(toml_path=toml_path):
+                    matches.append(toml_path)
 
     if len(matches) == 0:
         return None
@@ -338,30 +449,58 @@ def write_mcp_json() -> Path:
 
 # ── Human-in-the-loop checkpoints ─────────────────────────────────────
 def _print_game_checkpoint() -> None:
+    broken_beyond_note_zh = ""
+    broken_beyond_note_en = ""
+    if current_platform() == "Darwin":
+        broken_beyond_note_zh = (
+            "\n注意：The Broken Beyond 最新 DLC 目前不支持 macOS，所以太空 DLC 相关模块"
+            "无法在 macOS 上完整兼容。"
+        )
+        broken_beyond_note_en = (
+            "\nNote: the latest The Broken Beyond DLC currently does not support macOS, "
+            "so BuildArena's space-DLC modules cannot be fully supported on macOS."
+        )
+
     _section(
-        zh="需要你来一下：安装游戏 + 两个 DLC（README 第 3 步）",
-        en="Your turn: install the game + both DLC (README Step 3)",
+        zh="需要你来一下：安装游戏与可用 DLC（README 第 3 步）",
+        en="Your turn: install the game and available DLC (README Step 3)",
     )
     _say(
         zh=(
             "还没探测到 Besiege_Data。请先在 Steam 完成：\n"
             "  1. 安装 Steam 并登录。\n"
             "  2. 购买并安装 Besiege 本体。\n"
-            "  3. 购买并安装两个 DLC：The Splintered Sea（水）与 The Broken Beyond（太空）。\n"
-            "装好后重跑本脚本即可继续；若装在非默认位置，重跑时按提示粘贴 Besiege_Data 路径。"
+            "  3. 安装当前平台支持的 DLC：The Splintered Sea（水）；Windows 还可安装 The Broken Beyond（太空）。\n"
+            "装好后重跑本脚本即可继续；若装在非默认位置，重跑时按提示粘贴游戏数据目录路径。"
+            f"{broken_beyond_note_zh}"
         ),
         en=(
             "Besiege_Data was not found yet. In Steam, please:\n"
             "  1. Install Steam and sign in.\n"
             "  2. Buy + install Besiege (base game).\n"
-            "  3. Buy + install both DLC: The Splintered Sea (water) and The Broken Beyond (space).\n"
+            "  3. Install the DLC supported by your platform: The Splintered Sea (water);\n"
+            "     Windows can also install The Broken Beyond (space).\n"
             "Then re-run this script to continue; if it is installed in a custom location,\n"
-            "paste the Besiege_Data path when prompted on the next run."
+            "paste the game data folder path when prompted on the next run."
+            f"{broken_beyond_note_en}"
         ),
     )
 
 
 def _print_mods_checkpoint(*, besiege_data: Path) -> None:
+    broken_beyond_note_zh = ""
+    broken_beyond_note_en = ""
+    if current_platform() == "Darwin":
+        broken_beyond_note_zh = (
+            "\nmacOS 注意：如果 Block Inspector / Tracker 因 The Broken Beyond 依赖无法加载，"
+            "这是当前游戏/DLC 平台支持限制，不是本仓库配置错误。"
+        )
+        broken_beyond_note_en = (
+            "\nmacOS note: if Block Inspector / Tracker cannot load because of a "
+            "The Broken Beyond dependency, that is a current game/DLC platform limit, "
+            "not a repository setup error."
+        )
+
     _section(
         zh="需要你来一下：装模组 + 开模组 + 跑一次模拟（README 第 4-6 步）",
         en="Your turn: mods + toggle on + one simulation (README Steps 4-6)",
@@ -374,6 +513,7 @@ def _print_mods_checkpoint(*, besiege_data: Path) -> None:
             "  2. 启动 Besiege，打开 mod loader，把这两个模组都切到 ON。\n"
             "  3. 进任意关卡/沙盒，随便搭几块，按 ▶ 运行一次模拟（这会触发导出）。\n"
             "然后重跑本脚本，它会自动找到并拷贝碰撞数据。"
+            f"{broken_beyond_note_zh}"
         ),
         en=(
             f"Found the game folder: {besiege_data}\n"
@@ -382,6 +522,7 @@ def _print_mods_checkpoint(*, besiege_data: Path) -> None:
             "  2. Launch Besiege, open the mod loader, toggle BOTH mods ON.\n"
             "  3. Enter any level/sandbox, build a couple of blocks, press ▶ to run one simulation (this triggers the dump).\n"
             "Then re-run this script; it will locate and copy the dump automatically."
+            f"{broken_beyond_note_en}"
         ),
     )
 
@@ -412,7 +553,7 @@ def _print_visual_check_note() -> None:
 # ── Orchestration ─────────────────────────────────────────────────────
 def run(*, besiege_data_override: str | None = None, interactive: bool = True) -> int:
     _configure_utf8_output()
-    ensure_windows()
+    ensure_supported_platform()
 
     _section(
         zh="BuildArena 一键配置",
@@ -420,6 +561,7 @@ def run(*, besiege_data_override: str | None = None, interactive: bool = True) -
     )
 
     env_path = ensure_env_file()
+    adjust_platform_default_env_values(env_path=env_path)
     load_env_into_environ(env_path=env_path)
 
     # Step 7a — Besiege_Data

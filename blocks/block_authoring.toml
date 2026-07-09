@@ -131,7 +131,7 @@ descriptor = ""
 block_name = "Bomb"
 summary = "Bomb."
 description = "A spherical bomb about radius 1. After placement it is not rigidly welded to the surface: it freely hovers slightly above the attach face by about 0.2 units, unless held by a Grabber. It detonates from violent impacts or fire, causing a large blast and burning. The Position line in the standard block caption is the sphere center."
-descriptor = ""
+descriptor = "bomb"
 
 [by_id.24]
 block_name = "Armor Plate Small"
