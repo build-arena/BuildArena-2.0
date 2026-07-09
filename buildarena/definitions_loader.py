@@ -5,7 +5,7 @@ from typing import Any
 from pathlib import Path
 import tomllib
 
-from .mesh_loader import load_registry
+from .mesh_loader import block_runtime_mesh_exists, load_registry
 from .block_authoring import load_block_authoring
 from .paths import get_block_registry_path, get_block_roles_path
 
@@ -340,6 +340,12 @@ def load_runtime_blocks(
         role_type = str(role["type"])
         block_def["type"] = role_type
         block_def.setdefault("mesh_key", dump_name)
+        if role_type != "connection" and not block_runtime_mesh_exists(
+            mesh_key=block_def["mesh_key"],
+            registry_path=registry_path,
+        ):
+            block_def["disable"] = True
+            block_def["enabled"] = False
 
         block_def["faces"] = _normalize_faces(value=block_def.get("faces"))
         block_def["spin"] = _normalize_spin_config(value=block_def.get("spin", False))

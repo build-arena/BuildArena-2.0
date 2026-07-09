@@ -101,6 +101,43 @@ def _discover_obj_file(*, skin_dir: Path, mesh_key: str) -> Path:
     return obj_files[0]
 
 
+def block_runtime_mesh_exists(
+    *,
+    mesh_key: str | None,
+    data_path: str | Path | None = None,
+    registry_path: str | Path | None = None,
+) -> bool:
+    """Return whether the local Besiege install has a runtime OBJ for a block.
+
+    Connectors do not have visual meshes, so callers should treat them as
+    available before calling this helper.
+    """
+    if mesh_key is None:
+        return False
+
+    resolved_registry_path = get_block_registry_path(registry_path=registry_path)
+    resolved_data_path = get_besiege_data_path(data_path=data_path)
+    registry = load_registry(registry_path=resolved_registry_path)
+    block_info = registry.get("blocks", {}).get(mesh_key, {})
+    if not block_info.get("enabled", True):
+        return False
+
+    skin_set = registry.get("skin_set", "Template")
+    skin_dir = get_skin_dir(
+        mesh_key=mesh_key,
+        skin_set=skin_set,
+        data_path=resolved_data_path,
+    )
+    if not skin_dir.is_dir():
+        return False
+
+    obj_file = block_info.get("obj_file")
+    if obj_file is not None:
+        return (skin_dir / obj_file).is_file()
+
+    return any(path.suffix.lower() == ".obj" for path in skin_dir.iterdir())
+
+
 def _attach_real_skin_if_needed(*, mesh: trimesh.Trimesh, mesh_dir: Path) -> trimesh.Trimesh:
     """Some OBJ loads fall back to a tiny placeholder texture (e.g. 2x2).
     If detected, attach the first PNG from the mesh folder as skin."""

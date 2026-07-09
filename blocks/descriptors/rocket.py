@@ -46,5 +46,7 @@ def descriptor(self: Block) -> str:
         f"Rocket nose-cone tip at {format_float_array(arr=nose_real, precision=2)}, "
         f"nozzle center at {format_float_array(arr=nozzle_real, precision=2)} "
         f"(computed from collision-box extents along the pointer axis). "
-        f"Current launch direction: {self._pointer_direction_vector().caption}."
+        f"Current launch direction: {self._pointer_direction_vector().caption}. "
+        "After placement it is not rigidly welded to the surface: it freely hovers "
+        "slightly above the attach face, unless held by a Grabber."
     )

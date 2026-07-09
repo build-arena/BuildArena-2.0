@@ -91,7 +91,11 @@ stops only when the game needs a real human action.
 Two practical notes before you begin:
 
 - If this is your first time installing `uv`, **close and reopen your
-  PowerShell/terminal** after the install so Windows can refresh `PATH`.
+  PowerShell/terminal** after the install so your shell can refresh `PATH`.
+- **macOS limitation:** Besiege's latest DLC, **The Broken Beyond**, currently
+  does not support macOS. BuildArena can guide macOS setup for the base game and
+  supported content, but the Broken Beyond / space-block modules cannot be made
+  compatible on macOS until the game/DLC supports that platform.
 - Besiege is a real game with its own building UI. Spend a few minutes entering
   sandbox, loading a machine, placing blocks, and running the simulation. A
   little hands-on play makes the BuildArena steps much easier to understand.
@@ -101,37 +105,45 @@ Two practical notes before you begin:
 ## Step 0 — One-command setup (the fast path) 🚀
 
 Before doing anything by hand, try the **one-command setup**. From the repo
-root in **PowerShell**:
+root:
 
 ```powershell
 powershell -ExecutionPolicy ByPass -File scripts\setup.ps1
 ```
 
+On macOS, run:
+
+```bash
+bash scripts/setup_macos.sh
+```
+
 It automates everything a machine can do on its own and **only stops when a
 human is genuinely needed**. Specifically it will:
 
-- ✅ check you're on Windows, install `uv` if missing, and run `uv sync`
+- ✅ check you're on Windows or macOS, install `uv` if missing, and run `uv sync`
 - ✅ create `.env` from the template
-- ✅ auto-detect your Steam + Besiege install (registry + `libraryfolders.vdf`)
-  and fill in `BESIEGE_DATA_PATH`
+- ✅ auto-detect your Steam + Besiege install (Windows registry/default Steam
+  paths, macOS default Steam path, and `libraryfolders.vdf`) and fill in
+  `BESIEGE_DATA_PATH`
 - ✅ create + set `SAVED_MACHINE_DIR`
 - ✅ find the Inspector's collider dump, copy it into `.local/`, and set
   `COLLIDER_DUMP_PATH`
 - ✅ generate `mcp.json` pointing at this repo
 - ✅ run the compass (`buildarena.paths`) and print a green/▢ checklist
 
-It **pauses with a clear bilingual instruction** at the moments only a human
-can do: buying/installing the game + both DLC, subscribing to the two Workshop
-mods, toggling them on, running one in-game simulation to produce the dump, and
-the final in-game visual check. Do that step, then **re-run the same command** —
-it's idempotent and picks up where it left off.
+It **pauses with a clear bilingual instruction** at the moments only a human can
+do: buying/installing the game and supported DLC, subscribing to the two
+Workshop mods, toggling them on, running one in-game simulation to produce the
+dump, and the final in-game visual check. Do that step, then **re-run the same
+command** — it's idempotent and picks up where it left off.
 
 > 🧭 **Auto-detection off?** If Steam/Besiege live in a non-default place, the
-> script asks you to paste the `Besiege_Data` path (or pass
-> `-BesiegeData "D:\...\Besiege_Data"`). If anything about the automation
-> doesn't fit your machine, the **numbered steps below are the manual
-> fallback** — every automated action mirrors one of them, so you can always do
-> it by hand.
+> script asks you to paste the game data path. On Windows you can pass
+> `-BesiegeData "D:\...\Besiege_Data"` to `setup.ps1`; on macOS you can pass
+> `--besiege-data "/Users/you/.../Besiege.app/Contents"` to
+> `setup_macos.sh`. If anything about the automation doesn't fit your machine,
+> the **numbered steps below are the manual fallback** — every automated action
+> mirrors one of them, so you can always do it by hand.
 
 ---
 
@@ -143,14 +155,14 @@ follow whichever steps the compass says are still `[MISSING]`._
 
 ---
 
-## Step 0 — Make sure we're on Windows 🪟
+## Step 0 — Make sure we're on a supported OS 🪟🍎
 
-BuildArena talks directly to a **Windows** install of Besiege (the paths, the
-mod folders, everything assumes Windows). If your user is on macOS or Linux,
-gently pause here — this skill is written for Windows and the game-data paths
-won't line up elsewhere.
+BuildArena setup currently supports **Windows** and **macOS**. Linux is not
+covered here because the game-data and mod paths have not been validated.
 
-> ✅ **Quick check:** they should be on Windows 10 or 11.
+> ✅ **Quick check:** use Windows 10/11 for full compatibility. macOS can be used
+> for the base game and supported DLC, but **The Broken Beyond is not available
+> on macOS**, so Broken Beyond / space-block compatibility is not possible there.
 
 ---
 
@@ -168,9 +180,15 @@ The quickest way on Windows (PowerShell):
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
+The quickest way on macOS:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 If this is your first time installing `uv`, close this PowerShell/terminal
-window and open a new one before continuing. This lets Windows pick up the new
-`uv` command on `PATH`.
+window and open a new one before continuing. This lets your shell pick up the
+new `uv` command on `PATH`.
 
 Then confirm it's alive:
 
@@ -197,6 +215,12 @@ Then create your personal config file by copying the template:
 Copy-Item .env.example .env
 ```
 
+On macOS:
+
+```bash
+cp .env.example .env
+```
+
 `.env` is where all the machine-specific paths live — we'll fill them in as we
 go. It's already listed in `.gitignore`, so nothing private gets committed.
 
@@ -214,19 +238,21 @@ of this guide fixes. 🙂
 
 ---
 
-## Step 3 — Install Steam + Besiege + both DLC 🎮
+## Step 3 — Install Steam + Besiege + supported DLC 🎮
 
-BuildArena needs the **base game plus both expansions** (the DLC add the water
-and space blocks that the agent will build with).
+BuildArena's full Windows block set needs the **base game plus both expansions**
+(the DLC add the water and space blocks that the agent can build with).
 
 1. Install [**Steam**](https://store.steampowered.com/) and sign in.
 2. Buy + install [**Besiege**](https://store.steampowered.com/app/346010/_/) (the base game).
-3. Buy + install the two DLC:
+3. Install the DLC supported on your OS:
    - 🌊 [**Besiege: The Splintered Sea**](https://store.steampowered.com/app/2165710/Besiege_The_Splintered_Sea/) — water blocks.
-   - 🚀 [**Besiege: The Broken Beyond**](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/) — space blocks.
+   - 🚀 [**Besiege: The Broken Beyond**](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/) — space blocks, **Windows only for now**.
 
-> 💛 **A gentle heads-up:** this costs money, and both DLC are required for the
-> full block set. Let your user decide at their own pace — no rush.
+> 💛 **A gentle heads-up:** this costs money. Both DLC are required for the full
+> Windows block set. On macOS, **The Broken Beyond currently does not support
+> macOS**, so BuildArena cannot provide compatibility for the Broken Beyond /
+> space-block modules there.
 
 ---
 
@@ -243,6 +269,11 @@ Workshop — click **Subscribe** on each and Steam will download them:
 
 > ⚠️ These two mods require **both DLC** to be installed, and they depend on each
 > other — so subscribe to *both*.
+>
+> 🍎 **macOS note:** if the mods cannot load because they require The Broken
+> Beyond, that is a current Besiege/DLC platform limitation. We cannot implement
+> compatibility for the Broken Beyond module on macOS until the DLC itself
+> supports macOS.
 
 ---
 
@@ -300,6 +331,13 @@ blocks running in a simulation*, so:
    C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\Data\BuildArenaBlockInspector_855ab186-2795-434e-80aa-fec848b649b3\
    ```
 
+   On macOS, if the mods load successfully, the path is expected to be shaped
+   like:
+
+   ```bash
+   ~/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents/Mods/Data/BuildArenaBlockInspector_<GUID>/
+   ```
+
    > 🔎 The long GUID suffix will differ on your machine — just look for the
    > folder that starts with `BuildArenaBlockInspector_`.
 
@@ -339,19 +377,27 @@ Two more paths to fill in `.env`:
 
 ### 7a. `BESIEGE_DATA_PATH` — where the game's block meshes live
 
-This must point at the **`Besiege_Data`** folder (the one that contains a
-`Skins` directory). The default is usually:
+This must point at Besiege's **Unity data directory** (the one that contains a
+`Skins` directory). On Windows the default is usually:
 
 ```dotenv
 BESIEGE_DATA_PATH=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data
 ```
 
+On macOS it is usually:
+
+```dotenv
+BESIEGE_DATA_PATH=/Users/you/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents
+```
+
 Not sure where Besiege actually installed? Easy — in Steam, **right-click
-Besiege → Manage → Browse local files**. That opens the exact install folder;
-`Besiege_Data` sits right inside it.
+Besiege → Manage → Browse local files**. That opens the exact install folder.
+On Windows, `Besiege_Data` sits right inside it; on macOS, open
+`Besiege.app/Contents`.
 
 > 🩹 **Common gotcha:** if you accidentally point at the install *root* instead
-> of `Besiege_Data`, the guard notices and tells you the corrected path. Phew.
+> of the Unity data directory, the guard notices and tells you the corrected
+> path. Phew.
 
 ### 7b. `SAVED_MACHINE_DIR` — where BuildArena writes machines for the game to load
 
@@ -362,9 +408,15 @@ in-game. A sensible default:
 SAVED_MACHINE_DIR=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\SavedMachines\BuildArena
 ```
 
-The real `SavedMachines` folder is right next to `Skins` inside `Besiege_Data`
-(again: **right-click Besiege → Browse local files** if you need to find it).
-Create the `BuildArena` subfolder if it isn't there yet.
+On macOS:
+
+```dotenv
+SAVED_MACHINE_DIR=/Users/you/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents/SavedMachines/BuildArena
+```
+
+The real `SavedMachines` folder is right next to `Skins` inside the Unity data
+directory (again: **right-click Besiege → Browse local files** if you need to
+find it). Create the `BuildArena` subfolder if it isn't there yet.
 
 Run the compass once more — you're aiming for all `[ok]`:
 
@@ -426,7 +478,8 @@ the placeholder path with the **real absolute path to this repository**:
 ```
 
 > 🔧 Swap `C:\\Users\\you\\path\\to\\BuildArena-2-0` for wherever this repo lives
-> on your machine. That's the only field you must edit.
+> on your machine. On macOS, use a normal absolute path such as
+> `/Users/you/path/to/BuildArena-2.0`. That's the only field you must edit.
 
 ---
 
@@ -509,7 +562,7 @@ for*, and *which step above* fixes it. It's the single source of truth for
 
 | `.env` variable      | What it points at                                   | Fix in |
 | -------------------- | --------------------------------------------------- | ------ |
-| `BESIEGE_DATA_PATH`  | Game's `Besiege_Data` folder (contains `Skins`)     | Step 7a |
+| `BESIEGE_DATA_PATH`  | Game's Unity data folder (contains `Skins`)         | Step 7a |
 | `COLLIDER_DUMP_PATH` | Collider dump from the Inspector mod                | Step 6 |
 | `SAVED_MACHINE_DIR`  | Where built `.bsg` machines are written             | Step 7b |
 | `BLOCK_REGISTRY_PATH`| Block registry (ships in `blocks/`)                 | Step 2 |

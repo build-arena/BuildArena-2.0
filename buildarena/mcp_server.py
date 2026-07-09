@@ -33,9 +33,8 @@ async def server_lifespan(_server):
         yield {}
     finally:
         machine = _state.get("specimen")
-        if machine is None:
-            return
-        _save_machine_to_file(machine=machine)
+        if machine is not None:
+            _save_machine_to_file(machine=machine)
 
 
 mcp = FastMCP(name="buildarena-specimen", lifespan=server_lifespan)

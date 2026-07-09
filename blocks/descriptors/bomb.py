@@ -5,10 +5,10 @@ from buildarena.utils import format_float_array
 
 
 def descriptor(self: Block) -> str:
-    """Bomb-style center and mount caption for the grenade sphere."""
+    """Bomb center and mount behavior for payload placement planning."""
     center_real = self.center_pos.real
     return (
         f"Sphere center at {format_float_array(arr=center_real)} (same as the Position line). "
-        "Like the bomb, it is not rigidly welded to the surface and rests "
-        "slightly separated from the attach face, unless held by a Grabber."
+        "After placement it is not rigidly welded to the surface: it freely hovers "
+        "slightly above the attach face by about 0.2 units, unless held by a Grabber."
     )
