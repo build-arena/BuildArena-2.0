@@ -76,10 +76,7 @@ def _machine_name_with_timestamp(*, machine_name: str) -> str:
 
 def create_machine_lifespan(
     machine_name: str,
-    note: str | None = None,
-    do_collision: bool = True,
-    collision_tolerance: float = 0.01,
-    write_full_history: bool = True,
+    note: str | None = None
 ) -> str:
     """Create a new active machine lifespan using machine_name plus a short timestamp."""
     if _state.get("specimen") is not None:
@@ -92,10 +89,7 @@ def create_machine_lifespan(
     _state["specimen"] = Machine(
         name=name,
         save_dir=str(machine_save_dir),
-        note=note,
-        do_collision=do_collision,
-        collision_tolerance=collision_tolerance,
-        write_full_history=write_full_history,
+        note=note
     )
     return f"Created machine lifespan '{name}' at {machine_save_dir}"
 
