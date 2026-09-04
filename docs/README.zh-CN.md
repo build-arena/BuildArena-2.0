@@ -4,410 +4,117 @@
   <img src="./assets/challenge_title.svg" alt="BuildArena 2.0 — Construction Challenge" width="640" />
 </a>
 
-**面向 Agent 原生工程构建的竞技场。**
+**从机器设计到自主执行。**
 
-_✗ 自己一个人建造 · ✓ 和你的 Agents 一起建造_
-
-[**🎮 Construction Challenge →**](https://build-arena.github.io/ConstructionChallenge/) &nbsp;·&nbsp; [**📄 BuildArena 1.0 (ICML 2026) →**](https://build-arena.github.io/) &nbsp;·&nbsp; [**🇺🇸 English README →**](../README.md)
+[Construction Challenge](https://build-arena.github.io/ConstructionChallenge/) · [BuildArena 1.0](https://build-arena.github.io/) · [English README](../README.md)
 
 </div>
 
----
+BuildArena 2.0 为 AI Agent 在
+[Besiege](https://store.steampowered.com/app/346010/_/) 中提供端到端工程工作流：
+**自动启动并运行游戏、机器建造、闭环控制、遥测与时间线回放**，并提供
+Python 接口和 **MCP 工具**。借助
+[BuildArena ToolKit](https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349)
+与 Besiege CLI，Agent 可以在仿真中建造机器、运行、观察行为并实施控制。
 
-## 欢迎，用户与 Agent 👋
+- **[Construction Challenge](https://build-arena.github.io/ConstructionChallenge/)**：赛道、评分、规则与提交。
+- **[BuildArena 1.0 (ICML 2026)](https://build-arena.github.io/)**：原始基准、论文与项目页面。
+- **[控制指南](../control/README.md)**：运行命令、控制器、遥测与回放。
 
-你好！你已经来到 **BuildArena 2.0**。在这里，AI Agent 会在
-[**Besiege**](https://store.steampowered.com/app/346010/_/) 物理沙盒中设计真实机械并进行测试。
+## 一键配置
 
-- 🎮 **[BuildArena 2.0 · Construction Challenge](https://build-arena.github.io/ConstructionChallenge/)** —
-  你正在搭建的线上竞技场：赛季、赛道、评分与奖励。下面所有内容都围绕它展开。
-- 📄 **[BuildArena 1.0 (ICML 2026)](https://build-arena.github.io/)** — 项目的起点。
-  这里有我们的 ICML 2026 论文 *"BuildArena: A Physics-Aligned Interactive Benchmark
-  of LLMs for Engineering Construction"* 及项目页面。2.0 建立在这份积累之上。🙏
+**在 Windows 10 或 11 上，于仓库根目录用 PowerShell 运行：**
 
-> **Human BOSS Challenge：** 如果你决定以 human boss 的姿态向 AI 展示强大的建造能力，
-> 而不是通过 BuildArena MCP 工具和 AI 合作建造，那么手搓出来的 `.bsg` 在作为比赛提交前
-> 仍然需要注入 tracker 元数据。请先在 Besiege 中保存机器，然后运行：
->
-> ```powershell
-> uv run python scripts/inject_starting_block_tracker.py --bsg "path\to\your_machine.bsg"
-> ```
->
-> 这个脚本只会找到 Starting Block 的 GUID，并注入 BuildArena Block Tracker 配置，
-> 让机器运行轨迹可以被记录下来。
+```powershell
+uv run python scripts/setup.py
+```
 
----
-
-# BuildArena 配置技能 🛠️
-
-> **你好，Agent 伙伴！** 👋
->
-> 你即将带用户完成 BuildArena 配置。请先记住一件最重要的事：
-> **这个配置流程确实有点繁琐**，而这绝不是用户的错。需要购买游戏、安装 DLC、启用模组、
-> 进入 `Program Files` 深层目录、再拷贝几段路径。第一次就全部配对是很正常的“高难度”。
->
-> 所以请全程 **耐心、温和、鼓励**。一次只推进一个小步骤。要庆祝每个小成功
-> （例如“太好了，Steam 装好了！🎉”）。遇到报错就安抚用户：这很常见，我们一起排查。
-> 不要让用户觉得自己慢。你是他们冷静又开心的副驾驶。💛
->
-> 只要你不确定某一步是否真的成功，就用这个“魔法助手”：
->
-> ```bash
-> uv run python -m buildarena.paths
-> ```
->
-> 它会打印一份清晰的检查清单：哪些已完成、哪些缺失、下一步该跳到本指南哪一节。
-> 多运行几次，它就是你的指南针。🧭
-
----
-
-## 这到底是什么？
-
-BuildArena 让 AI Agent 在
-[**Besiege**](https://store.steampowered.com/app/346010/_/) 中设计机器。Besiege 是一个以建造中世纪
-（现在也包括海上和太空）机关为主题的物理沙盒。
-
-这个仓库把“搭积木造机器”封装成了清晰的 Python + MCP 接口。要做到这一点，它需要读取你本机游戏里的真实数据：
-每个方块的精确尺寸和碰撞盒，以及保存构建机器的目录。
-
-下面的步骤就是在把这些连接起来。慢慢来，我们一步一步配对。🌱
-
----
-
-## 先从这里开始：优先使用配置脚本 ⭐
-
-对大多数用户来说，最好的第一步是运行下面第 0 步里的 **一键配置脚本**。
-它会处理繁琐的路径配置、检查缺失项，并且只在游戏里确实需要真人操作时停下来。
-
-开始前有两个实用提醒：
-
-- 如果这是你第一次安装 `uv`，安装后请 **关闭并重新打开 PowerShell/终端**，
-  让你的 shell 刷新 `PATH`。
-- **macOS 限制：** Besiege 最新 DLC **The Broken Beyond** 目前不支持 macOS。
-  BuildArena 可以引导 macOS 用户配置基础游戏和已支持内容，但在游戏/DLC 本身支持
-  macOS 之前，Broken Beyond / 太空方块模块无法在 macOS 上兼容。
-- Besiege 是一款真正有自己建造界面的游戏。花几分钟进入沙盒、加载机器、
-  放置方块并运行模拟，会让后面的 BuildArena 步骤更容易理解。
-
----
-
-## 第 0 步 — 一键配置（推荐先走这条快速通道）🚀
-
-在动手做任何手动步骤之前，先试试 **一键配置**。在仓库根目录运行：
+**尚未安装 [uv](https://docs.astral.sh/uv/)？** 使用包装脚本，它会安装 `uv`、运行 `uv sync`，
+并启动同一套配置脚本：
 
 ```powershell
 powershell -ExecutionPolicy ByPass -File scripts\setup.ps1
 ```
 
-macOS 上运行：
+配置会自动完成全部设置，并在 Besiege 中运行两台机器测试。
+坐下来看屏幕上的演示即可。
 
-```bash
-bash scripts/setup_macos.sh
-```
+### 需要人工介入的情况
 
-它会自动完成机器能独立做的一切，**只在真正需要人的时刻停下来**。具体会：
+自动配置仅在以下三种预期情况下需要人工输入：
 
-- ✅ 检查是否 Windows 或 macOS、缺失时安装 `uv`、并运行 `uv sync`
-- ✅ 从模板创建 `.env`
-- ✅ 自动探测 Steam + Besiege 安装位置（Windows 注册表/默认 Steam 路径、
-  macOS 默认 Steam 路径，以及 `libraryfolders.vdf`），并填好 `BESIEGE_DATA_PATH`
-- ✅ 创建并设置 `SAVED_MACHINE_DIR`
-- ✅ 找到 Inspector 导出的碰撞数据，拷贝到 `.local/`，并设置 `COLLIDER_DUMP_PATH`
-- ✅ 生成指向本仓库的 `mcp.json`
-- ✅ 运行指南针（`buildarena.paths`）并打印全绿/待办清单
+1. **通过 Steam 购买并安装游戏及两个 DLC：**
+   [Besiege](https://store.steampowered.com/app/346010/_/)、
+   [The Splintered Sea](https://store.steampowered.com/app/2165710/Besiege_The_Splintered_Sea/)
+   和 [The Broken Beyond](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/)。
+2. **订阅 [BuildArena ToolKit](https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349)
+   并等待 Steam 下载。** 必须使用已发布的 Workshop 条目；
+   没有本地模组回退路径。
+3. **若 Besiege 不在默认 Steam 路径下，请提供游戏数据目录：**
 
-在只有人能完成的环节，它会 **用中英双语明确提示并暂停**：购买/安装游戏和当前系统支持的 DLC、
-订阅两个创意工坊模组、开启模组、进游戏跑一次模拟以生成数据、以及最后的游戏内目视检查。
-做完那一步后，**重跑同一条命令** 即可——脚本是幂等的，会从上次停下的地方继续。
+   ```powershell
+   uv run python scripts/setup.py --besiege-data "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"
+   ```
 
-> 🧭 **自动探测失败？** 如果 Steam/Besiege 装在非默认位置，脚本会让你粘贴
-> 游戏数据路径。Windows 上可以给 `setup.ps1` 传入
-> `-BesiegeData "D:\...\Besiege_Data"`；macOS 上可以给 `setup_macos.sh` 传入
-> `--besiege-data "/Users/you/.../Besiege.app/Contents"`。
-> 如果自动化有任何地方不适配你的机器，**下面的分步就是手动后备**——每个自动动作
-> 都对应其中一步，随时可以手动完成。
+   使用包装脚本时，传入 `-BesiegeData "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"`。
+   请指向 **`Besiege_Data`**，而不是安装根目录。定位方法：
+   **Steam → Besiege → Manage → Browse local files**。
 
----
+补齐缺失前提后重新运行配置。脚本会在继续前检查真实产物。
 
-# 手动配置（后备）🧰
-
-_下面是完整的手动流程。如果第 0 步的脚本已经全部搞定，可以直接跳到第 8 步（目视检查）；
-否则，按指南针提示，去做仍然显示 `[MISSING]` 的那几步。_
-
----
-
-## 第 0 步 — 确认是受支持的操作系统 🪟🍎
-
-BuildArena 配置目前支持 **Windows** 和 **macOS**。Linux 还没有覆盖，因为游戏数据和模组路径尚未验证。
-
-> ✅ **快速检查：** Windows 10/11 可获得完整兼容性。macOS 可用于基础游戏和已支持 DLC，
-> 但 **The Broken Beyond 在 macOS 上不可用**，因此 Broken Beyond / 太空方块兼容性在 macOS
-> 上目前无法实现。
-
----
-
-## 第 1 步 — 安装 `uv`（Python 管理器）📦
-
-我们使用 [**uv**](https://docs.astral.sh/uv/) 来管理 Python 和虚拟环境。
-不需要手动 `pip`，也不需要猜 Python 版本，`uv` 会处理这些细节。
-
-按官方指南安装：
-👉 [**uv 安装说明**](https://docs.astral.sh/uv/getting-started/installation/)
-
-Windows（PowerShell）最快命令：
-
-```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-macOS 最快命令：
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-如果这是你第一次安装 `uv`，继续之前请关闭这个 PowerShell/终端窗口并重新打开。
-这样你的 shell 才能在 `PATH` 上识别新的 `uv` 命令。
-
-然后确认安装成功：
-
-```powershell
-uv --version
-```
-
-> 🎉 能看到版本号就很好，继续下一步。
-
----
-
-## 第 2 步 — 同步项目依赖 🔄
-
-在仓库根目录运行，让 `uv` 创建环境并安装 [`pyproject.toml`](../pyproject.toml) 中的依赖：
-
-```powershell
-uv sync
-```
-
-然后复制模板，创建你的个人配置文件：
-
-```powershell
-Copy-Item .env.example .env
-```
-
-macOS 上：
-
-```bash
-cp .env.example .env
-```
-
-`.env` 会存放所有和本机相关的路径，我们会在接下来的步骤里逐项填好。
-它已经在 `.gitignore` 里，不会把私有路径提交到仓库。
-
-> 💡 **可以这样安抚用户：** `.env.example` 里的路径只是示例。
-> 接下来我们会替换为用户机器上的真实路径。
-
-现在运行一次指南针，看看当前状态：
+## 诊断
 
 ```powershell
 uv run python -m buildarena.paths
 ```
 
-此时出现不少 `[MISSING]` 是正常的，后面的步骤就是逐个解决它们。🙂
+该命令会报告已配置与缺失的路径、ToolKit 安装情况以及配置状态。
+验证结果见 `.local/setup-report.json`；成功配置会记录
+`status=passed`。
 
----
+## 手动配置（后备）
 
-## 第 3 步 — 安装 Steam + Besiege + 支持的 DLC 🎮
+需要自行配置路径或排查某一阶段时，使用以下步骤。
+Inspector 初始化与游戏内验收仍由配置脚本完成。
 
-BuildArena 的完整 Windows 方块集需要 **基础游戏 + 两个扩展 DLC**
-（DLC 提供水上与太空方块，Agent 可用它们建造）。
+1. **准备 Windows 与 Steam。** 安装上文列出的游戏、两个 DLC 以及 ToolKit
+   Workshop 条目。移除或关闭已退役的 Controller、Block
+   Tracker、Collider Dumper 和 Block Inspector 模组，确保仅当前 ToolKit
+   处于启用状态。
+2. **安装 [uv](https://docs.astral.sh/uv/getting-started/installation/)，然后**
+   在仓库根目录 **准备环境**：
 
-1. 安装 [**Steam**](https://store.steampowered.com/) 并登录。
-2. 购买并安装 [**Besiege**](https://store.steampowered.com/app/346010/_/)（本体）。
-3. 安装你的操作系统支持的 DLC：
-   - 🌊 [**Besiege: The Splintered Sea**](https://store.steampowered.com/app/2165710/Besiege_The_Splintered_Sea/) — 水上方块。
-   - 🚀 [**Besiege: The Broken Beyond**](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/) — 太空方块，**目前仅限 Windows**。
-
-> 💛 **温柔提醒：** 这一步需要付费。完整 Windows 方块集需要两个 DLC。
-> 在 macOS 上，**The Broken Beyond 目前不支持 macOS**，所以 BuildArena 无法在那里提供
-> Broken Beyond / 太空方块模块兼容性。
-
----
-
-## 第 4 步 — 安装两个官方 BuildArena 模组 🧩
-
-这两个模组让仓库可以“读取”你的游戏数据。它们都在 Steam 创意工坊里：
-分别点 **Subscribe（订阅）**，Steam 会自动下载。
-
-- 🔍 [**BuildArena Block Inspector**](https://steamcommunity.com/sharedfiles/filedetails/?id=3757318511)
-  — 自动采集 BuildArena 必需的方块体积与碰撞盒数据。
-- 📈 [**BuildArena Block Tracker**](https://steamcommunity.com/sharedfiles/filedetails/?id=3757318625)
-  — 自动记录机器运行时的运动轨迹。
-
-> ⚠️ 这两个模组都依赖 **两个 DLC**，并且互相依赖，所以要 **两个都订阅**。
->
-> 🍎 **macOS 说明：** 如果模组因为依赖 The Broken Beyond 而无法加载，这是当前
-> Besiege/DLC 的平台限制。在 DLC 本身支持 macOS 之前，我们无法为 macOS 实现 Broken Beyond
-> 模块兼容。
-
----
-
-## 第 5 步 — 启动游戏并打开两个模组 🟢
-
-1. 从 Steam 启动 **Besiege**。
-2. 打开游戏内 **mod loader**。
-3. 确认 BuildArena Block Inspector 和 BuildArena Block Tracker 都是 **ON**。
-
-> 🎉 两个都亮绿灯就非常好，游戏侧配置基本完成。
-
----
-
-## 第一次玩 Besiege？进入沙盒、加载并建造 🕹️
-
-如果你以前没玩过 Besiege，刚开始可能会有点摸不着头脑。BuildArena 只需要几个基础游戏内操作：
-
-可以先花一点时间，把页面上每个看得见的按钮都按一次，了解界面各部分的作用。
-
-1. 从主菜单进入一个 **沙盒** 或任意关卡。
-2. 使用机器浏览器 / 加载按钮，打开 BuildArena 保存到 `SAVED_MACHINE_DIR` 的机器。
-3. 按模拟 / 播放按钮，在关卡中测试它。
-
-<p align="center">
-  <img src="./assets/besiege-open-sandbox-machine.webp" alt="进入 Besiege 沙盒并打开已保存机器" width="720" />
-</p>
-
-如果想自己做一个很小的测试机器，可以从方块列表里选择方块，放到起始方块上，
-然后运行模拟。只要有几个连接在一起的方块，就足够 Inspector 模组采集 BuildArena 需要的数据。
-
-<p align="center">
-  <img src="./assets/besiege-build-simple-machine.webp" alt="在 Besiege 中建造一个简单机器" width="720" />
-</p>
-
----
-
-## 第 6 步 — 用 Inspector 导出方块数据 🔬
-
-这是关键一步。Inspector 只有在“看见方块参与模拟”后才会写出数据，因此：
-
-1. 进入 **任意关卡或沙盒**。
-2. 随便搭一个机器（哪怕只放几块拼在一起也可以）。
-3. **运行模拟**（按模拟/▶ 键）。这会触发 Inspector 采集所有方块几何。
-4. 打开 Inspector 输出目录。它位于游戏的 mod 数据目录，路径形如：
-
-   ```
-   C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\Data\BuildArenaBlockInspector_855ab186-2795-434e-80aa-fec848b649b3\
+   ```powershell
+   uv sync
+   Copy-Item .env.example .env
    ```
 
-   macOS 上，如果模组成功加载，路径预期形如：
-
-   ```bash
-   ~/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents/Mods/Data/BuildArenaBlockInspector_<GUID>/
-   ```
-
-   > 🔎 末尾 GUID 在每台机器上都不同，只要找 `BuildArenaBlockInspector_` 开头的目录。
-
-5. 目录中会有 5 个生成的 `.toml` 文件。这些文件是在 *你本机* 生成的（不是仓库自带），
-   建议放在本地未追踪位置，比如仓库的 `.local/`（已在 `.gitignore` 中）。
-   BuildArena 最关键的是 **collider / geometry dump**。将它复制到 `.local/`，并在 `.env` 设置：
+   仅在 `.env` 尚不存在时复制模板。
+3. **在 `.env` 中设置本机路径**，按实际游戏位置调整：
 
    ```dotenv
+   BESIEGE_DATA_PATH=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data
+   SAVED_MACHINE_DIR=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\SavedMachines\BuildArena
    COLLIDER_DUMP_PATH=.local/collider_dump.toml
    ```
 
-   相对路径会以仓库根目录解析，所以 `.local/collider_dump.toml` 很方便。
-   当然也可以填写绝对路径。
+   如有需要，请创建 `SavedMachines\BuildArena` 文件夹。相对路径
+   以仓库根目录解析；碰撞数据会在下一步生成。
+4. **在 Besiege 的 mod loader 中启用 ToolKit**，然后运行
+   `uv run python scripts/setup.py` 以初始化 Inspector、采集产物，
+   并验收控制链路。不要再使用已退役的点击方块流程或
+   `block_preview.ipynb`。用上面的诊断命令进行验证。
+5. **通过 MCP 连接 Agent**，配置见下文。
 
-   > 📎 **仓库自带 vs 本地生成：** [`blocks/`](../blocks) 下的方块数据（registry、roles、authoring、categories）
-   > 是仓库自带的，不需要你生成。Inspector 的 `.toml` 才是你要在本机补上的部分。
+对于较旧的检出，配置脚本不会迁移遗留的生成配置。
+重新运行前请清理过时的配置产物；保留 `datacache/` 以及
+`.local/Machine/` 中的机器记录。
 
-6. 再运行一次指南针确认是否生效：
+## 通过 MCP 连接
 
-   ```powershell
-   uv run python -m buildarena.paths
-   ```
-
-> 🧭 **这正是检查器的意义。** 如果 `COLLIDER_DUMP_PATH` 仍是 `[MISSING]`，报告会明确指出，
-> 并把你引回这一步，不需要盲猜。
-
----
-
-## 第 7 步 — 把 BuildArena 指向 Besiege 目录 📂
-
-还需要在 `.env` 中填写两个路径：
-
-### 7a. `BESIEGE_DATA_PATH` — 游戏方块网格所在目录
-
-它必须指向 Besiege 的 **Unity 数据目录**（里面应有 `Skins` 子目录）。Windows 上通常默认是：
-
-```dotenv
-BESIEGE_DATA_PATH=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data
-```
-
-macOS 上通常是：
-
-```dotenv
-BESIEGE_DATA_PATH=/Users/you/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents
-```
-
-不确定实际安装位置？很简单：在 Steam 中 **右键 Besiege → Manage → Browse local files**。
-打开的就是准确安装目录。Windows 上 `Besiege_Data` 就在里面；macOS 上请打开
-`Besiege.app/Contents`。
-
-> 🩹 **常见坑：** 如果你误填成安装根目录而不是 Unity 数据目录，
-> 检查器会识别并提示更正后的路径。
-
-### 7b. `SAVED_MACHINE_DIR` — BuildArena 写入机器文件的位置
-
-BuildArena 会把构建好的 `.bsg` 文件写到这里，方便你在游戏中加载。推荐默认值：
-
-```dotenv
-SAVED_MACHINE_DIR=C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\SavedMachines\BuildArena
-```
-
-macOS 上：
-
-```dotenv
-SAVED_MACHINE_DIR=/Users/you/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents/SavedMachines/BuildArena
-```
-
-真正的 `SavedMachines` 和 `Skins` 同级，都在 Unity 数据目录下
-（同样可用 **右键 Besiege → Browse local files** 快速定位）。
-如果还没有 `BuildArena` 子目录，请手动创建。
-
-再次运行指南针，目标是全部 `[ok]`：
-
-```powershell
-uv run python -m buildarena.paths
-```
-
-> 🎉 **全绿就可以松口气了，最难的部分已经过去。** 💛
-
----
-
-## 第 8 步 — 预览所有可构建方块 🧱
-
-现在用 [`block_preview.ipynb`](../block_preview.ipynb) 做一次端到端验证。
-
-1. 打开并运行 notebook（`uv sync` 已安装 Jupyter）：
-
-   ```powershell
-   uv run jupyter lab block_preview.ipynb
-   ```
-
-   从上到下运行所有单元。它会生成一个包含 **每种受支持方块各一个** 的机器，
-   按类别分组，并保存到你的 `SAVED_MACHINE_DIR`（`BuildArena` 子目录）。
-2. 回到 Besiege，进入关卡/沙盒，**加载这个生成的机器**。
-3. 逐一检查：**所有方块都应正确加载**。你看到的就是 Agent 可用的完整方块调色板。🎨
-
-> 🧪 这是一个 **human-in-the-loop（人类在环）视觉检查**：
-> 只有你（人类）能在游戏里“看到”机器。
-> 如果方块显示异常或无法加载，请把现象告诉 Agent，一起排查。
-
----
-
-## 第 9 步 — 给 Agent 接上 MCP 服务 🔌
-
-最后，通过 MCP 把 Agent 连到 BuildArena 工具。把
-[`mcp.example.json`](../mcp.example.json) 复制到你的 Agent MCP 配置里，
-并把占位路径替换成这个仓库的 **真实绝对路径**：
+配置会生成带有本仓库绝对路径的 **`mcp.json`**。将其导入
+Agent 的 MCP 配置，或使用 [`mcp.example.json`](../mcp.example.json)
+并替换仓库路径：
 
 ```json
 {
@@ -427,81 +134,34 @@ uv run python -m buildarena.paths
 }
 ```
 
-> 🔧 把 `C:\\Users\\you\\path\\to\\BuildArena-2-0` 改成你机器上的实际路径。
-> macOS 上使用普通绝对路径，例如 `/Users/you/path/to/BuildArena-2.0`。
-> 这是唯一必须修改的字段。
-
----
-
-## 第 10 步 — 开始建造吧！🚀
-
-到这里就全部完成了：Agent 已拥有它需要的一切——真实方块几何、机器保存目录，以及可用的工具接口。
-给它一个目标，然后看它开始构建。🏗️
-
-当 Agent 通过 MCP 完成一次建造后，回到 Besiege，加载保存好的机器，运行它，
-并亲自玩一玩。今天的 AI 造物仍然经常笨拙、好笑，甚至完全不靠谱，
-这也正是游戏内检查如此重要的原因。
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="./assets/agent-build-codex-5-3.webp" alt="Codex 构建的 Besiege 机器示例" width="240" /><br />
-      <strong>Codex 5.3</strong>
-    </td>
-    <td align="center">
-      <img src="./assets/agent-build-fable-5.webp" alt="Fable 构建的 Besiege 机器示例" width="240" /><br />
-      <strong>Fable 5</strong>
-    </td>
-    <td align="center">
-      <img src="./assets/agent-build-glm-5-2.webp" alt="GLM 构建的 Besiege 机器示例" width="240" /><br />
-      <strong>GLM 5.2</strong>
-    </td>
-  </tr>
-</table>
-
-在开始之前，请记住这条最后说明：
-
-- BuildArena 的运行产物会写入你游戏侧的两个目录（`Besiege_Data/SavedMachines/...`
-  下的 `SAVED_MACHINE_DIR`，以及 `Besiege_Data/Mods/Data/...` 下的 BuildArena 模组数据目录）。
-- 每次建造都会产出四份至关重要且比赛提交必需的产物：机械的 raw `.bsg` 文件（可直接运行的机器）、
-  有效操作历史 JSON（仅保留了产生有效结构更新的操作，用于重建 `.bsg`）、全量操作历史 JSON
-  （记录完整建造历史，包含查询等非编辑操作以及错误回退记录），以及 Tracker 轨迹 `.csv`。
-- 轨迹 `.csv` 由 BuildArena Block Tracker 模组写入游戏侧路径，形如
-  `C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\Data\BuildArenaBlockTracker_<GUID>\<machine>__<timestamp>.csv`。
-- 你可以直接在这些游戏目录中打开这些产物，用于载入、查看、驾驶，以及调整控制参数。
-- BuildArena Construction Challenge 规则严禁在生成后修改机械结构；结构修改会导致被 reject。
-- 但不用担心：`.local/Machine/` 也会保存一份相同记录。如果误改了结构，可以从
-  `.local/Machine/` 复制原始文件还原回去。
-- 你也可以直接用 `scripts/rebuild_from_record.py` 从保存的操作历史 JSON
-  重建一个干净的 `.bsg`，例如：
-  `uv run python scripts/rebuild_from_record.py --record-json ".local/Machine/<machine>/<machine>.json"`。
-  脚本会生成新的时间戳输出目录，便于安全恢复。
-
-<div align="center">
-  <h2>最重要的是：去驾驶、去玩耍你的 Agent 为你建造的机器吧！🎉</h2>
-</div>
-
-> 🌟 **送给未来的你（Agent）一句话：**
-> 第一次带人走完整个流程，通常都会花不少时间。这很正常。
-> 他们坚持下来了，你也坚持下来了。继续保持这种温柔和耐心，一起把后续工程做好。💛
-
----
-
-## 快速参考：指南针 🧭
-
-只要感觉哪里不对，就运行：
+直接使用 CLI 及控制示例，见 [`control/README.md`](../control/README.md)：
 
 ```powershell
-uv run python -m buildarena.paths
+cd control
+uv run python -m besiege_cli --help
 ```
 
-它会报告每个必要路径是否为 `[ok]` 或 `[MISSING]`，说明用途，并告诉你该回到上面的哪一步修复。
-它是“我还差什么没配？”的唯一权威来源。
+## 挑战产物与提交
 
-| `.env` 变量           | 指向内容                              | 修复步骤 |
-| --------------------- | ------------------------------------- | -------- |
-| `BESIEGE_DATA_PATH`   | 游戏 Unity 数据目录（包含 `Skins`）   | 第 7a 步 |
-| `COLLIDER_DUMP_PATH`  | Inspector 模组导出的碰撞数据          | 第 6 步  |
-| `SAVED_MACHINE_DIR`   | 构建出的 `.bsg` 机器写入目录          | 第 7b 步 |
-| `BLOCK_REGISTRY_PATH` | 方块注册表（仓库 `blocks/` 自带）     | 第 2 步  |
-| `BLOCK_ROLES_PATH`    | 方块角色表（仓库 `blocks/` 自带）     | 第 2 步  |
+请保留以下三份必需的建造产物：
+
+| 产物 | 用途 |
+| --- | --- |
+| 原始 `.bsg` 机器 | 可运行的机器。 |
+| 有效操作历史 JSON | 产生有效结构更新的操作，用于重建机器。 |
+| 全量操作历史 JSON | 完整历史，包含查询以及回滚/错误恢复轨迹。 |
+
+游戏侧产物位于 `SAVED_MACHINE_DIR` 以及 `Besiege_Data/Mods/Data/` 下的
+ToolKit 数据目录。建造记录也会保留在 `.local/Machine/`。
+
+**请勿手动修改生成后的机器结构。** 结构改动会使
+[Construction Challenge 提交](https://build-arena.github.io/ConstructionChallenge/)
+失效。你可以载入、查看、驾驶机器，并调整控制参数。
+
+若要恢复原始机器，从 `.local/Machine/` 还原记录，或从保存的操作历史重建：
+
+```powershell
+uv run python scripts/rebuild_from_record.py --record-json ".local/Machine/<machine>/<machine>.json"
+```
+
+重建会生成带新时间戳的机器输出。

@@ -49,13 +49,6 @@ def _snap_vector_to_half(*, vector: np.ndarray) -> np.ndarray:
     )
 
 
-def _find_dump_path() -> Path | None:
-    return get_collider_dump_path()
-
-
-_DEFAULT_DUMP_PATH: Path | None = _find_dump_path()
-
-
 def _sort_table_items(table: dict[str, Any]) -> list[tuple[str, Any]]:
     def _sort_key(item: tuple[str, Any]) -> tuple[int, str]:
         key, _value = item
@@ -76,7 +69,7 @@ def load_dump(*, dump_path: Path | None = None) -> dict[int, dict[str, Any]]:
         Explicit path to ``collider_dump.toml``.  Falls back to the
         auto-discovered default when *None*.
     """
-    resolved_path = get_collider_dump_path(dump_path=dump_path or _DEFAULT_DUMP_PATH)
+    resolved_path = get_collider_dump_path(dump_path=dump_path)
 
     cache_key = str(resolved_path.resolve())
     if cache_key in _dump_cache:
@@ -114,7 +107,7 @@ def load_dump(*, dump_path: Path | None = None) -> dict[int, dict[str, Any]]:
 
 
 def has_real_colliders(*, dump_path: Path | None = None) -> bool:
-    return get_collider_dump_path(dump_path=dump_path or _DEFAULT_DUMP_PATH).is_file()
+    return get_collider_dump_path(dump_path=dump_path).is_file()
 
 
 def get_colliders_for_block(*, block_id: int, dump_path: Path | None = None) -> list[dict[str, Any]] | None:
@@ -157,7 +150,7 @@ def infer_shape_root_from_dump(*, block_id: int, dump_path: Path | None = None) 
 
     Returns ``{"shape": [x, y, z], "root": [x, y, z]}`` or None when missing.
     """
-    resolved_dump_path = get_collider_dump_path(dump_path=dump_path or _DEFAULT_DUMP_PATH)
+    resolved_dump_path = get_collider_dump_path(dump_path=dump_path)
     path_key = str(resolved_dump_path.resolve())
     cache = _shape_root_cache.setdefault(path_key, {})
     if block_id in cache:

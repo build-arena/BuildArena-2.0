@@ -36,22 +36,68 @@ _BLOCK_IDS_FORCING_DEFAULT_SPIN_CAPTION: dict[int, dict[str, Any]] = {
     17: {"axis": [0.0, 0.0, 1.0], "handedness": "left"},  # Circular Saw
 }
 
-BLOCK_TRACKER_MOD_ID = "1d45bae7-50b4-4137-963e-27e45f6ece74"
-BLOCK_TRACKER_MOD_VERSION = "1.0.0"
-BLOCK_TRACKER_MOD_NAME = "BuildArena Block Tracker"
+# Mirrors control/controller_sdk/protocol.py. Tests keep these values aligned.
+TOOLKIT_MOD_ID = "9f0b7f40-7a36-48b7-8b18-7e0fbb5a4e00"
+TOOLKIT_MOD_VERSION = "2.0.9"
+TOOLKIT_MOD_NAME = "BuildArena ToolKit"
+TELEMETRY_SAMPLE_RATE_HZ = 25.0
 
 
 def besiege_required_mod_entry(*, mod_id: str, version: str, name: str) -> str:
     return f"{mod_id}~L~{version}~{name}"
 
 
-DEFAULT_REGISTRY_PATH = get_block_registry_path()
-DEFAULT_CATEGORY_PATH = DEFAULT_REGISTRY_PATH.parent / "block_categories.toml"
-registry_path = DEFAULT_REGISTRY_PATH
-all_blocks = load_runtime_blocks(registry_path=registry_path)
+def _resolve_registry_path(registry_path: Path | None) -> Path:
+    if registry_path is None:
+        return get_block_registry_path()
+    return Path(registry_path)
 
-AvailableBlocks = [key for key, value in all_blocks.items() if value['type'] in ['basic', 'pointer'] and key != 'Starting Block' and not value['disable']]
-AvailableConnectors = [key for key, value in all_blocks.items() if value['type'] == 'connection' and not value['disable']]
+
+_runtime_blocks_cache: dict[str, dict] = {}
+
+
+def _runtime_blocks(*, registry_path: Path | None = None) -> dict:
+    resolved = _resolve_registry_path(registry_path)
+    cache_key = str(resolved.resolve())
+    cached = _runtime_blocks_cache.get(cache_key)
+    if cached is None:
+        cached = load_runtime_blocks(registry_path=resolved)
+        _runtime_blocks_cache[cache_key] = cached
+    return cached
+
+
+def _available_block_names(*, registry_path: Path | None = None) -> list[str]:
+    return [
+        key
+        for key, value in _runtime_blocks(registry_path=registry_path).items()
+        if value["type"] in ["basic", "pointer"] and key != "Starting Block" and not value["disable"]
+    ]
+
+
+def _available_connector_names(*, registry_path: Path | None = None) -> list[str]:
+    return [
+        key
+        for key, value in _runtime_blocks(registry_path=registry_path).items()
+        if value["type"] == "connection" and not value["disable"]
+    ]
+
+
+def __getattr__(name: str):
+    if name == "DEFAULT_REGISTRY_PATH":
+        return get_block_registry_path()
+    if name == "DEFAULT_CATEGORY_PATH":
+        return get_block_registry_path().parent / "block_categories.toml"
+    if name == "registry_path":
+        return get_block_registry_path()
+    if name == "all_blocks":
+        return _runtime_blocks()
+    if name == "AvailableBlocks":
+        return _available_block_names()
+    if name == "AvailableConnectors":
+        return _available_connector_names()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
 AvailableKeys = [
     'UpArrow', 'DownArrow', 'LeftArrow', 'RightArrow', 
     'Alpha0 to Alpha9, for example, Alpha1', 
@@ -61,7 +107,7 @@ AvailableKeys = [
 
 def _block_category_index() -> dict[str, list[tuple[str, str]]]:
     category_index: dict[str, list[tuple[str, str]]] = {}
-    for block_name, block_data in all_blocks.items():
+    for block_name, block_data in _runtime_blocks().items():
         if bool(block_data.get("disable", False)):
             continue
 
@@ -90,10 +136,11 @@ def _format_available_categories(*, category_index: dict[str, list[tuple[str, st
 
 
 def _load_block_categories() -> dict[str, dict[str, str | bool]]:
-    if not DEFAULT_CATEGORY_PATH.is_file():
-        raise FileNotFoundError(f"Block category summary file not found: {DEFAULT_CATEGORY_PATH}")
+    category_path = get_block_registry_path().parent / "block_categories.toml"
+    if not category_path.is_file():
+        raise FileNotFoundError(f"Block category summary file not found: {category_path}")
 
-    with open(DEFAULT_CATEGORY_PATH, "rb") as file:
+    with open(category_path, "rb") as file:
         loaded = tomllib.load(file)
 
     categories_raw = loaded.get("categories", {})
@@ -129,6 +176,11 @@ def _load_block_categories() -> dict[str, dict[str, str | bool]]:
         for category in runtime_categories & authored_categories
         if categories[category]["enable"] is not True
     )
+    enabled_extra_categories = sorted(
+        category
+        for category in authored_categories - runtime_categories
+        if categories[category]["enable"] is not False
+    )
     if missing_categories:
         raise ValueError(
             "Block category summary file is missing runtime categories: "
@@ -139,13 +191,13 @@ def _load_block_categories() -> dict[str, dict[str, str | bool]]:
             "Runtime categories must be enabled in the block category summary file: "
             f"{', '.join(disabled_runtime_categories)}."
         )
-    # Platform-specific DLC availability can remove every runtime block from a
-    # category. Keep those categories invisible to MCP instead of forcing the
-    # authored category file to change per platform.
-    return {
-        category: categories[category]
-        for category in sorted(runtime_categories)
-    }
+    if enabled_extra_categories:
+        raise ValueError(
+            "Categories without enabled runtime blocks must set enable = false: "
+            f"{', '.join(enabled_extra_categories)}."
+        )
+
+    return {category: categories[category] for category in sorted(categories)}
 
 
 def _format_category_summary_lines(*, category_summaries: dict[str, dict[str, str | bool]]) -> list[str]:
@@ -182,23 +234,15 @@ def _block_authoring_by_name() -> dict[str, tuple[int, dict[str, str]]]:
         by_name[block_name] = (block_id, entry)
     return by_name
 
-
-def _available_runtime_block_names() -> set[str]:
-    return {
-        block_name
-        for block_summaries in _block_category_index().values()
-        for block_name, _summary in block_summaries
-    }
-
 class Block:
     # Basic Block class for managing the block's geometry, collider, faces, and caption
-    def __init__(self, block_dict: Dict, local_id: str, start_point: Face, collider_scale: int = 0.8, note: str = None, registry_path: Path = DEFAULT_REGISTRY_PATH):
+    def __init__(self, block_dict: Dict, local_id: str, start_point: Face, collider_scale: int = 0.8, note: str = None, registry_path: Path | None = None):
         self.id = str(block_dict['id'])
         self.local_id = local_id
         self.name: str = block_dict['name']
         self.type: str = block_dict['type']
         self.mesh_key: str | None = block_dict.get('mesh_key')
-        self.registry_path = registry_path
+        self.registry_path = _resolve_registry_path(registry_path)
         self.geo = Geometry(block_dict['vec_base'], block_dict['shape'], block_dict['root'], block_dict['scale'] if 'scale' in block_dict.keys() else None)
         self.root = Vector(block_dict['root'])
         self.center_offset: float = block_dict['center_offset']
@@ -427,7 +471,7 @@ class Block:
             if self.start_point.att_to is None:
                 self.start_point.att_to = face
     
-    def init_collider(self, registry_path: Path = DEFAULT_REGISTRY_PATH):
+    def init_collider(self, registry_path: Path | None = None):
         from .mesh_loader import load_aligned_game_mesh
         from .collider_loader import build_collider_mesh, get_visual_transform
 
@@ -592,7 +636,7 @@ class Block:
     
 class Connector(Block):
     # Connector class for managing the connector's geometry and caption
-    def __init__(self, block_dict: Dict, local_id, start_point: Face = None, end_point: Face = None, note: str = None, registry_path: Path = DEFAULT_REGISTRY_PATH):
+    def __init__(self, block_dict: Dict, local_id, start_point: Face = None, end_point: Face = None, note: str = None, registry_path: Path | None = None):
         super().__init__(block_dict, local_id, start_point, note=note, registry_path=registry_path)
         self.end_point = end_point
         # Compute the projection vector
@@ -623,7 +667,7 @@ class Connector(Block):
     
 class Pointer(Block):
     # Pointer class for managing the pointer's geometry and caption (different from the basic block)
-    def __init__(self, block_dict: Dict, local_id, start_point: Face = None, note: str = None, registry_path: Path = DEFAULT_REGISTRY_PATH):
+    def __init__(self, block_dict: Dict, local_id, start_point: Face = None, note: str = None, registry_path: Path | None = None):
         super().__init__(block_dict, local_id, start_point, note=note, registry_path=registry_path)
         
     def caption(self, finished, prefix: str = None):
@@ -645,12 +689,13 @@ class Pointer(Block):
     
 class Blocks:
     # Initialize all blocks and for system prompt
-    def __init__(self, registry_path: Path = DEFAULT_REGISTRY_PATH):
-        self.blocks: Dict[str, Dict] = load_runtime_blocks(registry_path=registry_path)
+    def __init__(self, registry_path: Path | None = None):
+        resolved_registry = _resolve_registry_path(registry_path)
+        self.blocks: Dict[str, Dict] = load_runtime_blocks(registry_path=resolved_registry)
 
         self.available_blocks = [key for key, value in self.blocks.items() if (value['type'] == 'basic' or value['type'] == 'pointer') and key != 'Starting Block']
         self.available_connectors = [key for key, value in self.blocks.items() if value['type'] == 'connection']
-        self.registry_path = registry_path
+        self.registry_path = resolved_registry
 
     def __call__(self):
         # Return the caption of all available blocks and connectors
@@ -705,7 +750,7 @@ class Machine:
                  do_collision: bool = True, 
                  collision_tolerance: float = 0.01,
                  tmp_dir: str = None,
-                 registry_path: Path = DEFAULT_REGISTRY_PATH,
+                 registry_path: Path | None = None,
                  write_full_history: bool = True):
         if name is None or str(name).strip() == "":
             raise ValueError("Machine name must be a non-empty string.")
@@ -720,8 +765,8 @@ class Machine:
         self.collision_tolerance = float(collision_tolerance)
         self.collision_manager = CollisionManager()
 
-        # Control sequence
-        self.tracker_config: dict[str, Any] | None = None
+        # ToolKit telemetry is opt-in and explicitly targeted.
+        self.telemetry_config: dict[str, Any] | None = None
         
         # Record Operations
         self.blocks: Dict[str, Block] = {}
@@ -979,14 +1024,11 @@ class Machine:
             raise ValueError("module_name must be a non-empty exact module name without edge whitespace.")
 
         authoring_by_name = _block_authoring_by_name()
-        available_block_names = _available_runtime_block_names()
-        if module_name not in available_block_names:
+        if module_name not in authoring_by_name:
             raise ValueError(
                 f"Unknown module_name '{module_name}'. Use list_blocks_by_category first "
                 "and pass one of the returned module names exactly."
             )
-        if module_name not in authoring_by_name:
-            raise ValueError(f"Block authoring entry for '{module_name}' is missing.")
 
         _block_id, entry = authoring_by_name[module_name]
         description = str(entry.get("description", "")).strip()
@@ -1075,7 +1117,7 @@ class Machine:
         
         return collision_msg
         
-    @operation(placeholder=AvailableConnectors, group="build")
+    @operation(placeholder="authored unique connector names from the registry", group="build")
     def connect_blocks(self, block_a: Union[str, int], face_a: str, block_b: Union[str, int], face_b: str, connector: str, note: str = None):
         """
         Connect two blocks using a connector. 
@@ -1093,7 +1135,7 @@ class Machine:
         Returns:
             str: Status message about the connection operation
         """
-        if connector in AvailableBlocks:
+        if connector in _available_block_names(registry_path=self.blocks_storage.registry_path):
             self.update_prompt(pre_msg="Basic blocks can not be used as connectors, please try again.")
             return self.prompt
         if not self.blocks_storage.has_available_connector(connector_name=connector):
@@ -1218,7 +1260,7 @@ class Machine:
         
         return remove_msg
     
-    @operation(placeholder=AvailableBlocks, group="build")
+    @operation(placeholder="authored unique block names from the registry", group="build")
     def attach_block_to(self, base_block: Union[str, int], face: str, new_block: str, note: str = None):
         """
         Attach a new block to a face of an existing block.
@@ -1238,12 +1280,12 @@ class Machine:
             self.update_prompt(pre_msg=error_message)
             self.log_failed_operation("attach_block_to", error_message)
             return self.prompt  
-        if new_block in AvailableConnectors:
+        if new_block in _available_connector_names(registry_path=self.blocks_storage.registry_path):
             error_message = "Connectors can not be attached to a single face. Use 'connect_blocks' to connect two faces instead."
             self.update_prompt(pre_msg=error_message)
             self.log_failed_operation("attach_block_to", error_message)
             return self.prompt
-        if new_block not in AvailableBlocks:
+        if new_block not in _available_block_names(registry_path=self.blocks_storage.registry_path):
             error_message = f"Block {new_block} not available, please try again."
             self.update_prompt(pre_msg=error_message)
             self.log_failed_operation("attach_block_to", error_message)
@@ -1490,86 +1532,115 @@ class Machine:
     def outline_mesh(self):
         return trimesh.util.concatenate([block.outline for block in self.blocks.values()])
 
-    def _configure_tracker(self, *, sample_rate_hz: float=10.0, target_block_id: str | list[str]):
+    def compute_spawn_height(self, *, clearance: float = 0.1, rotation: List[float] = [0, 0, 0, 1]) -> float:
         """
-        Configure the BlockTracker mod through machine-level .bsg data.
+        Infer the Global Position y that rests the machine's lowest collision
+        geometry ``clearance`` units above the ground, using each block's real
+        collider mesh (falling back to the connector's outline mesh, since
+        connectors have no solid collider).
 
         Args:
-            sample_rate_hz (float): Runtime trajectory sample rate in Hz.
-            target_block_id (str | list[str]): Local block id or ids in this Machine; their BSG GUIDs are written to tracker.target_guids.
-        """
-        if sample_rate_hz <= 0:
-            error_message = "Tracker sample_rate_hz must be greater than zero."
-            raise ValueError(error_message)
+            clearance (float): Gap in game units to leave between the lowest
+                collision point and the ground when the machine spawns.
+            rotation (List[float]): Global rotation quaternion [x, y, z, w]
+                the machine will spawn with; the lowest point is computed
+                after applying this rotation.
 
+        Returns:
+            float: Global Position y that achieves the requested clearance.
+        """
+        if len(self.blocks) == 0:
+            raise RuntimeError("Cannot compute spawn height: machine has no blocks.")
+
+        rot_quat = quaternion.quaternion(rotation[3], rotation[0], rotation[1], rotation[2]).normalized()
+        rot_mat = quaternion.as_rotation_matrix(rot_quat)
+        rotated_y_axis = rot_mat[1, :]
+
+        min_y: float | None = None
+        for block in self.blocks.values():
+            mesh = block.collider if block.collider is not None else block.outline
+            if mesh is None or len(mesh.vertices) == 0:
+                raise RuntimeError(
+                    f"Block '{block.name}' (id={block.local_id}) has no collider or outline "
+                    "geometry; cannot compute spawn height."
+                )
+            block_min_y = float(np.min(np.asarray(mesh.vertices, dtype=np.float64) @ rotated_y_axis))
+            if min_y is None or block_min_y < min_y:
+                min_y = block_min_y
+
+        return clearance - min_y
+
+    @operation(group="control")
+    def configure_telemetry(self, target_block_id: str | list[str]):
+        """
+        Configure BuildArena ToolKit full telemetry through machine-level .bsg data.
+
+        Args:
+            target_block_id (str | list[str]): Local block id or ids in this Machine; their BSG GUIDs are written to telemetry.target_guids.
+
+        Returns:
+            str: Status message about telemetry configuration.
+        """
         if isinstance(target_block_id, str):
             target_block_ids = [target_block_id]
         elif isinstance(target_block_id, list) and all(isinstance(item, str) for item in target_block_id):
             target_block_ids = target_block_id
         else:
-            error_message = "Tracker target_block_id must be a string or a list of strings."
-            raise ValueError(error_message)
+            raise ValueError("Telemetry target_block_id must be a string or a list of strings.")
 
         if not target_block_ids:
-            error_message = "Tracker target_block_id list cannot be empty."
-            raise ValueError(error_message)
+            raise ValueError("Telemetry target_block_id list cannot be empty.")
 
         missing_ids = [block_id for block_id in target_block_ids if block_id not in self.blocks]
         if missing_ids:
-            error_message = f"Tracker target block ids are not in the machine: {', '.join(missing_ids)}."
-            raise ValueError(error_message)
+            raise ValueError(f"Telemetry target block ids are not in the machine: {', '.join(missing_ids)}.")
 
         target_blocks = [self.blocks[block_id] for block_id in target_block_ids]
-        self.tracker_config = {
-            "sample_rate_hz": float(sample_rate_hz),
+        self.telemetry_config = {
+            "sample_rate_hz": TELEMETRY_SAMPLE_RATE_HZ,
             "target_block_ids": target_block_ids,
             "target_guids": [block.guid for block in target_blocks],
             "output_basename": self.name,
         }
-
-    def _configure_starting_block_tracker(self) -> None:
-        starting_block_ids = [
-            block_id
-            for block_id, block in self.blocks.items()
-            if block.name == "Starting Block"
-        ]
-        if len(starting_block_ids) == 0:
-            raise ValueError("Expected at least one Starting Block before export, found 0.")
-        target_block_id = starting_block_ids[0] if len(starting_block_ids) == 1 else starting_block_ids
-        self._configure_tracker(
-            sample_rate_hz=10.0,
-            target_block_id=target_block_id,
+        target_summary = ", ".join(
+            f"{block_id} ({block.name}, guid={block.guid})"
+            for block_id, block in zip(target_block_ids, target_blocks)
+        )
+        return (
+            f"ToolKit telemetry configured: targets {target_summary}, "
+            f"sample_rate_hz={TELEMETRY_SAMPLE_RATE_HZ} (fixed)."
         )
 
     # Machine export
-    def to_xml(self, shift_virtual: List[float] = [0, 0, 0], rotation: List[float] = [0, 0, 0, 1]):
+    def to_xml(self, shift_virtual: List[float] = [0, 0, 0], rotation: List[float] = [0, 0, 0, 1], spawn_y: float | None = None):
         from .xml_builder import BsgDocument, XmlNode, machine_node, position_node, rotation_node
 
-        self._configure_starting_block_tracker()
+        resolved_spawn_y = spawn_y if spawn_y is not None else self.compute_spawn_height(rotation=rotation)
 
         root = machine_node(name=self.name)
 
         # Global
         global_node = XmlNode(tag="Global")
-        global_node.add(position_node(shift_virtual[0], 5 - shift_virtual[1], shift_virtual[2]))
+        global_node.add(position_node(shift_virtual[0], resolved_spawn_y - shift_virtual[1], shift_virtual[2]))
         global_node.add(rotation_node(rotation[0], rotation[1], rotation[2], rotation[3]))
         root.add(global_node)
 
-        # Machine Data (Tracker Data)
+        # Machine Data (BuildArena ToolKit telemetry)
         machine_data = XmlNode(tag="Data")
         required_mods = ""
-        if self.tracker_config is not None:
+        if self.telemetry_config is not None:
             required_mods = besiege_required_mod_entry(
-                mod_id=BLOCK_TRACKER_MOD_ID,
-                version=BLOCK_TRACKER_MOD_VERSION,
-                name=BLOCK_TRACKER_MOD_NAME,
+                mod_id=TOOLKIT_MOD_ID,
+                version=TOOLKIT_MOD_VERSION,
+                name=TOOLKIT_MOD_NAME,
             )
         machine_data.add(XmlNode(tag="StringArray", attrs={"key": "requiredMods"}, text=required_mods))
-        if self.tracker_config is not None:
-            machine_data.add(XmlNode(tag="Boolean", attrs={"key": "tracker.enabled"}, text="True"))
-            machine_data.add(XmlNode(tag="Single", attrs={"key": "tracker.sample_rate_hz"}, text=str(self.tracker_config["sample_rate_hz"])))
-            machine_data.add(XmlNode(tag="String", attrs={"key": "tracker.target_guids"}, text=";".join(self.tracker_config["target_guids"])))
-            machine_data.add(XmlNode(tag="String", attrs={"key": "tracker.output_basename"}, text=self.tracker_config["output_basename"]))
+        if self.telemetry_config is not None:
+            machine_data.add(XmlNode(tag="Boolean", attrs={"key": "telemetry.enabled"}, text="True"))
+            machine_data.add(XmlNode(tag="Single", attrs={"key": "telemetry.sample_rate_hz"}, text=str(self.telemetry_config["sample_rate_hz"])))
+            machine_data.add(XmlNode(tag="String", attrs={"key": "telemetry.target_guids"}, text=";".join(self.telemetry_config["target_guids"])))
+            machine_data.add(XmlNode(tag="String", attrs={"key": "telemetry.output_basename"}, text=self.telemetry_config["output_basename"]))
+            machine_data.add(XmlNode(tag="String", attrs={"key": "telemetry.profile"}, text="full"))
         root.add(machine_data)
 
         # Blocks
@@ -1597,15 +1668,19 @@ class Machine:
     def _local_machine_mirror_dir(self) -> Path:
         return resolve_project_path(path=Path(".local") / "Machine" / self.name)
 
-    def to_file(self, output_dir, shift_virtual: List[float] = [0, 0, 0], rotation: List[float] = [0, 0, 0, 1]):
+    def to_file(self, output_dir, shift_virtual: List[float] = [0, 0, 0], rotation: List[float] = [0, 0, 0, 1], spawn_y: float | None = None):
         """
         Save the machine .bsg and operation history JSON files into output_dir.
         Named with the machine name.
         
         Args:
             output_dir (str): Directory to save the machine files to.
+            spawn_y (float | None): Global Position y to spawn at. When None
+                (the default), it is inferred from the machine's collision
+                geometry so the machine lands on the ground instead of
+                bouncing/falling from a fixed height.
         """
-        bsg_data = self.to_xml(shift_virtual=shift_virtual, rotation=rotation)
+        bsg_data = self.to_xml(shift_virtual=shift_virtual, rotation=rotation, spawn_y=spawn_y)
         primary_output_dir = Path(output_dir)
         bsg_file_path, output_sequence_path = self._write_machine_files(
             output_dir=primary_output_dir,
@@ -1626,7 +1701,6 @@ class Machine:
     
     def from_file(self, file_path):
         self.output_sequence_path = Path(file_path)
-        # 4 levels up
         operation_history = self.load_operation_history(self.output_sequence_path)
         self.rebuild_from_history(operation_history)
         return self

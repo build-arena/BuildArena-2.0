@@ -1,0 +1,12 @@
+[tool_groups]
+build_only = true
+build = true
+default = true
+general = true
+refine = true
+control = true
+query = true
+save = true
+
+[tools]
+save_machine = true

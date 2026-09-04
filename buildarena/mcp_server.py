@@ -1,5 +1,7 @@
+import argparse
 import inspect
 import re
+import tomllib
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -12,9 +14,13 @@ if __package__ in {None, ""}:
 from mcp.server import FastMCP
 
 from buildarena.build import Machine
+from buildarena.history_json import prepare_history_json
 from buildarena.paths import get_saved_machine_dir
 
 _state: dict[str, Machine] = {}
+DEFAULT_TOOLS_CONFIG_PATH = Path(__file__).with_name("mcp_tools.toml")
+_tool_config: dict = {}
+_save_root: Path | None = None
 _RESERVED_WINDOWS_NAMES = {
     "CON",
     "PRN",
@@ -33,8 +39,9 @@ async def server_lifespan(_server):
         yield {}
     finally:
         machine = _state.get("specimen")
-        if machine is not None:
-            _save_machine_to_file(machine=machine)
+        if machine is None:
+            return
+        _save_machine_to_file(machine=machine)
 
 
 mcp = FastMCP(name="buildarena-specimen", lifespan=server_lifespan)
@@ -47,10 +54,10 @@ def _get_specimen() -> Machine:
     return machine
 
 
-def _save_machine_to_file(*, machine: Machine) -> None:
+def _save_machine_to_file(*, machine: Machine, spawn_y: float | None = None) -> None:
     if not machine.started:
         raise RuntimeError("Cannot save machine before start() has created the Starting Block.")
-    machine.to_file(output_dir=machine.save_dir)
+    machine.to_file(output_dir=machine.save_dir, spawn_y=spawn_y)
 
 
 def _validate_machine_name(*, machine_name: str) -> str:
@@ -76,36 +83,89 @@ def _machine_name_with_timestamp(*, machine_name: str) -> str:
 
 def create_machine_lifespan(
     machine_name: str,
-    note: str | None = None
+    note: str | None = None,
 ) -> str:
-    """Create a new active machine lifespan using machine_name plus a short timestamp."""
+    """Create a new active machine lifespan using machine_name plus a short timestamp.
+
+    After creating, either call start() to build from scratch, or
+    load_machine_from_history to reconstruct a previous valid-only
+    <name>.json build history and continue editing that machine.
+    """
     if _state.get("specimen") is not None:
         raise RuntimeError("Machine lifespan is already active; close_machine_lifespan first.")
 
     name = _machine_name_with_timestamp(machine_name=machine_name)
-    machine_save_dir = get_saved_machine_dir() / name
+    save_root = _save_root if _save_root is not None else get_saved_machine_dir()
+    machine_save_dir = save_root / name
     if machine_save_dir.exists():
         raise FileExistsError(f"Machine save directory already exists: {machine_save_dir}")
     _state["specimen"] = Machine(
         name=name,
         save_dir=str(machine_save_dir),
-        note=note
+        note=note,
     )
     return f"Created machine lifespan '{name}' at {machine_save_dir}"
 
 
-def close_machine_lifespan() -> str:
-    """Save the active machine to files and close its lifespan."""
+def close_machine_lifespan(spawn_y: float | None = None) -> str:
+    """Save the active machine to files and close its lifespan.
+
+    Args:
+        spawn_y: Global Position y to spawn the machine at. When omitted
+            (the default), it is inferred from the machine's collision
+            geometry so it lands on the ground instead of falling/bouncing
+            from a fixed height.
+    """
     machine = _get_specimen()
-    _save_machine_to_file(machine=machine)
+    _save_machine_to_file(machine=machine, spawn_y=spawn_y)
     del _state["specimen"]
     return f"Saved and closed machine lifespan '{machine.name}' at {machine.save_dir}"
 
 
-def save_machine() -> str:
-    """Save the current specimen to a .bsg file and operation-history JSON."""
+def load_machine_from_history(history_json: str) -> str:
+    """Replay a valid-only build-history JSON into the current new lifespan.
+
+    Call this after create_machine_lifespan. The reconstructed machine lives
+    only on that new lifespan: the source JSON is read, never overwritten.
+    Replay re-executes the original operations (start, attach_block_to, ...),
+    so the new machine's history is a copy of those operations — not a single
+    load record that would break if the source file later moves.
+
+    Args:
+        history_json: Complete path to a valid-only <name>.json written by
+            save_machine or close_machine_lifespan. Absolute paths or
+            repository-relative paths are accepted; any directory is fine.
+            Do not pass a .bsg, *_full.json, or full.json. Do not pass a
+            machine name or folder.
+
+    Returns:
+        str: Rebuild status plus the reconstructed machine summary.
+    """
     machine = _get_specimen()
-    _save_machine_to_file(machine=machine)
+    resolved = prepare_history_json(history_json=history_json, machine=machine)
+    machine.from_file(resolved)
+    machine.update_prompt(
+        pre_msg=(
+            f"Rebuilt machine '{machine.name}' from {resolved} "
+            f"({len(machine.blocks)} blocks, {len(machine.operation_history)} operations)."
+        ),
+        complete=True,
+        return_summary=True,
+    )
+    return machine.prompt
+
+
+def save_machine(spawn_y: float | None = None) -> str:
+    """Save the current specimen to a .bsg file and operation-history JSON.
+
+    Args:
+        spawn_y: Global Position y to spawn the machine at. When omitted
+            (the default), it is inferred from the machine's collision
+            geometry so it lands on the ground instead of falling/bouncing
+            from a fixed height.
+    """
+    machine = _get_specimen()
+    _save_machine_to_file(machine=machine, spawn_y=spawn_y)
     return f"Saved machine '{machine.name}' to {machine.save_dir}"
 
 
@@ -119,14 +179,36 @@ def _iter_machine_operation_groups() -> dict[str, list[Callable]]:
     return groups
 
 
-def _gather_machine_operations():
+def _load_tool_config(config_path: Path) -> dict:
+    if not config_path.is_file():
+        raise FileNotFoundError(f"MCP tools config not found: {config_path}")
+    with config_path.open("rb") as config_file:
+        return tomllib.load(config_file)
+
+
+def _group_enabled(*, config: dict, group_name: str) -> bool:
+    group_config = config.get("tool_groups", {})
+    if group_name not in group_config:
+        raise KeyError(f"MCP tool group '{group_name}' is missing from tool_groups config.")
+    return bool(group_config[group_name])
+
+
+def _tool_enabled(*, config: dict, tool_name: str) -> bool:
+    return bool(config.get("tools", {}).get(tool_name, True))
+
+
+def _gather_machine_operations(*, config: dict):
     """Return a deduplicated list of Machine operations preserving group order."""
     seen: set[str] = set()
     ordered_ops: list = []
-    for funcs in _iter_machine_operation_groups().values():
+    for group_name, funcs in _iter_machine_operation_groups().items():
+        if not _group_enabled(config=config, group_name=group_name):
+            continue
         for fn in funcs:
             name = fn.__name__
             if name in seen:
+                continue
+            if not _tool_enabled(config=config, tool_name=name):
                 continue
             ordered_ops.append(fn)
             seen.add(name)
@@ -161,21 +243,50 @@ def _register_tool(*, fn) -> None:
     mcp.add_tool(fn=fn, description=description)
 
 
-def _register_lifecycle_tools() -> None:
-    for fn in (create_machine_lifespan, close_machine_lifespan, save_machine):
+def _register_lifecycle_tools(*, config: dict) -> None:
+    for fn in (
+        create_machine_lifespan,
+        close_machine_lifespan,
+        load_machine_from_history,
+    ):
         _register_tool(fn=fn)
+    if _group_enabled(config=config, group_name="save") and _tool_enabled(
+        config=config, tool_name="save_machine"
+    ):
+        _register_tool(fn=save_machine)
 
 
-def _register_machine_operation_tools() -> None:
+def _register_machine_operation_tools(*, config: dict) -> None:
     """Bulk-register Machine operation proxies onto the FastMCP server."""
-    for fn in _gather_machine_operations():
+    for fn in _gather_machine_operations(config=config):
         proxy = _machine_operation_proxy(operation_name=fn.__name__, operation_fn=fn)
         _register_tool(fn=proxy)
 
 
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Start BuildArena MCP server.")
+    parser.add_argument(
+        "--save-dir",
+        type=Path,
+        default=None,
+        help="Override SAVED_MACHINE_DIR for machine lifespan output.",
+    )
+    parser.add_argument(
+        "--tools-config",
+        type=Path,
+        default=DEFAULT_TOOLS_CONFIG_PATH,
+        help="TOML file controlling which MCP tool groups and tools are registered.",
+    )
+    return parser.parse_args()
+
+
 async def main():
-    _register_lifecycle_tools()
-    _register_machine_operation_tools()
+    global _tool_config, _save_root
+    args = _parse_args()
+    _tool_config = _load_tool_config(args.tools_config)
+    _save_root = args.save_dir.resolve() if args.save_dir is not None else get_saved_machine_dir()
+    _register_lifecycle_tools(config=_tool_config)
+    _register_machine_operation_tools(config=_tool_config)
     await mcp.run_stdio_async()
 
 

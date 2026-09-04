@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .block_authoring import (
-    DEFAULT_BLOCK_AUTHORING_PATH,
     build_descriptor_map_from_authoring,
     load_block_authoring,
 )
@@ -17,8 +16,12 @@ _descriptor_func_cache: dict[str, Callable[..., str]] = {}
 
 def load_descriptor_map(
     *,
-    descriptor_map_path: Path = DEFAULT_BLOCK_AUTHORING_PATH,
+    descriptor_map_path: Path | None = None,
 ) -> dict[int, str]:
+    if descriptor_map_path is None:
+        from .paths import get_block_authoring_path
+
+        descriptor_map_path = get_block_authoring_path()
     cache_key = str(descriptor_map_path.resolve())
     if cache_key in _descriptor_map_cache:
         return _descriptor_map_cache[cache_key]
@@ -47,7 +50,7 @@ def bind_block_descriptor(
     *,
     block: Any,
     block_id: int,
-    descriptor_map_path: Path = DEFAULT_BLOCK_AUTHORING_PATH,
+    descriptor_map_path: Path | None = None,
 ) -> Callable[..., str] | None:
     descriptor_map = load_descriptor_map(descriptor_map_path=descriptor_map_path)
     module_name = descriptor_map.get(block_id)

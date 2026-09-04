@@ -11,6 +11,5 @@ def descriptor(self: Block) -> str:
     return (
         f"Sphere center at {format_float_array(arr=center_real)} (same as the Position line). "
         f"Solid stone ball of diameter 1 (radius {stone_radius}) around that center; violent impacts can shatter it into fragments. "
-        "Like the flame ball, it is not rigidly welded to the surface and rests "
-        "slightly separated from the attach face, unless held by a Grabber."
+        f"Like the flame ball, it is not rigidly welded to the surface and rests slightly separated from the attach face."
     )

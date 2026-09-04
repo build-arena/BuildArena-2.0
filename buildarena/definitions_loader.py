@@ -5,7 +5,7 @@ from typing import Any
 from pathlib import Path
 import tomllib
 
-from .mesh_loader import block_runtime_mesh_exists, load_registry
+from .mesh_loader import load_registry
 from .block_authoring import load_block_authoring
 from .paths import get_block_registry_path, get_block_roles_path
 
@@ -17,17 +17,7 @@ DEFAULT_SKIP_IDS: frozenset[int] = frozenset({12, 64, 1000})
 
 DEFAULT_SKIP_NAMES: frozenset[str] = frozenset({"Unused", "Unused3", "BuildNode", "BuildEdge", "BuildSurface"})
 
-DEFAULT_NAME_ALIASES: dict[str, str] = {
-    "Wooden Block":      "Double Wooden Block",
-    "Small Wooden Block": "Single Wooden Block",
-    "Powered Wheel":     "Wheel",
-    "Winch":             "Rope Winch",
-    "Flywheel":          "Fly Wheel",
-}
-
 DEFAULT_CONNECTION_NAMES: frozenset[str] = frozenset({"Brace", "Rope Winch", "Spring", "Rope Measure"})
-DEFAULT_ROLES_PATH: Path = get_block_roles_path()
-DEFAULT_REGISTRY_PATH: Path = get_block_registry_path()
 
 
 def _camel_to_display(*, name: str) -> str:
@@ -48,18 +38,14 @@ def build_block_maps(
     *,
     skip_ids: frozenset[int] = DEFAULT_SKIP_IDS,
     skip_names: frozenset[str] = DEFAULT_SKIP_NAMES,
-    aliases: dict[str, str] | None = None,
     dump_path: Path | None = None,
 ) -> tuple[dict[str, int], dict[int, str]]:
-    """Build BLOCK_ID_MAP and BLOCK_NAME_BY_ID from collider_dump.toml.
+    """Build dump-derived id maps from collider_dump.toml.
 
-    All parameters have defaults so callers can override for testing or
-    alternative dump files.
+    These maps join the game dump to ``block_id``. The public unique name is
+    ``blocks/block_authoring.toml`` ``block_name``, not the dump display string.
     """
     from .collider_loader import get_all_dump_blocks
-
-    if aliases is None:
-        aliases = dict(DEFAULT_NAME_ALIASES)
 
     dump_blocks = get_all_dump_blocks(dump_path=dump_path)
 
@@ -76,16 +62,18 @@ def build_block_maps(
         id_map[display_name] = block_id
         name_by_id[block_id] = display_name
 
-    for alias, canonical in aliases.items():
-        if canonical in id_map:
-            id_map[alias] = id_map[canonical]
-
     return id_map, name_by_id
 
 
-# Convenience module-level references (built once from defaults).
-# Callers that need custom maps should call build_block_maps() directly.
-BLOCK_ID_MAP, BLOCK_NAME_BY_ID = build_block_maps()
+def _default_block_maps() -> tuple[dict[str, int], dict[int, str]]:
+    maps = _DEFAULT_BLOCK_MAPS[0]
+    if maps is None:
+        maps = build_block_maps()
+        _DEFAULT_BLOCK_MAPS[0] = maps
+    return maps
+
+
+_DEFAULT_BLOCK_MAPS: list[tuple[dict[str, int], dict[int, str]] | None] = [None]
 
 
 def _resolve_block_identity(
@@ -95,20 +83,24 @@ def _resolve_block_identity(
     id_map: dict[str, int] | None = None,
     name_by_id: dict[int, str] | None = None,
 ) -> tuple[int | None, str]:
-    """Resolve a registry entry to (block_id, canonical_display_name).
+    """Resolve a registry entry to (block_id, dump_display_name).
 
     Resolution order:
-    1. Explicit ``id`` field in block_def  →  look up canonical name by ID
-    2. raw_key is a digit string           →  use as ID, look up canonical name
-    3. raw_key matches id_map              →  use mapped ID + canonical name
+    1. Explicit ``id`` field in block_def  →  look up dump display name by ID
+    2. raw_key is a digit string           →  use as ID, look up dump display name
+    3. raw_key matches id_map              →  use mapped ID + dump display name
 
-    Returns (None, raw_key) if the block cannot be identified — caller
-    should skip that entry.  There is NO fallback / guessing.
+    The dump display name is only for joining the game dump. The public
+    unique name comes from block_authoring.toml. Returns (None, raw_key)
+    if the block cannot be identified — caller should skip that entry.
+    There is NO fallback / guessing.
     """
-    if id_map is None:
-        id_map = BLOCK_ID_MAP
-    if name_by_id is None:
-        name_by_id = BLOCK_NAME_BY_ID
+    if id_map is None or name_by_id is None:
+        default_id_map, default_name_by_id = _default_block_maps()
+        if id_map is None:
+            id_map = default_id_map
+        if name_by_id is None:
+            name_by_id = default_name_by_id
 
     block_id: int | None = None
 
@@ -133,15 +125,17 @@ def _resolve_block_identity(
 
 def validate_registry_ids(
     *,
-    registry_path: Path = DEFAULT_REGISTRY_PATH,
+    registry_path: Path | None = None,
     id_map: dict[str, int] | None = None,
 ) -> list[str]:
     """Cross-check runtime_defs id fields against the block ID map.
 
     Returns a list of warning strings (empty means all clear).
     """
+    if registry_path is None:
+        registry_path = get_block_registry_path()
     if id_map is None:
-        id_map = BLOCK_ID_MAP
+        id_map, _ = _default_block_maps()
 
     warnings: list[str] = []
     blocks = load_runtime_blocks(registry_path=registry_path)
@@ -230,15 +224,16 @@ def _load_block_roles(*, roles_path: Path) -> dict[int, dict[str, Any]]:
         if not isinstance(value, dict):
             raise ValueError(f"Invalid role entry for id '{key}': expected table")
         block_id = int(key)
-        block_name = str(value.get("block_name", "")).strip()
-        if block_name == "":
-            raise ValueError(f"Role entry for block id {block_id} requires block_name")
+        if "block_name" in value:
+            raise ValueError(
+                f"Role entry for block id {block_id} must not define block_name. "
+                "The unique public name lives only in blocks/block_authoring.toml."
+            )
         role_type = str(value.get("type", "")).strip().lower()
         if role_type not in {"basic", "pointer", "connection"}:
             raise ValueError(f"Invalid role type for block id {block_id}: {role_type}")
         role: dict[str, Any] = {
             "type": role_type,
-            "block_name": block_name,
         }
         if role_type == "pointer":
             if "pointer_axis" not in value:
@@ -251,17 +246,23 @@ def _load_block_roles(*, roles_path: Path) -> dict[int, dict[str, Any]]:
 
 
 def load_runtime_blocks(
-    registry_path: Path = DEFAULT_REGISTRY_PATH,
+    registry_path: Path | None = None,
     *,
     connection_names: frozenset[str] = DEFAULT_CONNECTION_NAMES,
     id_map: dict[str, int] | None = None,
     name_by_id: dict[int, str] | None = None,
-    roles_path: Path = DEFAULT_ROLES_PATH,
+    roles_path: Path | None = None,
 ) -> dict[str, dict[str, Any]]:
-    if id_map is None:
-        id_map = BLOCK_ID_MAP
-    if name_by_id is None:
-        name_by_id = BLOCK_NAME_BY_ID
+    if registry_path is None:
+        registry_path = get_block_registry_path()
+    if roles_path is None:
+        roles_path = get_block_roles_path()
+    if id_map is None or name_by_id is None:
+        default_id_map, default_name_by_id = _default_block_maps()
+        if id_map is None:
+            id_map = default_id_map
+        if name_by_id is None:
+            name_by_id = default_name_by_id
 
     registry = load_registry(registry_path=registry_path)
     defaults = registry.get("runtime_defaults", {})
@@ -280,7 +281,7 @@ def load_runtime_blocks(
         if not isinstance(raw_key, str):
             raw_key = str(raw_key)
 
-        block_id, block_name = _resolve_block_identity(
+        block_id, _dump_name = _resolve_block_identity(
             raw_key=raw_key,
             block_def=block_def,
             id_map=id_map,
@@ -288,6 +289,14 @@ def load_runtime_blocks(
         )
         if block_id is None:
             continue
+
+        authoring_entry = authoring.get(block_id, {})
+        block_name = str(authoring_entry.get("block_name", "")).strip()
+        if block_name == "":
+            raise ValueError(
+                f"Block id {block_id} has no unique name in block_authoring.toml. "
+                "Dump display names are not public names."
+            )
 
         block_def["id"] = int(block_id)
         block_def["name"] = block_name
@@ -332,20 +341,9 @@ def load_runtime_blocks(
             raise ValueError(
                 f"Missing role definition for block id {block_id} ('{block_name}') in {roles_path}"
             )
-        role_block_name = str(role.get("block_name", "")).strip()
-        if role_block_name != block_name:
-            raise ValueError(
-                f"Role block_name mismatch for id {block_id}: roles='{role_block_name}', runtime='{block_name}'"
-            )
         role_type = str(role["type"])
         block_def["type"] = role_type
         block_def.setdefault("mesh_key", dump_name)
-        if role_type != "connection" and not block_runtime_mesh_exists(
-            mesh_key=block_def["mesh_key"],
-            registry_path=registry_path,
-        ):
-            block_def["disable"] = True
-            block_def["enabled"] = False
 
         block_def["faces"] = _normalize_faces(value=block_def.get("faces"))
         block_def["spin"] = _normalize_spin_config(value=block_def.get("spin", False))
@@ -363,7 +361,6 @@ def load_runtime_blocks(
         block_def["collider_shrink"] = float(block_def.get("collider_shrink", defaults.get("collider_shrink", 0.85)))
         block_def["prefab"] = block_def.get("prefab")
 
-        authoring_entry = authoring.get(block_id, {})
         authoring_summary = str(authoring_entry.get("summary", "")).strip()
         authoring_description = str(authoring_entry.get("description", "")).strip()
         if authoring_summary != "":
@@ -371,9 +368,11 @@ def load_runtime_blocks(
         if authoring_description != "":
             block_def["description"] = authoring_description
 
-        key_name = block_name
-        if key_name in result:
-            key_name = f"{block_name} [{block_id}]"
-        result[key_name] = block_def
+        if block_name in result:
+            previous_id = result[block_name]["id"]
+            raise ValueError(
+                f"Duplicate authored name {block_name!r} for ids {previous_id} and {block_id}."
+            )
+        result[block_name] = block_def
 
     return result

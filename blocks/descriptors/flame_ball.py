@@ -11,6 +11,5 @@ def descriptor(self: Block) -> str:
     return (
         f"Sphere center at {format_float_array(arr=center_real)} (same as the Position line). "
         f"Continuous flame fills a spherical influence region of radius {influence_radius} around that center; water can extinguish it. "
-        "Like the bomb, it is not rigidly welded to the surface and rests "
-        "slightly separated from the attach face, unless held by a Grabber."
+        f"Like the bomb, it is not rigidly welded to the surface and rests slightly separated from the attach face."
     )

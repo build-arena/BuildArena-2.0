@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -15,10 +16,9 @@ def resolve_project_path(*, path: str | Path) -> Path:
     return PROJECT_ROOT / candidate
 
 
-def _load_project_env(*, env_path: Path) -> None:
-    if not env_path.is_file():
-        return
-
+def parse_env_file(*, env_path: Path) -> list[tuple[str, str]]:
+    """Return ``(key, value)`` pairs from a dotenv file, in file order."""
+    assignments: list[tuple[str, str]] = []
     for raw_line in env_path.read_text(encoding="utf-8").splitlines():
         line = raw_line.strip()
         if line == "" or line.startswith("#"):
@@ -31,7 +31,25 @@ def _load_project_env(*, env_path: Path) -> None:
         value = value.strip().strip('"').strip("'")
         if key == "":
             raise ValueError(f"Invalid empty env key in {env_path}: {raw_line}")
-        os.environ.setdefault(key, value)
+        assignments.append((key, value))
+    return assignments
+
+
+def load_project_env(*, env_path: Path | None = None, overwrite: bool = False) -> None:
+    """Load ``.env`` into ``os.environ``.
+
+    ``overwrite=False`` keeps values already present in the process (normal
+    import). Setup writes a new ``.env`` with detected paths, then calls this
+    with ``overwrite=True`` so the current process sees those values.
+    """
+    path = PROJECT_ROOT / ".env" if env_path is None else env_path
+    if not path.is_file():
+        return
+    for key, value in parse_env_file(env_path=path):
+        if overwrite:
+            os.environ[key] = value
+        else:
+            os.environ.setdefault(key, value)
 
 
 def _env_path(
@@ -53,7 +71,7 @@ def _env_path(
     return resolved_path
 
 
-_load_project_env(env_path=PROJECT_ROOT / ".env")
+load_project_env(env_path=PROJECT_ROOT / ".env", overwrite=False)
 
 
 def get_block_registry_path(*, registry_path: str | Path | None = None) -> Path:
@@ -76,7 +94,7 @@ def get_block_roles_path(*, roles_path: str | Path | None = None) -> Path:
 
 def get_block_authoring_path(*, authoring_path: str | Path | None = None) -> Path:
     if authoring_path is None:
-        return _env_path(env_var="BLOCK_AUTHORING_PATH", must_exist=None)
+        return _env_path(env_var="BLOCK_AUTHORING_PATH", must_exist="file")
     return resolve_project_path(path=authoring_path)
 
 
@@ -96,7 +114,7 @@ def get_besiege_data_path(*, data_path: str | Path | None = None) -> Path:
         if install_root_hint.is_dir():
             hint = f" It looks like an install root; use BESIEGE_DATA_PATH={install_root_hint}."
         raise FileNotFoundError(
-            f"BESIEGE_DATA_PATH must point to the game data folder containing a Skins directory: {resolved_path}.{hint}"
+            f"BESIEGE_DATA_PATH must point to Besiege_Data containing a Skins directory: {resolved_path}.{hint}"
         )
 
     return resolved_path
@@ -116,6 +134,37 @@ def get_saved_machine_dir(*, saved_machine_dir: str | Path | None = None) -> Pat
     if saved_machine_dir is None:
         return _env_path(env_var="SAVED_MACHINE_DIR", must_exist=None)
     return resolve_project_path(path=saved_machine_dir)
+
+
+def get_block_channel_catalog_path(*, catalog_path: str | Path | None = None) -> Path:
+    """Resolve the Inspector channel catalog.
+
+    Preference order:
+    1. explicit ``catalog_path``
+    2. ``BLOCK_CHANNEL_CATALOG`` when set
+    3. ToolKit data dir under ``BESIEGE_DATA_PATH``
+    """
+    if catalog_path is not None:
+        resolved_path = resolve_project_path(path=catalog_path)
+        if not resolved_path.is_file():
+            raise FileNotFoundError(f"Block channel catalog not found: {resolved_path}")
+        return resolved_path
+
+    raw_override = os.environ.get("BLOCK_CHANNEL_CATALOG")
+    if raw_override is not None and raw_override.strip() != "":
+        return _env_path(env_var="BLOCK_CHANNEL_CATALOG", must_exist="file")
+
+    control_root = PROJECT_ROOT / "control"
+    if str(control_root) not in sys.path:
+        sys.path.insert(0, str(control_root))
+    from controller_sdk.protocol import CHANNEL_CATALOG_FILE, TOOLKIT_DATA_DIR_NAME
+
+    resolved_path = get_besiege_data_path() / "Mods" / "Data" / TOOLKIT_DATA_DIR_NAME / CHANNEL_CATALOG_FILE
+    if not resolved_path.is_file():
+        raise FileNotFoundError(
+            f"Block channel catalog not found: {resolved_path}. Run scripts/setup.py."
+        )
+    return resolved_path
 
 
 def get_collider_dump_path(*, dump_path: str | Path | None = None) -> Path:
@@ -155,19 +204,19 @@ ENV_REQUIREMENTS: tuple[EnvRequirement, ...] = (
         env_var="BESIEGE_DATA_PATH",
         kind="besiege_data",
         purpose="Besiege game data folder (holds the block Skins / .obj meshes we load).",
-        readme_step="Step 3 & Step 7 - install Besiege, then point BESIEGE_DATA_PATH at the Unity data folder containing Skins",
+        readme_step="Install Besiege, then re-run scripts/setup.ps1 or set BESIEGE_DATA_PATH to ...\\Besiege\\Besiege_Data",
     ),
     EnvRequirement(
         env_var="COLLIDER_DUMP_PATH",
         kind="file",
-        purpose="Collider + geometry dump produced by the BuildArena Block Inspector mod.",
-        readme_step="Step 4-6 - install the Inspector mod, run one simulation, then copy its collider dump .toml and point COLLIDER_DUMP_PATH at it",
+        purpose="Collider + geometry dump produced by the BuildArena ToolKit Inspector.",
+        readme_step="Run scripts/setup.ps1 so Inspector artifacts are copied to .local/collider_dump.toml",
     ),
     EnvRequirement(
         env_var="SAVED_MACHINE_DIR",
         kind="dir",
         purpose="Folder where generated .bsg machines are written so the game can load them.",
-        readme_step="Step 7 - set SAVED_MACHINE_DIR to Besiege's SavedMachines/BuildArena folder",
+        readme_step="Run scripts/setup.ps1; it creates SavedMachines\\BuildArena and writes SAVED_MACHINE_DIR",
     ),
     EnvRequirement(
         env_var="BLOCK_REGISTRY_PATH",
@@ -179,6 +228,12 @@ ENV_REQUIREMENTS: tuple[EnvRequirement, ...] = (
         env_var="BLOCK_ROLES_PATH",
         kind="file",
         purpose="Block role table (ships with the repo under blocks/).",
+        readme_step="Step 2 - keep the repo's blocks/ folder intact",
+    ),
+    EnvRequirement(
+        env_var="BLOCK_AUTHORING_PATH",
+        kind="file",
+        purpose="Unique public block names and authored descriptions (ships with the repo under blocks/).",
         readme_step="Step 2 - keep the repo's blocks/ folder intact",
     ),
 )
@@ -222,7 +277,7 @@ def _check_requirement(*, requirement: EnvRequirement) -> EnvCheckResult:
             return EnvCheckResult(
                 requirement=requirement,
                 ok=False,
-                detail=f"must be the game data folder containing a Skins directory: {resolved_path}.{hint}",
+                detail=f"must be Besiege_Data containing a Skins directory: {resolved_path}.{hint}",
                 resolved_path=resolved_path,
             )
         return EnvCheckResult(
@@ -235,9 +290,91 @@ def _check_requirement(*, requirement: EnvRequirement) -> EnvCheckResult:
     raise ValueError(f"Invalid requirement kind: {requirement.kind}")
 
 
+def _extra_ready_checks() -> list[EnvCheckResult]:
+    extras: list[EnvCheckResult] = []
+    catalog_requirement = EnvRequirement(
+        env_var="CHANNEL_CATALOG",
+        kind="file",
+        purpose="Block channel catalog written to the ToolKit data directory by setup.",
+        readme_step="Run scripts/setup.py; it writes block_channel_catalog.json next to Inspector dumps",
+    )
+    try:
+        catalog = get_block_channel_catalog_path()
+        extras.append(
+            EnvCheckResult(
+                requirement=catalog_requirement,
+                ok=True,
+                detail="found",
+                resolved_path=catalog,
+            )
+        )
+    except (RuntimeError, FileNotFoundError) as exc:
+        extras.append(
+            EnvCheckResult(
+                requirement=catalog_requirement,
+                ok=False,
+                detail=str(exc),
+                resolved_path=None,
+            )
+        )
+    report_path = PROJECT_ROOT / ".local" / "setup-report.json"
+    report_ok = False
+    report_detail = f"file not found: {report_path}"
+    if report_path.is_file():
+        import json
+
+        payload = json.loads(report_path.read_text(encoding="utf-8"))
+        report_ok = payload.get("status") == "passed"
+        report_detail = f"status={payload.get('status')!r}"
+    extras.append(
+        EnvCheckResult(
+            requirement=EnvRequirement(
+                env_var="SETUP_REPORT",
+                kind="file",
+                purpose="Latest one-command setup report, including the telemetry smoke.",
+                readme_step="Run scripts/setup.ps1 until .local/setup-report.json status is passed",
+            ),
+            ok=report_ok,
+            detail=report_detail,
+            resolved_path=report_path if report_path.is_file() else None,
+        )
+    )
+    raw_besiege = os.environ.get("BESIEGE_DATA_PATH", "").strip()
+    toolkit_ok = False
+    toolkit_detail = "BESIEGE_DATA_PATH is not set"
+    toolkit_path = None
+    if raw_besiege:
+        besiege = resolve_project_path(path=raw_besiege)
+        mods = besiege / "Mods"
+        candidates = sorted(mods.glob("BuildArenaToolKit*")) if mods.is_dir() else []
+        candidates = [path for path in candidates if path.is_dir()]
+        if len(candidates) == 1:
+            toolkit_ok = True
+            toolkit_path = candidates[0]
+            toolkit_detail = f"found {candidates[0].name}"
+        elif not candidates:
+            toolkit_detail = f"BuildArenaToolKit is not installed under {mods}"
+        else:
+            toolkit_detail = f"multiple BuildArenaToolKit folders: {[path.name for path in candidates]}"
+    extras.append(
+        EnvCheckResult(
+            requirement=EnvRequirement(
+                env_var="TOOLKIT_INSTALL",
+                kind="dir",
+                purpose="Exactly one BuildArenaToolKit folder under Besiege_Data/Mods.",
+                readme_step="Subscribe to https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349 then re-run scripts/setup.ps1",
+            ),
+            ok=toolkit_ok,
+            detail=toolkit_detail,
+            resolved_path=toolkit_path,
+        )
+    )
+    return extras
+
+
 def check_environment() -> list[EnvCheckResult]:
     """Check every configured path requirement and return per-item results."""
-    return [_check_requirement(requirement=requirement) for requirement in ENV_REQUIREMENTS]
+    return [_check_requirement(requirement=requirement) for requirement in ENV_REQUIREMENTS] + _extra_ready_checks()
 
 
 def format_environment_report(*, results: list[EnvCheckResult]) -> str:
@@ -249,8 +386,7 @@ def format_environment_report(*, results: list[EnvCheckResult]) -> str:
     if env_file.is_file():
         lines.append(f"[ok]      .env found at {env_file}")
     else:
-        example = PROJECT_ROOT / ".env.example"
-        lines.append(f"[MISSING] .env not found. Copy {example} -> {env_file} (README Step 2).")
+        lines.append("[MISSING] .env not found. Run scripts/setup.py to write it from detected paths.")
     lines.append("")
 
     missing: list[EnvCheckResult] = []
@@ -265,7 +401,7 @@ def format_environment_report(*, results: list[EnvCheckResult]) -> str:
     lines.append("")
     lines.append("-" * 60)
     if len(missing) == 0:
-        lines.append("All good - you're ready to build! Open block_preview.ipynb (README Step 8).")
+        lines.append("All good - one-command setup passed and control is ready.")
     else:
         lines.append(
             f"{len(missing)} item(s) still need attention. "
