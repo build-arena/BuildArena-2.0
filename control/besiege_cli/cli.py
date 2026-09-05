@@ -33,7 +33,7 @@ from .machine import (
 from .manifest import purge_mod_data
 from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .paths import datacache_dir, mod_data_dir, resolve_besiege_data, resolve_channel_catalog
-from .process import find_besiege_pids
+from .process import BESIEGE_PROCESS_NAME, find_besiege_pids
 from .recorder import is_recording, start_recording, stop_recording
 from .run import DEFAULT_RUN_HOLD_SECONDS, add_run_parser
 from .session import ensure_game, ensure_sandbox, quit_game
@@ -203,7 +203,7 @@ def cmd_dump_channels(args: argparse.Namespace) -> int:
 def cmd_quit(args: argparse.Namespace) -> int:
     orchestrator, _ = _orchestrator(args)
     if not find_besiege_pids():
-        print("No running Besiege.exe process found; nothing to quit.")
+        print(f"No running {BESIEGE_PROCESS_NAME} process found; nothing to quit.")
         return 0
     result = quit_game(orchestrator=orchestrator, timeout=args.timeout, poll_interval=args.poll_interval)
     print(f"Besiege quit result: {result}")

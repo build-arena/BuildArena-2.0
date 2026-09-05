@@ -13,7 +13,13 @@ from pathlib import Path
 
 from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .paths import besiege_install_root
-from .process import find_besiege_pids, force_kill, launch_via_exe, launch_via_steam
+from .process import (
+    find_besiege_pids,
+    force_kill,
+    launch_via_exe,
+    launch_via_steam,
+    steam_launch_available,
+)
 
 DEFAULT_SANDBOX_LEVEL = "BARREN EXPANSE"
 
@@ -38,24 +44,29 @@ def ensure_game(*, orchestrator: BesiegeOrchestrator, besiege_data: Path, timeou
         return GameSession(already_running=True, launched=False)
     before = orchestrator.state_mtime()
     existing = set(find_besiege_pids())
-    print(
-        "Launching Besiege via Steam. After the window appears, ToolKit still "
-        "needs to finish loading — progress will print every 10s.",
-        flush=True,
-    )
-    launch_via_steam()
-    try:
-        orchestrator.wait_for_heartbeat(timeout=timeout, after_mtime=before)
-        return GameSession(already_running=False, launched=True)
-    except OrchestratorTimeoutError:
-        pass
-    new_pids = set(find_besiege_pids()) - existing
-    if new_pids:
-        raise OrchestratorTimeoutError(
-            f"Besiege PIDs {sorted(new_pids)} started but no mod heartbeat within {timeout}s "
-            "(mod failed to load? check output_log.txt)."
+    if steam_launch_available():
+        print(
+            "Launching Besiege via Steam. After the window appears, ToolKit still "
+            "needs to finish loading — progress will print every 10s.",
+            flush=True,
         )
-    print("Steam launch produced no process; launching Besiege.exe directly...")
+        launch_via_steam()
+        try:
+            orchestrator.wait_for_heartbeat(timeout=timeout, after_mtime=before)
+            return GameSession(already_running=False, launched=True)
+        except OrchestratorTimeoutError:
+            pass
+        new_pids = set(find_besiege_pids()) - existing
+        if new_pids:
+            raise OrchestratorTimeoutError(
+                f"Besiege PIDs {sorted(new_pids)} started but no mod heartbeat within {timeout}s "
+                "(mod failed to load? check output_log.txt)."
+            )
+        print("Steam launch produced no process; launching the game binary directly...")
+    else:
+        # Headless hosts have no Steam client, and waiting out the launch
+        # timeout before falling through would cost a minute of every run.
+        print("No Steam client on this host; launching the game binary directly.", flush=True)
     launch_via_exe(besiege_install_root(besiege_data))
     orchestrator.wait_for_heartbeat(timeout=timeout, after_mtime=before)
     return GameSession(already_running=False, launched=True)
