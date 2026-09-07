@@ -6,12 +6,10 @@ import functools
 from typing import Literal
 
 import numpy as np
-import pandas as pd
 import trimesh
 from trimesh import Trimesh
-from trimesh.visual.texture import TextureVisuals
 
-from .components import Vector, Face
+from .components import Face
 
 _MIRROR_Z = np.diag([1.0, 1.0, -1.0, 1.0])
 
