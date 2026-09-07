@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .action_codec import decode_action, encode_action
+from .channel_bindings import ENV_CONTROL_BINDINGS, bind_channels
 from .bulk_codec import (
     BulkBatch,
-    BulkCodecError,
     decode_bulk_batch,
     decode_bulk_marker,
 )
@@ -38,11 +38,11 @@ from .protocol import (
     action_file_name,
     atomic_write_bytes,
     atomic_write_json,
-    read_shared_bytes,
     parse_action_file_name,
     read_json_retry,
 )
 from .profiles import PROFILE_FULL, TARGET_FIELD_BITS, resolve_telemetry_selection
+from .snapshot import SnapshotUnavailableError, new_read_stats, read_committed
 from .telemetry_codec import (
     FLAG_RECORD_NAMES,
     TelemetryCodecError,
@@ -68,6 +68,7 @@ class BlockChannel:
     keys: tuple[str, ...]
     keylist_index: int | None = None
     local_index: int | None = None
+    aliases: tuple[str, ...] = ()
 
     @property
     def channel(self) -> str:
@@ -188,6 +189,7 @@ class ControllerClient:
         durable: bool = False,
         channel_source_bsg: str | Path | None = None,
         catalog_path: str | Path | None = None,
+        bindings_path: str | Path | None = None,
     ):
         if channel_source_bsg is not None or catalog_path is not None:
             raise ValueError(
@@ -198,6 +200,7 @@ class ControllerClient:
         self.run_id = run_id
         self.poll_interval = poll_interval
         self.durable = durable
+        self.bindings_path = Path(bindings_path) if bindings_path is not None else None
         self.subscription_path = self.data_dir / SUBSCRIPTION_FILE
         self.block_table_path = self.data_dir / BLOCK_TABLE_FILE
         self.protocol_error_path = self.data_dir / CONTROL_PROTOCOL_ERROR_FILE
@@ -212,6 +215,9 @@ class ControllerClient:
         self.keepalive = 0
         self._last_sample_sequence: int | None = None
         self._last_bulk_commit: tuple[int, int] | None = None
+        self._read_stats = {"telemetry": new_read_stats(), "bulk": new_read_stats()}
+        self._last_received_commit: tuple[int, int] | None = None
+        self._last_received_at: float | None = None
         self._noted_rigidbody_destroyed = False
         self._channels_by_index: dict[int, BlockChannel] | None = None
         self._channels_by_block_name: dict[tuple[int | str, str], BlockChannel] | None = None
@@ -307,7 +313,8 @@ class ControllerClient:
                 "or construct ControllerClient(data_dir=...) directly."
             )
         return cls(
-            Path(data_dir), poll_interval=poll_interval, run_id=run_id, durable=durable
+            Path(data_dir), poll_interval=poll_interval, run_id=run_id, durable=durable,
+            bindings_path=os.environ.get(ENV_CONTROL_BINDINGS) or None,
         )
 
     @staticmethod
@@ -434,6 +441,9 @@ class ControllerClient:
                 )
             resolved.append(self._parse_key_row(row, position, used_channel_indices))
 
+        if self.bindings_path is not None:
+            resolved = bind_channels(resolved, path=self.bindings_path, run_id=table_run_id)
+
         by_address: dict[tuple[int | str, str], BlockChannel] = {}
         by_key_lists: dict[str, list[BlockChannel]] = {}
         for channel in resolved:
@@ -442,7 +452,7 @@ class ControllerClient:
                 channel.block_guid.lower(),
                 channel.local_index,
             ]
-            names = [channel.name]
+            names = [channel.name, *channel.aliases]
             if channel.keylist_index is not None:
                 names.append(f"keylist_{channel.keylist_index}")
             for address in addresses:
@@ -797,47 +807,43 @@ class ControllerClient:
         self._append_action_audit(self.sequence, self.keepalive, records)
         return self.sequence
 
-    def _telemetry_path(self) -> tuple[Any, Path]:
-        try:
-            marker = decode_telemetry_marker(read_shared_bytes(self.telemetry_publish_path))
-        except OSError as exc:
-            raise RuntimeError(
-                f"Could not read telemetry publish pointer {self.telemetry_publish_path}: {exc}"
-            ) from exc
-        return marker, self.data_dir / TELEMETRY_BUFFER_FILES[marker.slot]
+    def read_sample(self, timeout: float = 0.05) -> TelemetryFrame:
+        """Read one consistent commit; contention raises SnapshotUnavailableError.
 
-    def read_sample(self) -> TelemetryFrame:
-        # A writer may publish the next marker while this process reads the
-        # selected slot. Retry the same v4 commit protocol up to ten times;
-        # this never switches formats or guesses another slot.
-        mismatch = ""
-        for _ in range(10):
-            try:
-                marker, path = self._telemetry_path()
-                payload = read_shared_bytes(path)
-                marker_after = decode_telemetry_marker(
-                    read_shared_bytes(self.telemetry_publish_path)
-                )
-            except (OSError, RuntimeError) as exc:
-                mismatch = f"ModIO commit was temporarily locked: {exc}"
-                time.sleep(0.001)
-                continue
-            frame = decode_telemetry(payload)
-            if marker_after != marker:
-                mismatch = "BTM4 changed while reading its selected buffer."
-                continue
-            if (
-                frame.sequence == marker.sequence
-                and frame.slot == marker.slot
+        Use next_sample() to wait for a new frame over a longer deadline.
+        Invalid stable payloads and unsupported protocol versions fail immediately.
+        """
+        frame = read_committed(
+            self.telemetry_publish_path,
+            tuple(self.data_dir / name for name in TELEMETRY_BUFFER_FILES),
+            timeout=timeout, decode_marker=decode_telemetry_marker,
+            decode_payload=decode_telemetry,
+            matches=lambda frame, marker: (
+                frame.sequence == marker.sequence and frame.slot == marker.slot
                 and frame.simulating == marker.simulating
                 and frame.sequence_applied == marker.sequence_applied
-            ):
-                self.gc_acked_actions(int(frame.sequence_applied))
-                return frame
-            mismatch = "BAT4 buffer does not match the BTM4 commit marker."
-        raise TelemetryCodecError(
-            f"Could not obtain one stable BAT4/BTM4 commit after 10 reads: {mismatch}"
+            ), stats=self._read_stats["telemetry"], label="BAT4/BTM4",
         )
+        commit = (frame.episode, frame.sequence)
+        if commit != self._last_received_commit:
+            self._last_received_commit = commit
+            self._last_received_at = time.monotonic()
+        self.gc_acked_actions(int(frame.sequence_applied))
+        return frame
+
+    @property
+    def telemetry_read_stats(self) -> dict[str, Any]:
+        """Read latency/contention and age since a distinct frame was received.
+
+        receipt_age_seconds is a local freshness indicator, not measured
+        game-to-controller latency. Re-reading an old frame does not reset it.
+        """
+        return {
+            **{key: dict(value) for key, value in self._read_stats.items()},
+            "last_commit": self._last_received_commit,
+            "receipt_age_seconds": (None if self._last_received_at is None else
+                                    time.monotonic() - self._last_received_at),
+        }
 
     @property
     def bulk_guids(self) -> dict[int, str]:
@@ -857,37 +863,22 @@ class ControllerClient:
         except KeyError as exc:
             raise ValueError(f"No bulk target at index {index}.") from exc
 
-    def read_bulk_batch(self) -> BulkBatch:
+    def read_bulk_batch(self, timeout: float = 0.05) -> BulkBatch:
         """Reads one committed BAB4 batch via the bm doorbell.
 
         Same bounded-retry commit protocol as read_sample: marker, buffer,
         marker again; the three must agree or the read is retried, never
         silently downgraded.
         """
-        mismatch = ""
-        for _ in range(10):
-            try:
-                marker = decode_bulk_marker(read_shared_bytes(self.bulk_publish_path))
-                payload = read_shared_bytes(self.data_dir / BULK_BUFFER_FILES[marker.slot])
-                marker_after = decode_bulk_marker(read_shared_bytes(self.bulk_publish_path))
-            except (OSError, RuntimeError) as exc:
-                mismatch = f"ModIO commit was temporarily locked: {exc}"
-                time.sleep(0.001)
-                continue
-            batch = decode_bulk_batch(payload)
-            if marker_after != marker:
-                mismatch = "BBM4 changed while reading its selected buffer."
-                continue
-            if (
-                batch.batch_sequence == marker.batch_sequence
-                and batch.slot == marker.slot
-                and batch.simulating == marker.simulating
-                and len(batch.frames) == marker.frame_count
-            ):
-                return batch
-            mismatch = "BAB4 buffer does not match the BBM4 commit marker."
-        raise BulkCodecError(
-            f"Could not obtain one stable BAB4/BBM4 commit after 10 reads: {mismatch}"
+        return read_committed(
+            self.bulk_publish_path,
+            tuple(self.data_dir / name for name in BULK_BUFFER_FILES),
+            timeout=timeout, decode_marker=decode_bulk_marker,
+            decode_payload=decode_bulk_batch,
+            matches=lambda batch, marker: (
+                batch.batch_sequence == marker.batch_sequence and batch.slot == marker.slot
+                and batch.simulating == marker.simulating and len(batch.frames) == marker.frame_count
+            ), stats=self._read_stats["bulk"], label="BAB4/BBM4",
         )
 
     def next_bulk_batch(self, timeout: float = 5.0) -> BulkBatch:
@@ -900,19 +891,23 @@ class ControllerClient:
         while time.monotonic() < deadline:
             self._raise_protocol_error()
             if self.bulk_publish_path.exists():
-                batch = self.read_bulk_batch()
+                try:
+                    batch = self.read_bulk_batch(timeout=min(0.05, max(0.0, deadline - time.monotonic())))
+                except SnapshotUnavailableError:
+                    self._pause_until(deadline)
+                    continue
                 commit = (batch.episode, batch.batch_sequence)
                 if self._last_bulk_commit is None or commit > self._last_bulk_commit:
                     self._last_bulk_commit = commit
                     return batch
-            time.sleep(self.poll_interval)
+            self._pause_until(deadline)
         raise TimeoutError(
             f"No new BAB4 bulk batch within {timeout}s "
             f"(last commit={self._last_bulk_commit})."
         )
 
-    def observe(self) -> TelemetryFrame:
-        sample = self.read_sample()
+    def observe(self, timeout: float = 0.05) -> TelemetryFrame:
+        sample = self.read_sample(timeout=timeout)
         if not sample.simulating:
             raise RuntimeError("Besiege simulation is not running.")
         if (
@@ -926,15 +921,24 @@ class ControllerClient:
         self._last_sample_sequence = sample.sequence
         return sample
 
+    def _pause_until(self, deadline: float) -> None:
+        remaining = deadline - time.monotonic()
+        if remaining > 0:
+            time.sleep(min(max(self.poll_interval, 0.001), remaining))
+
     def next_sample(self, timeout: float = 2.0) -> TelemetryFrame:
         baseline = self._last_sample_sequence
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             self._raise_protocol_error()
-            sample = self.observe()
+            try:
+                sample = self.observe(timeout=min(0.05, max(0.0, deadline - time.monotonic())))
+            except SnapshotUnavailableError:
+                self._pause_until(deadline)
+                continue
             if baseline is None or sample.sequence > baseline:
                 return sample
-            time.sleep(self.poll_interval)
+            self._pause_until(deadline)
         raise TimeoutError(
             f"No new BAT4 telemetry sample within {timeout}s "
             f"(last sequence={self._last_sample_sequence})."
@@ -960,9 +964,13 @@ class ControllerClient:
                     after_mtime is not None
                     and self.telemetry_publish_path.stat().st_mtime <= after_mtime
                 ):
-                    time.sleep(self.poll_interval)
+                    self._pause_until(deadline)
                     continue
-                sample = self.read_sample()
+                try:
+                    sample = self.read_sample(timeout=min(0.05, max(0.0, deadline - time.monotonic())))
+                except SnapshotUnavailableError:
+                    self._pause_until(deadline)
+                    continue
                 if sample.simulating and (
                     after_episode is None or sample.episode > after_episode
                 ):
@@ -984,7 +992,7 @@ class ControllerClient:
                     flush=True,
                 )
                 last_progress = now
-            time.sleep(self.poll_interval)
+            self._pause_until(deadline)
         raise TimeoutError("Besiege did not enter simulation before the timeout.")
 
     def read_targets(
@@ -1008,12 +1016,16 @@ class ControllerClient:
         latest: TelemetryFrame | None = None
         while time.monotonic() < deadline:
             self._raise_protocol_error()
-            latest = self.observe()
+            try:
+                latest = self.observe(timeout=min(0.05, max(0.0, deadline - time.monotonic())))
+            except SnapshotUnavailableError:
+                self._pause_until(deadline)
+                continue
             if latest.sequence_applied >= sequence and (
                 after_time is None or latest.simulation_time > after_time
             ):
                 return latest
-            time.sleep(self.poll_interval)
+            self._pause_until(deadline)
         applied = latest.sequence_applied if latest is not None else None
         raise TimeoutError(
             f"Besiege did not acknowledge action sequence {sequence}; latest={applied}."

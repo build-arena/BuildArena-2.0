@@ -26,6 +26,7 @@ from .client import (
     targets_by_guid,
 )
 from .derived import PositionHistory
+from .snapshot import SnapshotUnavailableError
 from .profiles import (
     PROFILE_FULL,
     PROFILE_POSITION_ONLY,
@@ -115,6 +116,7 @@ __all__ = [
     "BlockSlider",
     "ControllerClient",
     "SliderRangeWarning",
+    "SnapshotUnavailableError",
     "FIELD_ANGULAR_VELOCITY",
     "FIELD_BUOYANCY",
     "FIELD_FIRE",

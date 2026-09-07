@@ -24,6 +24,8 @@ from pathlib import Path
 from typing import Any
 
 from controller_sdk.client import ControllerClient
+from controller_sdk.channel_bindings import BINDINGS_FILE, ENV_CONTROL_BINDINGS
+from controller_sdk.snapshot import SnapshotUnavailableError
 from controller_sdk.profiles import FULL_MACHINE_FIELDS, FULL_TARGET_FIELDS
 from controller_sdk.protocol import (
     CAMERA_POSE_FILE,
@@ -57,6 +59,7 @@ from .manifest import (
 )
 from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .compat import verify_compatibility
+from .control_bindings import build_control_bindings
 from .paths import datacache_dir, mod_data_dir, resolve_besiege_data, resolve_channel_catalog
 from .preflight import PreflightError, expand_run_telemetry, reject_legacy_bsg
 from .recorder import is_recording, recording_state_path, start_recording, stop_recording
@@ -292,7 +295,8 @@ def _hold_for_sim_time(
     if hold_seconds <= 0:
         return
     client = ControllerClient(data_dir, poll_interval=poll_interval)
-    start = client.read_sample()
+    deadline = time.monotonic() + wall_timeout
+    start = client.next_sample(timeout=wall_timeout)
     if not start.simulating:
         raise RunFailedError(
             f"{label} requires a live BAT4 stream; simulation is not running."
@@ -300,12 +304,11 @@ def _hold_for_sim_time(
     target = float(start.simulation_time) + hold_seconds
     last_sequence = int(start.sequence)
     last_sim = float(start.simulation_time)
-    deadline = time.monotonic() + wall_timeout
     while time.monotonic() < deadline:
         try:
-            frame = client.read_sample()
-        except (TelemetryCodecError, RuntimeError, OSError):
-            time.sleep(poll_interval)
+            frame = client.read_sample(timeout=min(0.05, max(0.0, deadline - time.monotonic())))
+        except SnapshotUnavailableError:
+            time.sleep(min(poll_interval, max(0.0, deadline - time.monotonic())))
             continue
         if int(frame.sequence) == last_sequence or float(frame.simulation_time) <= last_sim:
             time.sleep(poll_interval)
@@ -353,6 +356,7 @@ def _run_python_controller(
     environment[ENV_MACHINE_BSG] = str(prepared_bsg.resolve())
     environment[ENV_CHANNEL_CATALOG] = str(Path(catalog_path).resolve())
     environment[ENV_RUN_DIR] = str(run_dir.resolve())
+    environment[ENV_CONTROL_BINDINGS] = str((run_dir / BINDINGS_FILE).resolve())
     control_root = str(Path(__file__).resolve().parents[1])
     existing_python_path = environment.get("PYTHONPATH", "")
     environment["PYTHONPATH"] = (
@@ -523,6 +527,11 @@ def cmd_run(args: argparse.Namespace) -> int:
         prepared_bsg, catalog_path=catalog_path
     )
     channels = infer_channels(prepared_blocks, catalog_path=catalog_path)
+    atomic_write_json(
+        run_dir / BINDINGS_FILE,
+        build_control_bindings(prepared_blocks, channels, run_id=run_id),
+        durable=False,
+    )
 
     resolved_events: list[dict[str, object]] | None = None
     if controller_kind == CONTROLLER_KIND_TIMELINE:

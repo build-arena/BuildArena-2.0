@@ -28,6 +28,8 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from buildarena.block_identity import canonical_block, resolve_block_name, select_blocks
+from buildarena.control_descriptor_loader import load_control_semantics
+from blocks.control_descriptors.keylist_bindings import KEYLIST_BINDING_VERSION
 
 # Mod identity comes from the single Python source of truth in
 # controller_sdk.protocol; nothing here re-declares IDs or versions.
@@ -86,6 +88,7 @@ class ControlChannel:
     # semantic_member_kind resolution can never reach them) and immune to
     # keyboard remapping, unlike matching against `keys`.
     keylist_index: int = -1
+    aliases: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -97,6 +100,7 @@ class CatalogChannelSpec:
     # semantic_name is None.
     semantic_member_kind: str | None
     native_keys: tuple[str, ...]
+    aliases: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -157,19 +161,46 @@ def load_block_channel_catalog(path: str | Path) -> dict[str, CatalogBlockEntry]
             "No channel-address fallback is used."
         )
     payload = json.loads(catalog_path.read_text(encoding="utf-8-sig"))
+    if payload.get("schema") != "buildarena.block_channel_catalog.v1":
+        raise ValueError(f"Unsupported channel catalog schema in {catalog_path}.")
+    if payload.get("keylist_binding_version", KEYLIST_BINDING_VERSION) != KEYLIST_BINDING_VERSION:
+        raise ValueError(f"Unsupported KeyList binding version in {catalog_path}; regenerate the catalog.")
     entries: dict[str, CatalogBlockEntry] = {}
     for block in payload["blocks"]:
+        block_id = str(block["block_id"])
+        if canonical_block(block_id) is None:
+            continue
+        semantics = load_control_semantics(block_id=int(block_id))
         channel_specs: list[CatalogChannelSpec] = []
         for channel in block.get("channels", []):
+            slot = channel["channel_index"]
+            if isinstance(slot, bool) or not isinstance(slot, int) or slot < 0:
+                raise ValueError(f"Block {block_id} has an invalid KeyList slot {slot!r}.")
+            names = semantics.channel_names(slot) if semantics is not None else ()
+            semantic_name = channel.get("semantic_name")
+            if names and semantic_name not in (None, *names, f"keylist_{slot}", f"channel_{slot}"):
+                raise ValueError(
+                    f"Block {block_id} KeyList[{slot}] catalog name {semantic_name!r} "
+                    f"conflicts with {names[0]!r}; regenerate the catalog."
+                )
             native_keys_raw = channel.get("native_keys")
             native_keys = tuple(native_keys_raw.split("|")) if native_keys_raw else ()
             channel_specs.append(
                 CatalogChannelSpec(
-                    channel_index=int(channel["channel_index"]),
-                    semantic_name=channel.get("semantic_name"),
+                    channel_index=slot,
+                    semantic_name=names[0] if names else semantic_name,
                     semantic_member_kind=channel.get("semantic_member_kind"),
                     native_keys=native_keys,
+                    aliases=names[1:],
                 )
+            )
+        slots = [channel.channel_index for channel in channel_specs]
+        if len(set(slots)) != len(slots):
+            raise ValueError(f"Block {block_id} has duplicate KeyList slots in {catalog_path}.")
+        if semantics is not None and set(slots) != set(semantics.keylist_indices.values()):
+            raise ValueError(
+                f"Block {block_id} catalog slots {sorted(slots)} do not match explicit bindings "
+                f"{sorted(semantics.keylist_indices.values())}; regenerate the catalog."
             )
         sliders: list[CatalogSliderSpec] = []
         for slider in block.get("sliders", []) or []:
@@ -410,6 +441,7 @@ def infer_channels(
                     local_index=block.local_index,
                     semantic_member_kind=channel_spec.semantic_member_kind,
                     keylist_index=channel_spec.channel_index,
+                    aliases=channel_spec.aliases,
                 )
             )
     return channels

@@ -114,16 +114,19 @@ def resolve_timeline_events(
     Unknown addresses and channels raise rather than silently doing nothing.
     """
     channel_list = list(channels)
-    by_pair: dict[tuple[str, str], ControlChannel] = {
-        (channel.block_guid, channel.channel): channel for channel in channel_list
-    }
+    by_pair: dict[tuple[str, str], ControlChannel] = {}
+    by_local_pair: dict[tuple[int, str], ControlChannel] = {}
+    for channel in channel_list:
+        for name in (channel.channel, *channel.aliases):
+            for table, address in ((by_pair, channel.block_guid), (by_local_pair, channel.local_index)):
+                key = (address, name)
+                if key in table and table[key] != channel:
+                    raise ValueError(f"Ambiguous control channel address {key!r}.")
+                table[key] = channel
     by_guid_index: dict[tuple[str, int], ControlChannel] = {
         (channel.block_guid, channel.keylist_index): channel
         for channel in channel_list
         if channel.keylist_index >= 0
-    }
-    by_local_pair: dict[tuple[int, str], ControlChannel] = {
-        (channel.local_index, channel.channel): channel for channel in channel_list
     }
     by_local_keylist: dict[tuple[int, int], ControlChannel] = {
         (channel.local_index, channel.keylist_index): channel

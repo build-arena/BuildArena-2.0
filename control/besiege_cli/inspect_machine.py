@@ -281,6 +281,9 @@ def machine_inspect_report(
                 ):
                     lines.append(f"  {ordinal}. Channel name: {channel.channel}")
                     lines.append(f"     Function: {description}")
+                    lines.append(f"     Runtime address: KeyList[{channel.keylist_index}]")
+                    if channel.aliases:
+                        lines.append(f"     Accepted aliases: {', '.join(channel.aliases)}")
                     lines.append(
                         f'     Address: send_channels(channels=[({bsg_block.local_index}, '
                         f'"{channel.channel}")])'
