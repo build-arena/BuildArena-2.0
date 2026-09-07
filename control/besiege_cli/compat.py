@@ -26,23 +26,20 @@ class CompatibilityError(RuntimeError):
 
 
 def installed_toolkit_dir(besiege_data: Path) -> Path:
-    """The single installed BuildArenaToolKit mod folder. Zero or multiple
-    candidates are both hard errors: there is exactly one supported layout."""
-    mods_dir = besiege_data / "Mods"
-    candidates = sorted(mods_dir.glob("BuildArenaToolKit*")) if mods_dir.is_dir() else []
-    candidates = [path for path in candidates if path.is_dir()]
-    if not candidates:
-        raise CompatibilityError(
-            f"BuildArenaToolKit is not installed under {mods_dir}. Install the Release ZIP's "
-            "BuildArenaToolKit folder there."
-        )
-    if len(candidates) > 1:
-        names = ", ".join(path.name for path in candidates)
-        raise CompatibilityError(
-            f"Multiple installed BuildArenaToolKit folders under {mods_dir}: {names}. "
-            "Remove all but one; the loader would otherwise pick one arbitrarily."
-        )
-    return candidates[0]
+    """The subscribed ToolKit folder under Steam Workshop.
+
+    Workshop items live at ``steamapps/workshop/content/346010/3795335349``,
+    not under ``Besiege_Data/Mods``. Local Mods copies are ignored.
+    """
+    from .steam import workshop_item_status
+
+    workshop = workshop_item_status(besiege_data=besiege_data)
+    if workshop.installed and workshop.content_dir is not None:
+        return workshop.content_dir
+    raise CompatibilityError(
+        f"BuildArena ToolKit Workshop item is not installed. {workshop.reason} "
+        f"Subscribe at {workshop.workshop_url}."
+    )
 
 
 def verify_compatibility(besiege_data: Path) -> str:

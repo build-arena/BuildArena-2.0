@@ -344,25 +344,25 @@ def _extra_ready_checks() -> list[EnvCheckResult]:
     toolkit_detail = "BESIEGE_DATA_PATH is not set"
     toolkit_path = None
     if raw_besiege:
+        control_root = PROJECT_ROOT / "control"
+        if str(control_root) not in sys.path:
+            sys.path.insert(0, str(control_root))
+        from besiege_cli.compat import CompatibilityError, installed_toolkit_dir
+
         besiege = resolve_project_path(path=raw_besiege)
-        mods = besiege / "Mods"
-        candidates = sorted(mods.glob("BuildArenaToolKit*")) if mods.is_dir() else []
-        candidates = [path for path in candidates if path.is_dir()]
-        if len(candidates) == 1:
+        try:
+            toolkit_path = installed_toolkit_dir(besiege)
             toolkit_ok = True
-            toolkit_path = candidates[0]
-            toolkit_detail = f"found {candidates[0].name}"
-        elif not candidates:
-            toolkit_detail = f"BuildArenaToolKit is not installed under {mods}"
-        else:
-            toolkit_detail = f"multiple BuildArenaToolKit folders: {[path.name for path in candidates]}"
+            toolkit_detail = f"workshop item at {toolkit_path}"
+        except CompatibilityError as exc:
+            toolkit_detail = str(exc)
     extras.append(
         EnvCheckResult(
             requirement=EnvRequirement(
                 env_var="TOOLKIT_INSTALL",
                 kind="dir",
-                purpose="Exactly one BuildArenaToolKit folder under Besiege_Data/Mods.",
-                readme_step="Subscribe to https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349 then re-run scripts/setup.ps1",
+                purpose="Steam Workshop subscription at workshop/content/346010/3795335349.",
+                readme_step="Subscribe to https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349 then re-run setup",
             ),
             ok=toolkit_ok,
             detail=toolkit_detail,
