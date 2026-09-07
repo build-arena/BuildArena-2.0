@@ -62,7 +62,15 @@ from .preflight import PreflightError, expand_run_telemetry, reject_legacy_bsg
 from .recorder import is_recording, recording_state_path, start_recording, stop_recording
 from .run_status import RunStatus
 from .session import ensure_game, ensure_sandbox
-from .timeline import installed_timeline_payload, read_timeline_json, resolve_timeline_events, write_timeline_json
+from .timeline import (
+    installed_timeline_payload,
+    read_timeline_json,
+    resolve_timeline_events,
+    shift_timeline_events,
+    write_timeline_json,
+)
+
+DEFAULT_RUN_HOLD_SECONDS = 3.0
 
 
 class RunFailedError(RuntimeError):
@@ -193,6 +201,8 @@ def _write_input_manifest(
             "targets": "all_machine_blocks",
         },
         "screen_record": bool(getattr(args, "record", False)),
+        "pre_controller_hold": float(getattr(args, "pre_controller_hold", DEFAULT_RUN_HOLD_SECONDS) or 0.0),
+        "post_completion_hold": float(getattr(args, "post_completion_hold", DEFAULT_RUN_HOLD_SECONDS) or 0.0),
         "camera_follow": getattr(args, "camera_follow", None),
         "bulk": {
             "enabled": args.bulk_hz is not None or args.bulk_batch is not None,
@@ -265,12 +275,19 @@ def _refresh_live_status(
         )
 
 
+def _hold_wall_timeout(hold_seconds: float, explicit_timeout: float) -> float:
+    if explicit_timeout > 0:
+        return explicit_timeout
+    return max(hold_seconds * 4.0, hold_seconds + 15.0)
+
+
 def _hold_for_sim_time(
     data_dir: Path,
     *,
     hold_seconds: float,
     wall_timeout: float,
     poll_interval: float,
+    label: str,
 ) -> None:
     if hold_seconds <= 0:
         return
@@ -278,7 +295,7 @@ def _hold_for_sim_time(
     start = client.read_sample()
     if not start.simulating:
         raise RunFailedError(
-            "post_completion_hold requires a live BAT4 stream; simulation is not running."
+            f"{label} requires a live BAT4 stream; simulation is not running."
         )
     target = float(start.simulation_time) + hold_seconds
     last_sequence = int(start.sequence)
@@ -299,7 +316,7 @@ def _hold_for_sim_time(
             return
         time.sleep(poll_interval)
     raise RunFailedError(
-        f"post_completion_hold did not reach {hold_seconds}s of BAT4 simulation time "
+        f"{label} did not reach {hold_seconds}s of BAT4 simulation time "
         f"within {wall_timeout}s wall-clock (last_sim={last_sim:.3f}, target={target:.3f})."
     )
 
@@ -424,6 +441,10 @@ def cmd_run(args: argparse.Namespace) -> int:
     if not recorder_enabled and recorder_hz_arg is not None:
         raise PreflightError("--recorder-hz cannot be combined with --no-recorder.")
     recorder_hz = float(recorder_hz_arg if recorder_hz_arg is not None else TELEMETRY_SAMPLE_RATE_HZ)
+    pre_hold = float(getattr(args, "pre_controller_hold", DEFAULT_RUN_HOLD_SECONDS) or 0.0)
+    post_hold = float(getattr(args, "post_completion_hold", DEFAULT_RUN_HOLD_SECONDS) or 0.0)
+    if pre_hold < 0 or post_hold < 0:
+        raise PreflightError("--pre-controller-hold and --post-completion-hold must be >= 0.")
     if args.bulk_hz is None and args.bulk_batch is not None:
         raise PreflightError("--bulk-hz and --bulk-batch must be given together.")
     if args.bulk_batch is None and args.bulk_hz is not None:
@@ -506,12 +527,20 @@ def cmd_run(args: argparse.Namespace) -> int:
     resolved_events: list[dict[str, object]] | None = None
     if controller_kind == CONTROLLER_KIND_TIMELINE:
         timeline = read_timeline_json(controller_path)
-        resolved_events = resolve_timeline_events(timeline["events"], channels)
+        resolved_events = shift_timeline_events(
+            resolve_timeline_events(timeline["events"], channels),
+            pre_hold,
+        )
         resolved_timeline = installed_timeline_payload(resolved_events, run_id=run_id)
         write_timeline_json(run_dir / "timeline_resolved.json", resolved_timeline)
         log.write(
             f"Timeline validated: {len(resolved_events)} events against {len(channels)} channels."
         )
+        if pre_hold > 0:
+            log.write(
+                f"Timeline events shifted by {pre_hold}s so the first actuation "
+                "waits out the pre-controller hold."
+            )
 
     log.write(
         f"Ensuring Besiege is running (launch-timeout={args.launch_timeout:.0f}s). "
@@ -574,7 +603,8 @@ def cmd_run(args: argparse.Namespace) -> int:
         (data_dir / CAMERA_POSE_FILE).write_text(" ".join(tokens) + "\n", encoding="ascii")
         log.write(f"Camera pose written: {' '.join(tokens)}")
 
-    if controller_kind == CONTROLLER_KIND_LIVE:
+    needs_live_stream = controller_kind == CONTROLLER_KIND_LIVE or pre_hold > 0 or post_hold > 0
+    if needs_live_stream:
         subscription: dict[str, object] = {
             "schema": CONTROL_SUBSCRIPTION_SCHEMA,
             "run_id": run_id,
@@ -637,6 +667,21 @@ def cmd_run(args: argparse.Namespace) -> int:
         log.write("Simulation started.")
         status.set_phase("simulating")
 
+        if pre_hold > 0:
+            status.set_phase("pre_controller_hold")
+            _hold_for_sim_time(
+                data_dir,
+                hold_seconds=pre_hold,
+                wall_timeout=_hold_wall_timeout(
+                    pre_hold,
+                    float(getattr(args, "pre_controller_hold_timeout", 0.0) or 0.0),
+                ),
+                poll_interval=args.poll_interval,
+                label="pre_controller_hold",
+            )
+            log.write(f"Pre-controller hold reached {pre_hold}s of BAT4 simulation time.")
+            status.set_phase("simulating")
+
         if controller_kind == CONTROLLER_KIND_TIMELINE:
             state = _wait_playback_finished(
                 orchestrator, timeout=args.playback_timeout, poll_interval=args.poll_interval
@@ -680,20 +725,20 @@ def cmd_run(args: argparse.Namespace) -> int:
             critical_errors.append(message)
             log.write(message)
 
-        hold = float(getattr(args, "post_completion_hold", 0.0) or 0.0)
-        if hold > 0 and simulation_started:
-            wall = float(getattr(args, "post_completion_hold_timeout", 0.0) or 0.0)
-            if wall <= 0:
-                wall = max(hold * 4.0, hold + 15.0)
+        if post_hold > 0 and simulation_started:
             try:
                 status.set_phase("holding")
                 _hold_for_sim_time(
                     data_dir,
-                    hold_seconds=hold,
-                    wall_timeout=wall,
+                    hold_seconds=post_hold,
+                    wall_timeout=_hold_wall_timeout(
+                        post_hold,
+                        float(getattr(args, "post_completion_hold_timeout", 0.0) or 0.0),
+                    ),
                     poll_interval=args.poll_interval,
+                    label="post_completion_hold",
                 )
-                log.write(f"Post-completion hold reached {hold}s of BAT4 simulation time.")
+                log.write(f"Post-completion hold reached {post_hold}s of BAT4 simulation time.")
             except Exception as exc:  # noqa: BLE001
                 message = f"post_completion_hold failed: {exc}"
                 status.append_critical_error(message)
@@ -867,16 +912,35 @@ def add_run_parser(subparsers: argparse._SubParsersAction, common_args) -> None:
     parser.add_argument("--camera-distance", type=float, default=None)
     parser.add_argument("--camera-pitch", type=float, default=None)
     parser.add_argument(
-        "--post-completion-hold",
+        "--pre-controller-hold",
+        type=float,
+        default=DEFAULT_RUN_HOLD_SECONDS,
+        help=(
+            "After simulation starts, wait this many BAT4 simulation seconds before "
+            "launching the controller (default: 3). Timeline events are shifted by "
+            "the same amount so the first actuation also waits."
+        ),
+    )
+    parser.add_argument(
+        "--pre-controller-hold-timeout",
         type=float,
         default=0.0,
-        help="Keep simulation and recording running this many BAT4 simulation seconds after the controller finishes.",
+        help="Wall-clock timeout for the pre-controller hold. Default: max(4*hold, hold+15).",
+    )
+    parser.add_argument(
+        "--post-completion-hold",
+        type=float,
+        default=DEFAULT_RUN_HOLD_SECONDS,
+        help=(
+            "Keep simulation and recording running this many BAT4 simulation seconds "
+            "after the controller finishes, then stop recording (default: 3)."
+        ),
     )
     parser.add_argument(
         "--post-completion-hold-timeout",
         type=float,
         default=0.0,
-        help="Wall-clock timeout for the simulation-time hold. Default: max(4*hold, hold+15).",
+        help="Wall-clock timeout for the post-completion hold. Default: max(4*hold, hold+15).",
     )
     parser.add_argument(
         "--recorder-hz",

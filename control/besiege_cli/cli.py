@@ -35,7 +35,7 @@ from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .paths import datacache_dir, mod_data_dir, resolve_besiege_data, resolve_channel_catalog
 from .process import find_besiege_pids
 from .recorder import is_recording, start_recording, stop_recording
-from .run import add_run_parser
+from .run import DEFAULT_RUN_HOLD_SECONDS, add_run_parser
 from .session import ensure_game, ensure_sandbox, quit_game
 from .timeline import build_timeline_from_key_events, write_timeline_json
 
@@ -95,6 +95,11 @@ def cmd_start_sim(args: argparse.Namespace) -> int:
             video_bitrate_kbps=args.record_bitrate_kbps,
         )
         print(f"Recording started (ffmpeg pid={pid}) -> {record_path}; stop-sim will finalize it.")
+        print(
+            f"Recording lead-in {DEFAULT_RUN_HOLD_SECONDS:.0f}s (wall-clock) "
+            "before start_sim; this path has no BAT4 stream."
+        )
+        time.sleep(DEFAULT_RUN_HOLD_SECONDS)
     sequence = orchestrator.send_command("start_sim")
     orchestrator.wait_for_command_result(sequence, timeout=args.timeout)
     state = orchestrator.wait_for_simulating(True, timeout=args.timeout)
@@ -104,13 +109,19 @@ def cmd_start_sim(args: argparse.Namespace) -> int:
 
 def cmd_stop_sim(args: argparse.Namespace) -> int:
     orchestrator, besiege_data = _orchestrator(args)
+    data_dir = mod_data_dir(besiege_data)
+    if is_recording(data_dir):
+        print(
+            f"Recording lead-out {DEFAULT_RUN_HOLD_SECONDS:.0f}s (wall-clock) "
+            "before stopping capture; this path has no BAT4 stream."
+        )
+        time.sleep(DEFAULT_RUN_HOLD_SECONDS)
+        video = stop_recording(data_dir=data_dir)
+        print(f"Recording saved: {video}")
     sequence = orchestrator.send_command("stop_sim")
     orchestrator.wait_for_command_result(sequence, timeout=args.timeout)
     state = orchestrator.wait_for_simulating(False, timeout=args.timeout)
     print(f"Simulation stopped (sequence={sequence}, simulation_state={state.get('simulation_state')!r}).")
-    if is_recording(mod_data_dir(besiege_data)):
-        video = stop_recording(data_dir=mod_data_dir(besiege_data))
-        print(f"Recording saved: {video}")
     return 0
 
 
@@ -359,7 +370,12 @@ def build_parser() -> argparse.ArgumentParser:
         const="",
         default=None,
         metavar="MP4_PATH",
-        help="Record the Besiege window (1080p H.264) until stop-sim. Optional value = output path (default: <repo>/datacache/recordings/<timestamp>.mp4).",
+        help=(
+            "Record the Besiege window (1080p H.264) until stop-sim. Optional value = output "
+            "path (default: <repo>/datacache/recordings/<timestamp>.mp4). Waits 3s wall-clock "
+            "after ffmpeg is ready before start_sim; stop-sim waits 3s then stops capture "
+            "before stop_sim."
+        ),
     )
     start_parser.add_argument("--record-fps", type=int, default=25, help="Capture frame rate (default: 25).")
     start_parser.add_argument("--record-bitrate-kbps", type=int, default=3500, help="Video bitrate in kbps (default: 3500).")

@@ -237,6 +237,8 @@ def _smoke_namespace(
         camera_follow=camera_follow,
         camera_distance=None,
         camera_pitch=None,
+        pre_controller_hold=0.0,
+        pre_controller_hold_timeout=0.0,
         post_completion_hold=0.0,
         post_completion_hold_timeout=0.0,
         recorder_hz=25,

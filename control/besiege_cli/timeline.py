@@ -219,6 +219,30 @@ def resolve_timeline_events(
     return sorted(resolved_events, key=lambda row: (float(row["time"]), str(row["channel_id"])))
 
 
+def shift_timeline_events(
+    events: list[dict[str, object]],
+    offset_seconds: float,
+) -> list[dict[str, object]]:
+    """Return a copy of ``events`` with every time increased by ``offset_seconds``.
+
+    Used so a timeline's first actuation waits out the same pre-controller
+    hold that delays a live Python controller. ``offset_seconds`` must be >= 0.
+    """
+    if isinstance(offset_seconds, bool) or not isinstance(offset_seconds, (int, float)):
+        raise TypeError("timeline hold offset must be numeric.")
+    offset = float(offset_seconds)
+    if offset < 0.0:
+        raise ValueError("timeline hold offset must be >= 0.")
+    if offset == 0.0:
+        return [dict(event) for event in events]
+    shifted: list[dict[str, object]] = []
+    for event in events:
+        item = dict(event)
+        item["time"] = round(float(event["time"]) + offset, 4)
+        shifted.append(item)
+    return shifted
+
+
 def installed_timeline_payload(
     resolved_events: list[dict[str, object]],
     *,
