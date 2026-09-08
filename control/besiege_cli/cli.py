@@ -227,8 +227,8 @@ def cmd_inspect_machine(args: argparse.Namespace) -> int:
     channels = infer_channels(blocks, manual_path=args.manual_map, catalog_path=catalog_path)
     sliders = infer_sliders(blocks, catalog_path=catalog_path)
     machine = rebuild_machine(json_path)
-    print(f"Machine: {bsg_path}")
-    print(f"Build history: {json_path}")
+    print(f"Build history (authoritative): {json_path}")
+    print(f"BSG export: {bsg_path}")
     print(
         machine_inspect_report(
             machine, blocks, channels, sliders=sliders, verbose=args.verbose
@@ -406,11 +406,11 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_parser.add_argument("--bsg", required=True, help="Path to the MCP-built .bsg (its <name>.json build history must sit next to it).")
     inspect_parser.add_argument("--catalog", default=None, help="Override the ToolKit-data-dir block_channel_catalog.json path.")
     inspect_parser.add_argument("--manual-map", default=None, help="Optional manual channel override CSV/JSON (e.g. a dump-channels export).")
-    inspect_parser.add_argument("--out", default=None, help="Also write the resolved channel map JSON here.")
+    inspect_parser.add_argument("--out", default=None, help="Export the resolved channel map JSON here (not the inspection report).")
     inspect_parser.add_argument(
         "--verbose",
         action="store_true",
-        help="Also show protocol details: block guids, KeyList positions, and activation implementation.",
+        help="Show full descriptors, faces, saved configuration, export GUIDs, KeyList positions and activation details.",
     )
     inspect_parser.set_defaults(func=cmd_inspect_machine)
 
@@ -437,7 +437,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=(),
         metavar="N",
-        help="inspect-machine block indices whose raw x/y/z the ToolKit records at 25 Hz (recommended).",
+        help="BSG block indices to record (not build IDs); the configured telemetry profile determines fields.",
     )
     telemetry_parser.add_argument(
         "--output-basename",

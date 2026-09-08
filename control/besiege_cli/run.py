@@ -21,7 +21,7 @@ import sys
 import threading
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from controller_sdk.client import ControllerClient
 from controller_sdk.channel_bindings import BINDINGS_FILE, ENV_CONTROL_BINDINGS
@@ -335,6 +335,27 @@ def _release_controls(data_dir: Path, *, run_id: str, timeout: float) -> None:
     client.close(ack_timeout=timeout)
 
 
+def _wait_controller_ready(path: Path, *, run_id: str, process, timeout: float) -> None:
+    """Wait for this process to finish initialization before starting physics."""
+    deadline = time.monotonic() + timeout
+    while True:
+        if process.poll() is not None:
+            raise RunFailedError("Controller exited before publishing its readiness handshake.")
+        try:
+            ready = json.loads(path.read_text(encoding="utf-8"))
+        except (FileNotFoundError, PermissionError):
+            # Windows may briefly deny reads while the atomic handshake is
+            # being published. Retry only within the existing readiness deadline.
+            ready = None
+        if ready is not None:
+            if ready != {"schema": "buildarena.controller_ready.v1", "run_id": run_id}:
+                raise RunFailedError("Controller readiness handshake has a stale run ID or invalid schema.")
+            return
+        if time.monotonic() >= deadline:
+            raise RunFailedError("Controller did not publish its readiness handshake before the deadline.")
+        time.sleep(min(.01, max(0., deadline-time.monotonic())))
+
+
 def _run_python_controller(
     *,
     controller_path: Path,
@@ -349,6 +370,7 @@ def _run_python_controller(
     stop_refresh: threading.Event,
     recorder_enabled: bool,
     recording: bool,
+    start_simulation: Callable[[], None] | None = None,
 ) -> None:
     environment = dict(os.environ)
     environment[ENV_RUN_ID] = run_id
@@ -357,6 +379,12 @@ def _run_python_controller(
     environment[ENV_CHANNEL_CATALOG] = str(Path(catalog_path).resolve())
     environment[ENV_RUN_DIR] = str(run_dir.resolve())
     environment[ENV_CONTROL_BINDINGS] = str((run_dir / BINDINGS_FILE).resolve())
+    ready_path = run_dir / "controller_ready.json"
+    if start_simulation is not None:
+        ready_path.unlink(missing_ok=True)
+        environment["BUILDARENA_CONTROLLER_READY"] = str(ready_path.resolve())
+    else:
+        environment.pop("BUILDARENA_CONTROLLER_READY", None)
     control_root = str(Path(__file__).resolve().parents[1])
     existing_python_path = environment.get("PYTHONPATH", "")
     environment["PYTHONPATH"] = (
@@ -405,7 +433,12 @@ def _run_python_controller(
         refresher.start()
         pump.start()
         try:
-            exit_code = process.wait(timeout=timeout)
+            deadline = time.monotonic() + timeout
+            if start_simulation is not None:
+                _wait_controller_ready(ready_path, run_id=run_id, process=process, timeout=min(15., timeout))
+                log.write("Controller initialized and armed; starting simulation.")
+                start_simulation()
+            exit_code = process.wait(timeout=max(.001, deadline-time.monotonic()))
         except subprocess.TimeoutExpired:
             process.terminate()
             try:
@@ -417,9 +450,18 @@ def _run_python_controller(
                 "and was terminated."
             ) from None
         finally:
+            if process.poll() is None:
+                process.terminate()
+                try:
+                    process.wait(timeout=10.)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=10.)
             stop_refresh.set()
             pump.join(timeout=2.0)
             refresher.join(timeout=2.0)
+            if process.stdout is not None and not pump.is_alive():
+                process.stdout.close()
         if exit_code != 0:
             raise RunFailedError(
                 f"Controller subprocess {controller_path.name} exited with code {exit_code}."
@@ -468,6 +510,9 @@ def cmd_run(args: argparse.Namespace) -> int:
     if not controller_path.is_file():
         raise FileNotFoundError(f"Controller file not found: {controller_path}")
     controller_kind = resolve_controller_kind(controller_path)
+    controller_prestart = bool(getattr(args, "controller_prestart", False))
+    if controller_prestart and (controller_kind != CONTROLLER_KIND_LIVE or pre_hold != 0):
+        raise PreflightError("--controller-prestart requires a live Python controller and --pre-controller-hold 0.")
 
     catalog_path = resolve_channel_catalog(args.catalog)
     run_id = new_run_id()
@@ -653,10 +698,22 @@ def cmd_run(args: argparse.Namespace) -> int:
             )
 
     simulation_started = False
+    simulation_start_requested = False
     recording_path: Path | None = None
     run_failed = False
     critical_errors: list[str] = []
     stop_refresh = threading.Event()
+    def start_simulation() -> None:
+        nonlocal simulation_started, simulation_start_requested
+        sequence = orchestrator.send_command("start_sim")
+        simulation_start_requested = True
+        orchestrator.wait_for_command_result(sequence, timeout=args.timeout)
+        orchestrator.wait_for_simulating(True, timeout=args.timeout)
+        simulation_started = True
+        _raise_on_run_error(orchestrator.read_state())
+        log.write("Simulation started.")
+        status.set_phase("simulating")
+
     try:
         if getattr(args, "record", False):
             recording_path = run_dir / "run.mp4"
@@ -668,13 +725,8 @@ def cmd_run(args: argparse.Namespace) -> int:
             status.refresh(screen_recorder_status="recording")
             log.write("Screen recorder ready.")
 
-        sequence = orchestrator.send_command("start_sim")
-        orchestrator.wait_for_command_result(sequence, timeout=args.timeout)
-        orchestrator.wait_for_simulating(True, timeout=args.timeout)
-        simulation_started = True
-        _raise_on_run_error(orchestrator.read_state())
-        log.write("Simulation started.")
-        status.set_phase("simulating")
+        if not controller_prestart:
+            start_simulation()
 
         if pre_hold > 0:
             status.set_phase("pre_controller_hold")
@@ -713,6 +765,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                 stop_refresh=stop_refresh,
                 recorder_enabled=recorder_enabled,
                 recording=recording_path is not None,
+                start_simulation=start_simulation if controller_prestart else None,
             )
             _raise_on_run_error(orchestrator.read_state())
         status.set_phase("controller_finished")
@@ -774,7 +827,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                 critical_errors.append(message)
                 log.write(message)
 
-        if simulation_started:
+        if simulation_started or simulation_start_requested:
             try:
                 _stop_simulation(orchestrator, timeout=args.timeout)
                 log.write("Simulation stopped.")
@@ -916,6 +969,8 @@ def add_run_parser(subparsers: argparse._SubParsersAction, common_args) -> None:
         help="Custom live machine fields. Use with --telemetry-profile custom.",
     )
     parser.add_argument("--record", action="store_true", help="Record the Besiege window to run.mp4.")
+    parser.add_argument("--controller-prestart", action="store_true",
+                        help="Initialize a cooperating Python controller before physics; requires its readiness handshake and --pre-controller-hold 0.")
     parser.add_argument("--record-fps", type=int, default=25)
     parser.add_argument("--camera-follow", default=None, help="Block GUID for MouseOrbit follow.")
     parser.add_argument("--camera-distance", type=float, default=None)

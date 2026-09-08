@@ -1,7 +1,7 @@
 """Combined structure + control-channel inspection for MCP-built machines.
 
 `inspect-machine` only accepts the paired output of an MCP build
-(``besiege/build.py``'s ``to_file`` writes ``<name>.bsg`` plus the
+(``buildarena/build.py``'s ``to_file`` writes ``<name>.bsg`` plus the
 ``<name>.json`` operation history side by side). The history is replayed
 into a live ``buildarena.build.Machine`` whose per-block captions carry the
 structural description (position, descriptor, spin, notes); the BSG
@@ -149,11 +149,10 @@ def machine_inspect_report(
 ) -> str:
     """Render the combined structural + control-channel description.
 
-    Blocks appear in BSG file order. Each entry is the replayed block's own
-    caption (the same structural text the MCP builder shows) followed by a
-    user-facing description of that block's named controls. Protocol
-    details (guid, KeyList position, activation implementation) are only
-    included in verbose mode.
+    Structure comes from build-history replay and reuses the builder captions.
+    Controls are grouped separately, with shared examples and explicit BSG
+    selectors. Export identity and KeyList details are included in verbose mode.
+    This offline report does not observe runtime state.
     """
     pairs = align_blocks(machine, bsg_blocks)
 
@@ -214,115 +213,77 @@ def machine_inspect_report(
             )
         authored_sliders_by_index[bsg_block.local_index] = authored
 
+    from buildarena.text_render import display, issue, machine_overview, section
+
     named_channel_count = sum(len(items) for items in user_controls_by_index.values())
     authored_slider_count = sum(len(items) for items in authored_sliders_by_index.values())
-    lines: list[str] = []
-    if machine.note:
-        lines.append(f"Machine Summary: {machine.note}")
-    lines.append(
-        f"Existing Blocks: {len(pairs)}; named control channels: {named_channel_count}; "
-        f"authored sliders: {authored_slider_count}"
-    )
-    first_control = next(
-        (
-            (index, channel)
-            for index, items in user_controls_by_index.items()
-            for channel, _description in items
-        ),
-        None,
-    )
-    first_slider = next(
-        (
-            (index, name)
-            for index, items in authored_sliders_by_index.items()
-            for name, _description in items
-        ),
-        None,
-    )
-    lines.append("")
-    if first_control is None and first_slider is None:
-        lines.append("This machine has no user-controllable channels or sliders.")
-    else:
-        lines.append(
-            "How to control this machine (value 1.0 presses a channel, 0.0 releases it;"
-        )
-        lines.append("slider values are the live mapper range, not 0/1):")
-        if first_control is not None:
-            example_index, example_channel = first_control
-            lines.extend(
-                [
-                    f'  timeline event:  {{"time": 0.5, "block": {example_index}, '
-                    f'"channel": "{example_channel.channel}", "value": 1.0}}',
-                    f"  python (SDK):    client.send_channels("
-                    f'channels=[({example_index}, "{example_channel.channel}")])',
-                ]
-            )
-        if first_slider is not None:
-            slider_index, slider_name = first_slider
-            lines.append(
-                f'  python (SDK):    client.send_sliders('
-                f'sliders=[({slider_index}, "{slider_name}", value)])'
-            )
-
-    # Captions read repository-relative descriptor content, hence the cwd
-    # switch (restored on exit) for the rendering pass as well.
+    lines = [machine_overview(machine),
+             f"Controls: {named_channel_count} named channels; {authored_slider_count} authored sliders",
+             "Important: export pairing is checked by order/count/type/name only; external BSG edits are not fully verified."]
     with contextlib.chdir(REPO_ROOT):
-        for bsg_block, build_block in pairs:
-            lines.append("")
-            lines.append(
-                f"[block {bsg_block.local_index}] {build_block.name}  id={bsg_block.block_id}"
-            )
-            lines.append(build_block.caption(finished=True))
-            user_controls = user_controls_by_index[bsg_block.local_index]
-            if user_controls:
-                lines.append(f"Controls ({len(user_controls)}):")
-                for ordinal, (channel, description) in enumerate(
-                    user_controls, start=1
-                ):
-                    lines.append(f"  {ordinal}. Channel name: {channel.channel}")
-                    lines.append(f"     Function: {description}")
-                    lines.append(f"     Runtime address: KeyList[{channel.keylist_index}]")
-                    if channel.aliases:
-                        lines.append(f"     Accepted aliases: {', '.join(channel.aliases)}")
-                    lines.append(
-                        f'     Address: send_channels(channels=[({bsg_block.local_index}, '
-                        f'"{channel.channel}")])'
-                    )
-            else:
-                lines.append("Controls: none")
-            authored_sliders = authored_sliders_by_index[bsg_block.local_index]
-            catalog_by_name = {
-                str(slider.name): slider
-                for slider in sliders_by_index.get(bsg_block.local_index, [])
-            }
-            if authored_sliders:
-                lines.append(f"Sliders ({len(authored_sliders)}):")
-                for ordinal, (name, description) in enumerate(authored_sliders, start=1):
-                    catalog_slider = catalog_by_name.get(name)
-                    bounds = ""
-                    default = ""
-                    if catalog_slider is not None:
-                        if (
-                            catalog_slider.minimum is not None
-                            and catalog_slider.maximum is not None
-                        ):
-                            bounds = f" [{catalog_slider.minimum}, {catalog_slider.maximum}]"
-                        if catalog_slider.default is not None:
-                            default = f" default={catalog_slider.default}"
-                    lines.append(f"  {ordinal}. Slider name: {name}{bounds}{default}")
-                    lines.append(f"     Function: {description}")
-                    lines.append(
-                        f'     Address: send_sliders(sliders=[({bsg_block.local_index}, '
-                        f'"{name}", value)])'
-                    )
-            else:
-                lines.append("Sliders: none")
-
-            if verbose:
-                lines.append(f"    verbose: guid={bsg_block.guid or '<missing>'}")
-                lines.extend(
-                    channel_detail_lines(
-                        [channel for channel, _description in user_controls]
-                    )
-                )
-    return "\n".join(lines)
+        lines.append(section("Build structure", [block.caption(finished=True) for _, block in pairs]))
+    control_lines = []
+    first_control = None
+    first_slider = None
+    for saved, block in pairs:
+        controls = user_controls_by_index[saved.local_index]
+        authored = authored_sliders_by_index[saved.local_index]
+        if not controls and not authored:
+            continue
+        control_lines.append(f"Build ID {block.local_id}: {block.name}")
+        # This index is needed to make examples usable; never call it a build ID.
+        control_lines.append(f"  SDK/timeline block selector: {saved.local_index} (BSG index, not build ID)")
+        control_lines.append("  Channels:")
+        if not controls:
+            control_lines.append("    none")
+        for channel, description in controls:
+            control_lines.append(f"    {channel.channel}: {description}")
+            if channel.aliases:
+                control_lines.append(f"      Accepted aliases: {', '.join(channel.aliases)}")
+            if first_control is None:
+                first_control = (saved.local_index, channel.channel)
+        control_lines.append("  Slider metadata (catalog; not a runtime measurement):")
+        if not authored:
+            control_lines.append("    none")
+        catalog = {str(item.name): item for item in sliders_by_index.get(saved.local_index, [])}
+        for name, description in authored:
+            item = catalog.get(name)
+            bounds = [item.minimum, item.maximum] if item else [None, None]
+            default = item.default if item else None
+            control_lines.append(f"    {name}: {description}")
+            control_lines.append(f"      Catalog range: {display(bounds)}; catalog default: {display(default)}")
+            if first_slider is None:
+                first_slider = (saved.local_index, name)
+    lines.append(section("Control information", control_lines or ["No user-controllable channels or sliders."]))
+    examples = []
+    if first_control:
+        index, name = first_control
+        examples += ["Channel request: 1.0 presses; 0.0 releases. Names are case-sensitive.",
+                     f'timeline event: {{"time": 0.5, "block": {index}, "channel": "{name}", "value": 1.0}}',
+                     f'Python: client.send_channels(channels=[({index}, "{name}")])']
+    if first_slider:
+        index, name = first_slider
+        examples += ["Slider request: choose value using published runtime mapper metadata; it is not a measured joint angle.",
+                     f'Python: client.send_sliders(sliders=[({index}, "{name}", value)])']
+    if examples:
+        lines.append(section("Usage examples", examples))
+    lines.append(section("Warnings", [
+        issue("History / BSG pairing", "History is authoritative; this offline report has no live state.",
+              "Use the paired history and export; re-export from history if the BSG was edited separately."),
+        issue("Control values", "Catalog defaults are not saved settings or effective runtime values; unspecified physical units are unknown.",
+              "Read runtime metadata for mapper ranges and telemetry for observable effects. An action acknowledgement confirms protocol application, not physical success."),
+    ]))
+    if verbose:
+        detail_lines = []
+        with contextlib.chdir(REPO_ROOT):
+            for saved, block in pairs:
+                detail_lines.append(block.caption(finished=False))
+                detail_lines.append(f"  Export identity: BSG index={saved.local_index}; block type ID={saved.block_id}; GUID={saved.guid or 'unknown'}")
+                detail_lines.append("  Runtime action index: unavailable offline; resolved by the run-bound SDK table")
+                detail_lines.append("  Saved BSG configuration (raw export fields):")
+                detail_lines.extend(f"    {key}: {display(value)}" for key, value in sorted(saved.data.items()))
+                detail_lines.extend(channel_detail_lines([channel for channel, _ in user_controls_by_index[saved.local_index]]))
+        lines.append(section("Details", detail_lines))
+    else:
+        lines.append("Details: use --verbose for descriptors, faces, saved configuration, GUIDs and KeyList bindings.")
+    return "\n\n".join(lines)

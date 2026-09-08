@@ -180,8 +180,8 @@ class Face:
     def caption(self):
         # Keep formatting aligned with other captions using 2-decimal precision.
         return str(
-            f'Face label: {self.color}, Face center: '
-            f'{np.array2string(self.center.real, precision=2, separator=", ", suppress_small=True)}, '
+            f'Face {self.color}: center (build [East, North, Up]): '
+            f'{self.center.coordinates}, '
             f'Facing towards {self.normal.caption}'
         )
     

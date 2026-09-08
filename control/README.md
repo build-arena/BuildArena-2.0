@@ -88,9 +88,23 @@ uv run python -m besiege_cli convert-recording --help
 uv run python -m telemetry merge-telemetry --help
 ```
 
-`inspect-machine` is the control-address source of truth. Each block line is
-the unique authored name from `blocks/block_authoring.toml` plus numeric
-`id=` (the game join key). Channel names are the catalog semantic names
+Build history is the authoritative record of construction; `.bsg` is its export.
+`inspect-machine` replays the paired history to describe the structure and uses
+the BSG for saved control addressing. Pairing checks order, count, type and name;
+it does not prove that an externally edited BSG still matches the history.
+Re-export from history if the files diverged.
+
+Reports start with an overview, then build structure, controls, warnings and
+optional details. Build IDs identify authoring objects. SDK/timeline examples
+explicitly label their BSG-index selectors; those are not build IDs or runtime
+action indices. `--verbose` adds full captions, faces, saved fields, export GUIDs
+and KeyList bindings. `--out` exports a channel map, not the text report.
+Positions and directions reuse the builder's `Vector.coordinates`,
+`Orientation.caption`, block descriptors and spin descriptions: East/West,
+North/South, Up/Down and compass angles. No quaternion decoding is needed to
+read a block's orientation. See [presentation examples](../docs/tool-text-presentation.md).
+
+Channel names are the catalog semantic names
 (`ThrustKey`, `LeftKey`) used by `send_channels`. Slider names are the
 authored `MSlider.Key` values in `blocks/control_descriptors/`
 (`fthrust`, `speed`) used by `send_sliders`. Block names have no aliases:
@@ -121,6 +135,36 @@ For a standalone SDK client, pass `bindings_path=...` with a binding file
 generated for that run. Without it, the SDK exposes only runtime-published
 names and position addresses; it cannot reconstruct block types from the
 current v4 block table. BSG/catalog files are not runtime address sources.
+
+## Initialize a controller before physics
+
+For machines that cannot stand without feedback during Python startup, use
+`run --controller-prestart --pre-controller-hold 0`. This opt-in mode starts
+the Python subprocess before simulation and requires a readiness handshake.
+Timeline controllers and nonzero pre-controller holds are rejected.
+
+Finish imports/model initialization, create and arm the SDK client, then
+atomically write the following object to the path in
+`BUILDARENA_CONTROLLER_READY` (only set in prestart mode):
+
+```python
+ready_path = os.environ.get("BUILDARENA_CONTROLLER_READY")
+if ready_path:
+    atomic_write_json(Path(ready_path), {
+        "schema": "buildarena.controller_ready.v1",
+        "run_id": os.environ["BUILDARENA_RUN_ID"],
+    })
+frame = client.wait_until_running(timeout=60)
+channels = client.load_block_table()
+```
+
+Use `atomic_write_json` from `controller_sdk.protocol`. Runtime block tables
+are available after simulation starts; do not wait for them before the
+handshake. The runner checks the run ID and schema, waits at most 15 seconds
+for readiness within the controller timeout, and terminates the subprocess
+if readiness or simulation startup fails. This removes process initialization
+from the uncontrolled physics interval; it does not guarantee real-time
+telemetry delivery or a stable gait.
 
 ## Telemetry contention and deadlines
 
@@ -155,3 +199,46 @@ item [BuildArena ToolKit](https://steamcommunity.com/sharedfiles/filedetails/?id
 
 Legacy protocol v3 files, split-mod IDs, ToolKit 1.x metadata, and
 `tracker.*` keys are rejected explicitly. No compatibility fallback is used.
+
+
+## Reading telemetry and control values
+
+Keep these sources separate:
+
+- Build configuration: authored settings reconstructed from history.
+- Export configuration: fields saved in the BSG; not a live measurement.
+- Catalog metadata: channel descriptions and slider ranges/defaults. Unknown
+  entries remain unknown; a default is not the saved or effective value.
+- Runtime metadata: the loaded block table, including available slider ranges
+  and `initial_value` when published. Initial values are not continuous readings.
+- Control request: values sent by the controller. `sequence_applied` reports
+  protocol application; it does not establish physical success.
+- Telemetry observation: valid values in a received frame. A command target or
+  a catalog description cannot substitute for a missing observation.
+
+Frame identity and availability:
+
+- `sequence`: telemetry publication sequence; a repeated frame is not a new sample.
+- `episode`: simulation episode identity. Keep histories and derivatives separate
+  across episode changes.
+- `simulation_time`: simulation time in seconds, not wall-clock time.
+- `field_mask` / `machine_field_mask`: included target/machine fields. Inclusion
+  does not guarantee that every target has a valid reading.
+- `valid` and optional `*_valid` flags: check before using values; invalid storage
+  values must not be interpreted as measured zero.
+- `receipt_age_seconds`: local elapsed time since receipt of a distinct frame;
+  not game-to-controller latency. The caller defines acceptable staleness.
+
+Target fields are `position`, `rotation`, `velocity`, `angular_velocity`,
+`fuel`, `fire`, `steam`, `ice`, `health` and `buoyancy`. Machine fields are
+`machine_integrity` and `alive_block_count`. The `full` profile enables all;
+`position-only` enables position alone. Optional resource/condition fields have
+field-specific validity flags. The codec defines record layout, not physical
+calibration: do not infer SI units, physical joint limits or applicability from
+field names. Where the installed producer's contract does not establish units
+or reference frames, those semantics are unknown.
+
+Telemetry arrays retain the producer's format. The builder's compass renderer
+operates on authoring vectors; do not feed telemetry arrays into it without an
+established frame/component-order conversion. No conversion or new physical
+observation is introduced by this presentation change.

@@ -16,6 +16,7 @@ from trimesh.collision import CollisionManager
 from trimesh import Trimesh
 
 from .components import Vector, Geometry, describe_spin, Orientation
+from .text_render import block_structure, machine_overview, section, issue
 from .utils import *
 from .definitions_loader import load_runtime_blocks
 from .block_authoring import load_block_authoring
@@ -353,16 +354,11 @@ class Block:
 
     def caption(self, finished=False, prefix: str = None):
         """Return face captions if not finished"""
-        message = []
-        if self.note:
-            message.append(f'({self.note}) <ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'({self.note}) <ID {self.local_id}: {self.name}>')
-        else:
-            message.append(f'<ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'<ID {self.local_id}: {self.name}>')
-        message.append(f'Position: {self.center_pos.coordinates}')
-        
+        message = [block_structure(self, prefix=prefix)]
+
         if self.descriptor:
             description = self.descriptor()
-            message.append(description)
+            message.append(section('Description (build)', [description]))
 
         spin_for_caption = self.spin or _BLOCK_IDS_FORCING_DEFAULT_SPIN_CAPTION.get(
             int(self.id)
@@ -375,7 +371,7 @@ class Block:
             message.append('Attachable Faces:')
             for face in self.faces.values():
                 if face.sticky and face.role != "joint":
-                    message.append(face.caption) 
+                    message.append('  ' + face.caption)
         
         message = '\n'.join(message)
         return str(message)
@@ -649,18 +645,11 @@ class Connector(Block):
             point_b=self.end_point.center.virtual)
     
     def caption(self, finished, prefix: str = None):
-        message = []
-        if self.note:
-            message.append(f'({self.note}) <ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'({self.note}) <ID {self.local_id}: {self.name}>')
-        else:
-            message.append(f'<ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'<ID {self.local_id}: {self.name}>')
-        message.append(
-            f'Connecting <ID {self.start_point.local_id}: {self.start_point.name}> at {self.start_point.center.real} and <ID {self.end_point.local_id}: {self.end_point.name}> at {self.end_point.center.real}.\t' 
-            )
-        
+        message = [block_structure(self, prefix=prefix)]
+
         if self.descriptor:
             description = self.descriptor()
-            message.append(description)
+            message.append(section('Description (build)', [description]))
             
         message = '\n'.join(message)
         return str(message)
@@ -671,18 +660,13 @@ class Pointer(Block):
         super().__init__(block_dict, local_id, start_point, note=note, registry_path=registry_path)
         
     def caption(self, finished, prefix: str = None):
-        message = []
-        if self.note:
-            message.append(f'({self.note}) <ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'({self.note}) <ID {self.local_id}: {self.name}>')
-        else:
-            message.append(f'<ID {prefix}_{self.local_id}: {self.name}>' if prefix else f'<ID {self.local_id}: {self.name}>')
-        message.append(f'Position: {self.center_pos.coordinates}')
+        message = [block_structure(self, prefix=prefix)]
         pointer_direction = self._pointer_direction_vector()
         message.append(f'Pointing at {pointer_direction.caption}')
         
         if self.descriptor:
             description = self.descriptor()
-            message.append(description)
+            message.append(section('Description (build)', [description]))
 
         message = '\n'.join(message)
         return str(message)
@@ -853,7 +837,7 @@ class Machine:
         """
         if self.started:
             error_message = "Machine already exists"
-            self.update_prompt(pre_msg=error_message, complete=True, return_summary=True)
+            self.update_prompt(pre_msg=issue("start", error_message, "Continue editing the active machine; start is only needed once."))
             self.log_failed_operation("start", error_message)
             return self.prompt
         starting_block = self.blocks_storage.get('Starting Block', '1', start_point=None, note="The starting block")
@@ -897,35 +881,35 @@ class Machine:
         """
         message = []
         if pre_msg:
-            message.append(pre_msg)
-            
+            message.append(section("Operation result", [pre_msg]))
+        if return_summary:
+            message.append(machine_overview(self))
+            if complete:
+                message.append(section("Build structure", [
+                    block.caption(finished=True, prefix=prefix) for block in self.blocks.values()
+                ] or ["No blocks. Use start to create the root block."]))
+                message.append("Details: get_block_details(block_id) for configuration, directions and attachable faces.")
+            elif self.blocks:
+                block = next(reversed(self.blocks.values()))
+                message.append(section("Affected block", [block.caption(finished=False, prefix=prefix)]))
         if locomotion:
             message.append(self.review_powered_blocks())
-        
-        if return_summary:
-            message.append(f'Existing Blocks: {len(self.blocks)}')
-            if complete:
-                message.append(f'\nMachine Summary: {self.note}')
-                for block in self.blocks.values():
-                    message.append(block.caption(finished = complete, prefix = prefix))
-            else:
-                # Show the last block if not complete
-                max_uid = [key for key in self.blocks.keys()][-1]
-                message.append(self.blocks[str(max_uid)].caption(finished = complete, prefix = prefix))
-        self.prompt = '\n'.join(message)
-    
+        self.prompt = '\n\n'.join(message)
+
     @operation(log=False)
     def get_machine_summary(self):
         """
         Get the latest state of the machine without face captions, provide the overview of the machine.
         If the block and face details are needed for further operations, use get_block_details.
-        Important: It is mandatory to use this tool for a final check before the termination of the current process. Always remind the collaborator.
+        Source: current authoring state, reconstructed from build history when loaded.
+        This is not runtime telemetry. For attachable faces use get_block_details.
+        Example: get_machine_summary().
         
         Args:
             None
             
         Returns:
-            str: The latest state of the machine
+            str: Overview, compact build structure and a pointer to block details
         """
         self.update_prompt(complete=True, return_summary=True)
         return self.prompt
@@ -933,7 +917,9 @@ class Machine:
     @operation(log=False)
     def get_block_details(self, block_id: Union[str, int]):
         """
-        Get the complete details of a specific block, including its position, rotation, and face details.
+        Get authoring details of one block: attachment, position, orientation, configuration and faces.
+        Coordinates are labeled; values are not runtime observations.
+        Example: get_block_details(block_id="1").
         
         Args:
             block_id (Union[str, int]): ID of the block to get details for
@@ -946,7 +932,8 @@ class Machine:
         if block_id in self.blocks.keys():
             return self.blocks[block_id].caption(finished=False)
         else:
-            return f"Block {block_id} not found"
+            return issue(f"Build ID {block_id}", "Block not found in the current authoring state.",
+                         "Use get_machine_summary() to find an existing build ID.")
 
     @operation(group="query")
     def list_block_categories(self) -> str:
@@ -1110,7 +1097,7 @@ class Machine:
             if not replacing:
                 # In case of in-place replacing (twist and shift), the uid should not be updated
                 # Update counter if adding successes
-                self.update_prompt(pre_msg=f"You have successfully added <ID {block.local_id}: {block.name}>.", 
+                self.update_prompt(pre_msg=f"Added Build ID {block.local_id}: {block.name}.",
                                 return_summary=return_summary, 
                                 complete=False)
                 self.uid += 1
@@ -1122,7 +1109,7 @@ class Machine:
         """
         Connect two blocks using a connector. 
         The connection will not be successful if the two faces are too close to each other.
-        The face is labeled with capitalized letters, check the attachable face details using get_block_details if needed.
+        Use the exact face label returned by get_block_details; labels depend on the block definition.
         
         Args:
             block_a (Union[str, int]): ID of the first block
@@ -1144,7 +1131,7 @@ class Machine:
                 f"Connector {connector} does not exist or is not available, "
                 f"please choose one of: {available_connectors}."
             )
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("connect_blocks", error_message)
             return self.prompt
         if isinstance(block_a, int):
@@ -1161,7 +1148,7 @@ class Machine:
                 face_b: Face = block_b.faces.get(face_b)
                 if np.linalg.norm(face_a.center.virtual - face_b.center.virtual) < 0.01:
                     error_message = "The two faces are too close to each other, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("connect_blocks", error_message)
                     return self.prompt
                 else:
@@ -1171,39 +1158,39 @@ class Machine:
                     collision_msg = self._add_block(block=connector)
                     if collision_msg:
                         error_message = collision_msg
-                        self.update_prompt(pre_msg=error_message)
+                        self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                         self.log_failed_operation("connect_blocks", error_message)
                         return self.prompt
             elif face_a not in block_a.faces.keys():
                 if len(block_a.faces.keys()) == 0:
                     error_message = f"Block {block_a.local_id} {block_a.name} does not have any faces, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("connect_blocks", error_message)
                     return self.prompt
                 else:
                     error_message = f"Block {block_a.local_id} {block_a.name} does not have face {face_a}, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("connect_blocks", error_message)
                     return self.prompt
             elif face_b not in block_b.faces.keys():
                 if len(block_b.faces.keys()) == 0:
                     error_message = f"Block {block_b.local_id} {block_b.name} does not have any faces, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("connect_blocks", error_message)
                     return self.prompt
                 else:
                     error_message = f"Block {block_b.local_id} {block_b.name} does not have face {face_b}, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("connect_blocks", error_message)
                     return self.prompt
         elif block_a not in self.blocks.keys():
             error_message = f"Block {block_a} not found, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("connect_blocks", error_message)
             return self.prompt
         elif block_b not in self.blocks.keys():
             error_message = f"Block {block_b} not found, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("connect_blocks", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("connect_blocks", error_message)
             return self.prompt
         
@@ -1224,7 +1211,7 @@ class Machine:
             block_id = str(block_id)
         if block_id == '0':
             error_message = 'The Starting Block can not be removed'
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("remove_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
             self.log_failed_operation("remove_block", error_message)
             return self.prompt
         else:
@@ -1236,7 +1223,7 @@ class Machine:
                 return self.prompt
             else:
                 error_message = f"Specified block {block_id} not found, please try again."
-                self.update_prompt(pre_msg=error_message)
+                self.update_prompt(pre_msg=issue("remove_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
                 self.log_failed_operation("remove_block", error_message)
                 return self.prompt
             
@@ -1264,7 +1251,7 @@ class Machine:
     def attach_block_to(self, base_block: Union[str, int], face: str, new_block: str, note: str = None):
         """
         Attach a new block to a face of an existing block.
-        The face is labeled with capitalized letters, check the attachable face details using get_block_details if needed.
+        Use the exact face label returned by get_block_details; labels depend on the block definition.
         
         Args:
             base_block (Union[str, int]): ID of the existing block to attach to
@@ -1277,17 +1264,17 @@ class Machine:
         """
         if not self.started:
             error_message = "The machine has not been started, please start the machine first."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("attach_block_to", error_message)
             return self.prompt  
         if new_block in _available_connector_names(registry_path=self.blocks_storage.registry_path):
             error_message = "Connectors can not be attached to a single face. Use 'connect_blocks' to connect two faces instead."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("attach_block_to", error_message)
             return self.prompt
         if new_block not in _available_block_names(registry_path=self.blocks_storage.registry_path):
             error_message = f"Block {new_block} not available, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
             self.log_failed_operation("attach_block_to", error_message)
             return self.prompt
         else:
@@ -1299,7 +1286,7 @@ class Machine:
                 # Check if the specified face exists and attachable
                 if face in base_block.faces.keys() and base_block.faces.get(face).role == "joint":
                     error_message = f"Face {face} of base block {base_block.local_id} {base_block.name} is a joint face and can not attach a block, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("attach_block_to", error_message)
                 elif face in base_block.faces.keys() and base_block.faces.get(face).sticky:
                     # Get the center position of the specified face
@@ -1325,15 +1312,15 @@ class Machine:
                         self.log_failed_operation("attach_block_to", error_message)
                 elif face not in base_block.faces.keys():
                     error_message = f"Base block {base_block.local_id} {base_block.name} does not have face {face}, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("attach_block_to", error_message)
                 else:
                     error_message = f"Face {face} of base block {base_block.local_id} {base_block.name} is already occupied, please try again."
-                    self.update_prompt(pre_msg=error_message)
+                    self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                     self.log_failed_operation("attach_block_to", error_message)
             else:
                 error_message = f"Base block {base_block} not found, please try again."
-                self.update_prompt(pre_msg=error_message)
+                self.update_prompt(pre_msg=issue("attach_block_to", error_message, "Check the reported block/name; use get_block_details for exact face labels and list_blocks_by_category for available names."))
                 self.log_failed_operation("attach_block_to", error_message)
         
         return self.prompt
@@ -1377,7 +1364,7 @@ class Machine:
             collision_msg = self.refresh_block(block)
             if collision_msg:
                 error_message = collision_msg
-                self.update_prompt(pre_msg=error_message)
+                self.update_prompt(pre_msg=issue("twist_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
                 self.log_failed_operation("twist_block", error_message)
                 block.twist(angle * -1)
                 self.refresh_colliders()
@@ -1386,7 +1373,7 @@ class Machine:
             self.record_op = True
         else:
             error_message = f"Specified block {block_id} not found, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("twist_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
             self.log_failed_operation("twist_block", error_message)
         return self.prompt
 
@@ -1410,7 +1397,7 @@ class Machine:
             collision_msg = self.refresh_block(block)
             if collision_msg:
                 error_message = collision_msg
-                self.update_prompt(pre_msg=error_message)
+                self.update_prompt(pre_msg=issue("shift_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
                 self.log_failed_operation("shift_block", error_message)
                 block.shift([shift * -1 for shift in shift_real])
                 self.refresh_colliders()
@@ -1419,7 +1406,7 @@ class Machine:
             self.record_op = True
         else:
             error_message = f"Specified block {block_id} not found, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("shift_block", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
             self.log_failed_operation("shift_block", error_message)
         return self.prompt
     
@@ -1444,11 +1431,11 @@ class Machine:
                 self.record_op = True
             else: 
                 error_message = f'The block {block_id} <{block.name}> does not spin, please try again.'
-                self.update_prompt(pre_msg=error_message)
+                self.update_prompt(pre_msg=issue("flip_spin", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
                 self.log_failed_operation("flip_spin", error_message)
         else: 
             error_message = f"Specified block {block_id} not found, please try again."
-            self.update_prompt(pre_msg=error_message)
+            self.update_prompt(pre_msg=issue("flip_spin", error_message, "Use get_machine_summary() to check the build ID, then get_block_details(block_id) before retrying."))
             self.log_failed_operation("flip_spin", error_message)
             
         return self.prompt

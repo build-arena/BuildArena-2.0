@@ -87,6 +87,14 @@ def create_machine_lifespan(
 ) -> str:
     """Create a new active machine lifespan using machine_name plus a short timestamp.
 
+    Args:
+        machine_name: Base name; a short timestamp is appended.
+        note: Optional description of the machine.
+
+    Returns:
+        str: Created lifespan name and save directory.
+
+    Example: create_machine_lifespan(machine_name="demo").
     After creating, either call start() to build from scratch, or
     load_machine_from_history to reconstruct a previous valid-only
     <name>.json build history and continue editing that machine.
@@ -111,10 +119,16 @@ def close_machine_lifespan(spawn_y: float | None = None) -> str:
     """Save the active machine to files and close its lifespan.
 
     Args:
-        spawn_y: Global Position y to spawn the machine at. When omitted
+        spawn_y: Export spawn height (game vertical axis, game length units). When omitted
             (the default), it is inferred from the machine's collision
             geometry so it lands on the ground instead of falling/bouncing
             from a fixed height.
+
+    Returns:
+        str: Saved machine name and output directory.
+
+    Limits: saves authoring state; does not inspect runtime telemetry.
+    Example: call with no arguments to infer spawn height.
     """
     machine = _get_specimen()
     _save_machine_to_file(machine=machine, spawn_y=spawn_y)
@@ -140,6 +154,8 @@ def load_machine_from_history(history_json: str) -> str:
 
     Returns:
         str: Rebuild status plus the reconstructed machine summary.
+
+    Example: load_machine_from_history(history_json="saved/demo.json").
     """
     machine = _get_specimen()
     resolved = prepare_history_json(history_json=history_json, machine=machine)
@@ -156,13 +172,19 @@ def load_machine_from_history(history_json: str) -> str:
 
 
 def save_machine(spawn_y: float | None = None) -> str:
-    """Save the current specimen to a .bsg file and operation-history JSON.
+    """Save the authoritative build history and its .bsg export.
 
     Args:
-        spawn_y: Global Position y to spawn the machine at. When omitted
+        spawn_y: Export spawn height (game vertical axis, game length units). When omitted
             (the default), it is inferred from the machine's collision
             geometry so it lands on the ground instead of falling/bouncing
             from a fixed height.
+
+    Returns:
+        str: Saved machine name and output directory.
+
+    Limits: saves authoring state; does not inspect runtime telemetry.
+    Example: call with no arguments to infer spawn height.
     """
     machine = _get_specimen()
     _save_machine_to_file(machine=machine, spawn_y=spawn_y)
