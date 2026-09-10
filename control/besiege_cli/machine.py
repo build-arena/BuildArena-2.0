@@ -586,8 +586,8 @@ def prepare_machine_bsg(
     if isinstance(recorder_hz, bool) or not isinstance(recorder_hz, (int, float)):
         raise TypeError("recorder_hz must be numeric.")
     frequency = float(recorder_hz)
-    if frequency not in (10.0, 25.0, 50.0):
-        raise ValueError("recorder_hz must be one of 10, 25, or 50.")
+    if frequency not in (10.0, 25.0, 50.0, 100.0):
+        raise ValueError("recorder_hz must be one of 10, 25, 50, or 100.")
     output_path = Path(output_bsg)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     tree, _, _ = parse_bsg(source_bsg, catalog_path=None)

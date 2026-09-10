@@ -1077,7 +1077,7 @@ def add_run_parser(subparsers: argparse._SubParsersAction, common_args) -> None:
     parser.add_argument(
         "--recorder-hz",
         type=int,
-        choices=(10, 25, 50),
+        choices=(10, 25, 50, 100),
         default=None,
         help="Offline TelemetryRecorder frequency. Recorder is always full-machine full (default: 25).",
     )
