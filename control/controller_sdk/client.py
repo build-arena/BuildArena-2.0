@@ -815,7 +815,10 @@ class ControllerClient:
         """Read one consistent commit; contention raises SnapshotUnavailableError.
 
         Use next_sample() to wait for a new frame over a longer deadline.
-        Invalid stable payloads and unsupported protocol versions fail immediately.
+        Files caught mid-rewrite (empty or not yet decodable) are retried within
+        ``timeout``; data that still does not decode at the deadline raises the
+        codec error itself, so stable bad data and unsupported protocol versions
+        fail within one read budget (default 50 ms), never as unavailability.
         """
         frame = read_committed(
             self.telemetry_publish_path,

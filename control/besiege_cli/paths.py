@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import platform
 from pathlib import Path
 
 # Mod identity and the ModIO data folder name come from the single Python
@@ -44,16 +45,35 @@ def resolve_besiege_data(besiege_data: str | Path | None) -> Path:
     return path
 
 
+# Besiege ships a native binary per platform. Windows is the reference
+# install; Linux is the headless target and uses the Unity standalone name.
+BESIEGE_EXE_BY_SYSTEM = {
+    "Windows": "Besiege.exe",
+    "Linux": "Besiege.x86_64",
+}
+
+
+def besiege_exe_name(system: str | None = None) -> str:
+    resolved = platform.system() if system is None else system
+    name = BESIEGE_EXE_BY_SYSTEM.get(resolved)
+    if name is None:
+        raise RuntimeError(
+            f"No Besiege executable name is known for platform {resolved!r}. "
+            f"Supported: {', '.join(sorted(BESIEGE_EXE_BY_SYSTEM))}."
+        )
+    return name
+
+
 def besiege_install_root(besiege_data: Path) -> Path:
     root = besiege_data.parent
-    exe = root / "Besiege.exe"
+    exe = root / besiege_exe_name()
     if not exe.is_file():
-        raise FileNotFoundError(f"Besiege.exe not found next to Besiege_Data: {exe}")
+        raise FileNotFoundError(f"{exe.name} not found next to Besiege_Data: {exe}")
     return root
 
 
 def besiege_exe(besiege_data: Path) -> Path:
-    return besiege_install_root(besiege_data) / "Besiege.exe"
+    return besiege_install_root(besiege_data) / besiege_exe_name()
 
 
 def resolve_channel_catalog(catalog: str | Path | None = None) -> Path:

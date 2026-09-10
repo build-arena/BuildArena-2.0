@@ -237,9 +237,12 @@ telemetry delivery or a stable gait.
 `read_sample(timeout=0.05)` and `read_bulk_batch(timeout=0.05)` return a
 consistent commit or raise `SnapshotUnavailableError` for transient publication
 contention. They retain marker/buffer/sequence validation and use bounded
-backoff. Stable invalid payloads, unsupported versions, and permanent I/O
-errors fail immediately. A changed marker is checked before decoding an
-abandoned buffer; it is not evidence that the current committed frame is corrupt.
+backoff. A marker or buffer caught mid-rewrite (empty, or not yet decodable)
+is retried within the read budget; an empty file at the deadline is reported as
+`SnapshotUnavailableError`, while data that still does not decode at the
+deadline raises the codec error itself. Permanent I/O errors fail immediately.
+A changed marker is checked before decoding an abandoned buffer; it is not
+evidence that the current committed frame is corrupt.
 
 `next_sample`, `next_bulk_batch`, `wait_until_running`, and `wait_until_applied`
 retry contention within their own overall deadline. Controllers should use

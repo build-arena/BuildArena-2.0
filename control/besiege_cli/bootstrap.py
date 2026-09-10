@@ -55,6 +55,10 @@ LAUNCHER_EVIDENCE_NAME = "mission_summary.json"
 LAUNCHER_SANDBOX = "LONE ORB"
 SMOKE_HOLD_SECONDS = 15.0
 
+# Platforms the one-command setup runs on. Windows is the reference desktop
+# install; Linux is the headless server target.
+SUPPORTED_SYSTEMS = ("Windows", "Linux")
+
 STAGE_PENDING = "pending"
 STAGE_RUNNING = "running"
 STAGE_PASSED = "passed"
@@ -431,11 +435,13 @@ def run_bootstrap(
         write_report(path=report_path, report=report)
 
     try:
-        if platform.system() != "Windows":
+        system = platform.system()
+        if system not in SUPPORTED_SYSTEMS:
             raise BootstrapError(
-                f"BuildArena setup only supports Windows. Detected platform: {platform.system()}."
+                f"BuildArena setup supports {', '.join(SUPPORTED_SYSTEMS)}. "
+                f"Detected platform: {system}."
             )
-        report.add(Stage(name="windows", status=STAGE_PASSED, message="Windows host."))
+        report.add(Stage(name="platform", status=STAGE_PASSED, message=f"{system} host."))
 
         if besiege_data_override is not None:
             besiege_data = normalize_besiege_data(raw=besiege_data_override)

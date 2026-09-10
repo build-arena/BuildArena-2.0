@@ -8,6 +8,7 @@ PublishedFileId; an empty ID is reported as unpublished, not as installed.
 from __future__ import annotations
 
 import re
+import platform
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -115,6 +116,9 @@ def _tokenize_vdf(text: str) -> list[str]:
 
 
 def steam_roots_from_registry() -> list[Path]:
+    if platform.system() != "Windows":
+        return []
+
     import winreg
 
     roots: list[Path] = []
@@ -136,12 +140,26 @@ def steam_roots_from_registry() -> list[Path]:
     return roots
 
 
-def candidate_steam_roots() -> list[Path]:
-    roots: list[Path] = list(steam_roots_from_registry())
-    for default_root in (
+# Default Steam install locations per platform. The Linux entries cover both
+# the modern XDG path and the two legacy ~/.steam symlinks; steamcmd installs
+# land under the same tree.
+DEFAULT_STEAM_ROOTS_BY_SYSTEM = {
+    "Windows": (
         Path(r"C:\Program Files (x86)\Steam"),
         Path(r"C:\Program Files\Steam"),
-    ):
+    ),
+    "Linux": (
+        Path.home() / ".local" / "share" / "Steam",
+        Path.home() / ".steam" / "steam",
+        Path.home() / ".steam" / "root",
+        Path.home() / "Steam",
+    ),
+}
+
+
+def candidate_steam_roots() -> list[Path]:
+    roots: list[Path] = list(steam_roots_from_registry())
+    for default_root in DEFAULT_STEAM_ROOTS_BY_SYSTEM.get(platform.system(), ()):
         if default_root.is_dir():
             roots.append(default_root)
     unique: list[Path] = []
@@ -344,8 +362,18 @@ def open_workshop_page(*, item_id: str | None = None) -> str:
     if resolved == "":
         return url
     steam_uri = f"steam://url/CommunityFilePage/{resolved}"
+    if platform.system() == "Windows":
+        argv = ["cmd", "/c", "start", "", steam_uri]
+    else:
+        from shutil import which
+
+        opener = which("xdg-open")
+        if opener is None:
+            # Nothing can open a browser here; the caller still prints the URL.
+            return url
+        argv = [opener, steam_uri]
     subprocess.Popen(
-        ["cmd", "/c", "start", "", steam_uri],
+        argv,
         shell=False,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,

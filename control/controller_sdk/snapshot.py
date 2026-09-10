@@ -8,7 +8,30 @@ import time
 from pathlib import Path
 from typing import Any, Callable
 
+from .bulk_codec import BulkCodecError
 from .protocol import read_shared_bytes
+from .telemetry_codec import TelemetryCodecError
+
+# Hosts without shared-lock semantics (Linux) expose the marker and buffer
+# files mid-rewrite: empty while the mod truncates and rewrites them, or with
+# bytes that do not decode yet. Both are contention, not corruption, and are
+# retried within the caller's budget like a sharing violation on Windows. An
+# empty file is never a valid commit, so at the deadline it is reported as
+# SnapshotUnavailableError and outer waits keep waiting; bytes that still do
+# not decode at the deadline are real corruption or a version mismatch and the
+# last codec error itself is raised, never SnapshotUnavailableError.
+TRANSIENT_CODEC_ERRORS = (TelemetryCodecError, BulkCodecError)
+
+
+class _MidRewrite(Exception):
+    """A publication file was empty when read."""
+
+
+def _read_nonempty(path: Path, what: str) -> bytes:
+    data = read_shared_bytes(path)
+    if not data:
+        raise _MidRewrite(f"{what} is empty (being rewritten)")
+    return data
 
 
 class SnapshotUnavailableError(TimeoutError):
@@ -42,14 +65,16 @@ def read_committed(
     deadline = started + timeout
     attempt = 0
     reason = ""
+    codec_error: Exception | None = None
     stats["reads"] += 1
     try:
         while True:
             attempt += 1
+            codec_error = None
             try:
-                marker = decode_marker(read_shared_bytes(marker_path))
-                payload = read_shared_bytes(buffer_paths[marker.slot])
-                marker_after = decode_marker(read_shared_bytes(marker_path))
+                marker = decode_marker(_read_nonempty(marker_path, f"{label} marker"))
+                payload = _read_nonempty(buffer_paths[marker.slot], f"{label} buffer")
+                marker_after = decode_marker(_read_nonempty(marker_path, f"{label} marker"))
                 if marker_after != marker:
                     reason = f"{label} publish marker changed during the read"
                 else:
@@ -63,9 +88,16 @@ def read_committed(
                 if not retryable_io(exc):
                     raise
                 reason = f"{label} publication is temporarily unavailable: {exc}"
+            except _MidRewrite as exc:
+                reason = f"{label} publication is temporarily unavailable: {exc}"
+            except TRANSIENT_CODEC_ERRORS as exc:
+                codec_error = exc
+                reason = f"{label} publication did not decode: {exc}"
             stats["last_retry_reason"] = reason
             remaining = deadline - time.monotonic()
             if remaining <= 0:
+                if codec_error is not None:
+                    raise codec_error
                 stats["unavailable"] += 1
                 raise SnapshotUnavailableError(
                     f"No consistent {label} snapshot within {timeout:.3f}s "
