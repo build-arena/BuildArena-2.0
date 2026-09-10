@@ -50,13 +50,10 @@ from .steam import (
 )
 
 TOOLKIT_SOURCE_WORKSHOP = "workshop"
-LAUNCHER_EXAMPLE_JSON = Path("control") / "examples" / "Reusable_Heavy_Launcher.json"
-LAUNCHER_MACHINE_NAME = "Reusable_Heavy_Launcher"
-LAUNCHER_CONTROLLER = Path("examples") / "reusable_heavy_launcher_orbit.py"
+LAUNCHER_EXAMPLE_JSON = Path("control") / "examples" / "rocket_orbit_return" / "machine.json"
 LAUNCHER_EVIDENCE_NAME = "mission_summary.json"
 LAUNCHER_SANDBOX = "LONE ORB"
 SMOKE_HOLD_SECONDS = 15.0
-LAUNCHER_CONTROLLER_TIMEOUT = 1200.0
 
 STAGE_PENDING = "pending"
 STAGE_RUNNING = "running"
@@ -723,60 +720,31 @@ def run_bootstrap(
             )
         )
 
-        example_json = repo_root / LAUNCHER_EXAMPLE_JSON
-        if not example_json.is_file():
-            raise BootstrapError(f"Example launcher history is missing: {example_json}")
-        rebuilt_bsg = _run_rebuild_script(
-            repo_root=repo_root,
-            record_json=example_json,
-            machine_name=LAUNCHER_MACHINE_NAME,
-        )
+        # Use the same history-rebuild and Python launch path as the public example.
+        from control.run_example import prepare_example, execute_prepared
+        demo_dir = datacache_dir() / "control_experiments" / "launcher_demo" / "latest"
+        if demo_dir.exists():
+            shutil.rmtree(demo_dir)
+        demo_dir.mkdir(parents=True, exist_ok=True)
+        prepared_example = prepare_example("rocket_orbit_return", demo_dir)
+        rebuilt_bsg = prepared_example.bsg
+        launcher_controller = prepared_example.controller
         report.add(
             Stage(
                 name="launcher_rebuild",
                 status=STAGE_PASSED,
                 message=str(rebuilt_bsg),
                 detail={
-                    "record_json": str(example_json),
+                    "record_json": str(repo_root / LAUNCHER_EXAMPLE_JSON),
                     "bsg": str(rebuilt_bsg),
-                    "script": str(repo_root / "scripts" / "rebuild_from_record.py"),
+                    "script": str(repo_root / "control" / "examples" / "rocket_orbit_return" / "run.py"),
                 },
             )
         )
-
-        print(
-            f"Starting Reusable_Heavy_Launcher orbit demo on {LAUNCHER_SANDBOX} "
-            f"(controller timeout {LAUNCHER_CONTROLLER_TIMEOUT:.0f}s). Stage lines "
-            "will stream from the controller.",
-            flush=True,
-        )
-        demo_dir = datacache_dir() / "control_experiments" / "launcher_demo" / "latest"
-        if demo_dir.exists():
-            shutil.rmtree(demo_dir)
-        demo_dir.mkdir(parents=True, exist_ok=True)
-        launcher_controller = Path(__file__).resolve().parents[1] / LAUNCHER_CONTROLLER
-        _, rebuilt_blocks, _ = parse_bsg(rebuilt_bsg, catalog_path=catalog_dest)
-        root_blocks = [
-            block
-            for block in rebuilt_blocks
-            if block.guid and (block.name == "Starting Block" or block.block_id == "0")
-        ]
-        camera_follow = root_blocks[0].guid if len(root_blocks) == 1 else None
-        demo_exit = cmd_run(
-            _smoke_namespace(
-                bsg=rebuilt_bsg,
-                controller=launcher_controller,
-                catalog=catalog_dest,
-                run_dir=demo_dir,
-                besiege_data=besiege_data,
-                launch_timeout=launch_timeout,
-                timeout=90.0,
-                experiment="launcher_demo",
-                sandbox=LAUNCHER_SANDBOX,
-                telemetry_hz=10,
-                controller_timeout=LAUNCHER_CONTROLLER_TIMEOUT,
-                camera_follow=camera_follow,
-            )
+        print("Starting rocket orbit-and-return example on LONE ORB.", flush=True)
+        demo_exit = execute_prepared(
+            prepared_example, besiege_data=besiege_data, catalog=catalog_dest,
+            launch_timeout=launch_timeout, timeout=90.0, tail_seconds=0,
         )
         if demo_exit != 0:
             raise BootstrapError(f"besiege_cli run launcher demo exited {demo_exit}. See {demo_dir}.")

@@ -120,7 +120,16 @@ class BesiegeOrchestrator:
             ) from None
 
     def send_command(self, command: str, **args: Any) -> int:
-        self.sequence += 1
+        # The time seed wraps every ~11.6 days; a running mod remembers its
+        # previous sequence and ignores smaller values. Also respect commands
+        # issued by another CLI instance since this object was constructed.
+        state_sequence = int(self.read_state().get("last_command_sequence", -1))
+        queued_sequence = -1
+        if self.command_path.exists():
+            queued_sequence = int(read_json_retry(self.command_path).get("sequence", -1))
+        self.sequence = max(self.sequence, state_sequence, queued_sequence) + 1
+        if self.sequence > 2_147_483_647:
+            raise OrchestratorCommandError("Orchestrator sequence exhausted; restart Besiege and reset its command files.")
         payload: dict[str, Any] = {"sequence": self.sequence, "command": command}
         payload.update(args)
         atomic_write_json(self.command_path, payload)
@@ -139,8 +148,14 @@ class BesiegeOrchestrator:
         def ready() -> dict[str, Any] | None:
             nonlocal latest
             latest = self.read_state()
-            if int(latest.get("last_command_sequence", -1)) < sequence:
+            acknowledged = int(latest.get("last_command_sequence", -1))
+            if acknowledged < sequence:
                 return None
+            if acknowledged > sequence:
+                raise OrchestratorCommandError(
+                    f"Command sequence {sequence} was superseded by {acknowledged}; "
+                    "another command's result cannot confirm this operation."
+                )
             status = latest.get("last_command_status", "")
             if status == "ok":
                 return latest

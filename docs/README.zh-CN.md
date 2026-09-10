@@ -21,6 +21,32 @@ Python 接口和 **MCP 工具**。借助
 - **[BuildArena 1.0 (ICML 2026)](https://build-arena.github.io/)**：原始基准、论文与项目页面。
 - **[控制指南](../control/README.md)**：运行命令、控制器、遥测与回放。
 
+## 三种自动控制案例
+
+完成一键配置后，在仓库根目录运行，无需 PowerShell 启动脚本：
+
+```powershell
+# 重型火箭入轨、绕行一圈并返回着陆
+uv run python control/examples/rocket_orbit_return/run.py
+# 变形汽车行驶、起飞、空中特技和着陆续跑
+uv run python control/examples/transforming_car_aerobatics/run.py
+# 航天飞机轨道飞行、双助推器返回与滑翔回收
+uv run python control/examples/shuttle_booster_recovery/run.py
+```
+
+每个目录只含一份 `machine.json` MCP 建造历史与 Python 启动/控制代码。
+每次先从历史重建；航天飞机的限位和刀翼翻转在开始模拟前设置，不改变结构。
+生成的 BSG、GUID 绑定和遥测等写入 `datacache/manual_cases/`，不会写进案例目录。
+一键配置中的环绕任务也调用相同的 Python 准备和启动逻辑。
+汽车脚本会先重新进入场景，清理残留的建造对象，再加载机器；此步骤在可选的 camera 编辑等待之前完成。
+
+任一命令追加 `--edit-before-start --camera-bsg MyCameraMachine`，即可预载后添加 camera，
+在游戏中另存为 `MyCameraMachine`，回到终端输入 `yes` 再自动运行。
+下次去掉 `--edit-before-start`、保留 `--camera-bsg MyCameraMachine` 即可复用。
+同一历史的重建 GUID 稳定，允许重复重建后复用 camera。用游戏镜头和 OBS 等自行录制，
+不启用 CLI 屏幕录像或自动跟随。重建时显示 tqdm 进度条，完成后无倒计时或录制提示；控制器结束后留 20 个仿真秒。
+可用 `--tail-seconds` 调整，或用 `--prepare-only` 仅离线重建。所有生成文件都保存在 Git 忽略的 `datacache` 内。
+
 ## 一键配置
 
 **在 Windows 10 或 11 上，于仓库根目录用 PowerShell 运行：**

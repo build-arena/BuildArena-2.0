@@ -2,7 +2,7 @@
 
 from buildarena.control_descriptor_loader import load_control_semantics
 from blocks.control_descriptors.keylist_bindings import KEYLIST_BINDING_VERSION
-from controller_sdk.channel_bindings import BINDINGS_SCHEMA
+from controller_sdk.channel_bindings import BINDINGS_SCHEMA, MANUAL_CAMERA_BLOCK_ID
 
 
 def build_control_bindings(blocks, channels, *, run_id: str) -> dict:
@@ -19,7 +19,8 @@ def build_control_bindings(blocks, channels, *, run_id: str) -> dict:
             guid=block.guid, block_id=int(block.block_id), local_index=block.local_index,
             ignored_keylist_indices=ignored,
             channels=[dict(keylist_index=c.keylist_index, name=c.channel, aliases=list(c.aliases))
-                      for c in grouped.get(block.guid, [])],
+                      for c in grouped.get(block.guid, [])
+                      if int(block.block_id) != MANUAL_CAMERA_BLOCK_ID],
         ))
     return dict(schema=BINDINGS_SCHEMA, keylist_binding_version=KEYLIST_BINDING_VERSION,
                 run_id=run_id, blocks=rows)

@@ -1,0 +1,2918 @@
+[
+  {
+    "op": "start",
+    "params": {
+      "init_shift": [
+        0,
+        0,
+        0
+      ],
+      "init_rotation": [
+        0,
+        0,
+        0
+      ],
+      "note": "Nightblade GT: game +Z forward/+Y up; MCP real +Y north/+Z up. Wide sporty 4-wheel car, mechanical front steering, suspension, reinforced layered chassis, twin retractable rotor banks."
+    },
+    "result": "You have successfully added <ID 1: Starting Block>.\nExisting Blocks: 1\n(The starting block) <ID 1: Starting Block>\nPosition: [0.,0.,0.]\nAttachable Faces:\nFace label: f0, Face center: [0.5, 0. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  0. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [0. , 0. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 0. ,  0. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [0. , 0.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f5, Face center: [ 0. , -0.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f4",
+      "new_block": "Log",
+      "note": "Front chassis spine: long wheelbase"
+    },
+    "result": "You have successfully added <ID 2: Log>.\nExisting Blocks: 2\n(Front chassis spine: long wheelbase) <ID 2: Log>\nPosition: [0.,2.,0.]\nAttachable Faces:\nFace label: f0, Face center: [0.5, 1. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  1. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [0. , 1. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 0. ,  1. , -0.5], Facing towards <straight down>\nFace label: f5, Face center: [0.5, 2. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f6, Face center: [-0.5,  2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f7, Face center: [0. , 2. , 0.5], Facing towards <straight up>\nFace label: f8, Face center: [ 0. ,  2. , -0.5], Facing towards <straight down>\nFace label: f9, Face center: [0.5, 3. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f10, Face center: [-0.5,  3. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f11, Face center: [0. , 3. , 0.5], Facing towards <straight up>\nFace label: f12, Face center: [ 0. ,  3. , -0.5], Facing towards <straight down>\nFace label: f13, Face center: [0. , 3.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f5",
+      "new_block": "Log",
+      "note": "Rear chassis spine: long wheelbase"
+    },
+    "result": "You have successfully added <ID 3: Log>.\nExisting Blocks: 3\n(Rear chassis spine: long wheelbase) <ID 3: Log>\nPosition: [ 0.,-2., 0.]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -1. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -1. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -1. , -0.5], Facing towards <straight down>\nFace label: f3, Face center: [ 0. , -1. ,  0.5], Facing towards <straight up>\nFace label: f5, Face center: [ 0.5, -2. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f6, Face center: [-0.5, -2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f7, Face center: [ 0. , -2. , -0.5], Facing towards <straight down>\nFace label: f8, Face center: [ 0. , -2. ,  0.5], Facing towards <straight up>\nFace label: f9, Face center: [ 0.5, -3. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f10, Face center: [-0.5, -3. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f11, Face center: [ 0. , -3. , -0.5], Facing towards <straight down>\nFace label: f12, Face center: [ 0. , -3. ,  0.5], Facing towards <straight up>\nFace label: f13, Face center: [ 0. , -3.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 2,
+      "face": "f9",
+      "new_block": "Single Wooden Block",
+      "note": "Front right axle crossmember"
+    },
+    "result": "You have successfully added <ID 4: Single Wooden Block>.\nExisting Blocks: 4\n(Front right axle crossmember) <ID 4: Single Wooden Block>\nPosition: [1.,3.,0.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 2.5, 0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [1. , 3.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [1. , 3. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 1. ,  3. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [1.5, 3. , 0. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 2,
+      "face": "f10",
+      "new_block": "Single Wooden Block",
+      "note": "Front left axle crossmember"
+    },
+    "result": "You have successfully added <ID 5: Single Wooden Block>.\nExisting Blocks: 5\n(Front left axle crossmember) <ID 5: Single Wooden Block>\nPosition: [-1., 3., 0.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  3.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1. ,  2.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  3. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. ,  3. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-1.5,  3. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 3,
+      "face": "f9",
+      "new_block": "Single Wooden Block",
+      "note": "Rear right axle crossmember"
+    },
+    "result": "You have successfully added <ID 6: Single Wooden Block>.\nExisting Blocks: 6\n(Rear right axle crossmember) <ID 6: Single Wooden Block>\nPosition: [ 1.,-3., 0.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -2.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1. , -3.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -3. , -0.5], Facing towards <straight down>\nFace label: f3, Face center: [ 1. , -3. ,  0.5], Facing towards <straight up>\nFace label: f4, Face center: [ 1.5, -3. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 3,
+      "face": "f10",
+      "new_block": "Single Wooden Block",
+      "note": "Rear left axle crossmember"
+    },
+    "result": "You have successfully added <ID 7: Single Wooden Block>.\nExisting Blocks: 7\n(Rear left axle crossmember) <ID 7: Single Wooden Block>\nPosition: [-1.,-3., 0.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -3.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1. , -2.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -3. , -0.5], Facing towards <straight down>\nFace label: f3, Face center: [-1. , -3. ,  0.5], Facing towards <straight up>\nFace label: f4, Face center: [-1.5, -3. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 4
+    },
+    "result": "You have successfully removed <ID 4: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 5
+    },
+    "result": "You have successfully removed <ID 5: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 6
+    },
+    "result": "You have successfully removed <ID 6: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 7
+    },
+    "result": "You have successfully removed <ID 7: Single Wooden Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 2,
+      "face": "f11",
+      "new_block": "Single Wooden Block",
+      "note": "Front suspension bridge centre"
+    },
+    "result": "You have successfully added <ID 8: Single Wooden Block>.\nExisting Blocks: 4\n(Front suspension bridge centre) <ID 8: Single Wooden Block>\nPosition: [0.,3.,1.]\nAttachable Faces:\nFace label: f0, Face center: [0.5, 3. , 1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  3. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [0. , 2.5, 1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [0. , 3.5, 1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [0. , 3. , 1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 3,
+      "face": "f12",
+      "new_block": "Single Wooden Block",
+      "note": "Rear suspension bridge centre"
+    },
+    "result": "You have successfully added <ID 9: Single Wooden Block>.\nExisting Blocks: 5\n(Rear suspension bridge centre) <ID 9: Single Wooden Block>\nPosition: [ 0.,-3., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -3. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -3. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -3.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 0. , -2.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 0. , -3. ,  1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 8,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Front right upper strut tower"
+    },
+    "result": "You have successfully added <ID 10: Single Wooden Block>.\nExisting Blocks: 6\n(Front right upper strut tower) <ID 10: Single Wooden Block>\nPosition: [1.,3.,1.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 3. , 0.5], Facing towards <straight down>\nFace label: f1, Face center: [1. , 3. , 1.5], Facing towards <straight up>\nFace label: f2, Face center: [1. , 2.5, 1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [1. , 3.5, 1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [1.5, 3. , 1. ], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 8,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Front left upper strut tower"
+    },
+    "result": "You have successfully added <ID 11: Single Wooden Block>.\nExisting Blocks: 7\n(Front left upper strut tower) <ID 11: Single Wooden Block>\nPosition: [-1., 3., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  3. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. ,  3. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1. ,  2.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  3.5,  1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5,  3. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 9,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Rear right upper strut tower"
+    },
+    "result": "You have successfully added <ID 12: Single Wooden Block>.\nExisting Blocks: 8\n(Rear right upper strut tower) <ID 12: Single Wooden Block>\nPosition: [ 1.,-3., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -3. ,  0.5], Facing towards <straight down>\nFace label: f1, Face center: [ 1. , -3. ,  1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 1. , -3.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -2.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1.5, -3. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 9,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Rear left upper strut tower"
+    },
+    "result": "You have successfully added <ID 13: Single Wooden Block>.\nExisting Blocks: 9\n(Rear left upper strut tower) <ID 13: Single Wooden Block>\nPosition: [-1.,-3., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -3. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. , -3. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1. , -3.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -2.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5, -3. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 10,
+      "face": "f0",
+      "new_block": "Suspension",
+      "note": "FR independent coil-over strut"
+    },
+    "result": "You have successfully added <ID 14: Suspension>.\nExisting Blocks: 10\n(FR independent coil-over strut) <ID 14: Suspension>\nPosition: [ 1., 3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 0.5,  3. , -1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5,  3. , -1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. ,  2.5, -1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. ,  3.5, -1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. ,  3. , -1.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 11,
+      "face": "f1",
+      "new_block": "Suspension",
+      "note": "FL independent coil-over strut"
+    },
+    "result": "You have successfully added <ID 15: Suspension>.\nExisting Blocks: 11\n(FL independent coil-over strut) <ID 15: Suspension>\nPosition: [-1., 3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [-1.5,  3. , -1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  3. , -1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  2.5, -1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  3.5, -1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. ,  3. , -1.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 12,
+      "face": "f0",
+      "new_block": "Suspension",
+      "note": "RR independent coil-over strut"
+    },
+    "result": "You have successfully added <ID 16: Suspension>.\nExisting Blocks: 12\n(RR independent coil-over strut) <ID 16: Suspension>\nPosition: [ 1.,-3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -3. , -1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -3. , -1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -3.5, -1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -2.5, -1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. , -3. , -1.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 13,
+      "face": "f1",
+      "new_block": "Suspension",
+      "note": "RL independent coil-over strut"
+    },
+    "result": "You have successfully added <ID 17: Suspension>.\nExisting Blocks: 13\n(RL independent coil-over strut) <ID 17: Suspension>\nPosition: [-1.,-3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [-1.5, -3. , -1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -3. , -1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -3.5, -1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -2.5, -1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. , -3. , -1.5], Facing towards <straight down>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 14,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 14 <Suspension> is shifted by [0, 0, 0.5]. \n (FR independent coil-over strut) <ID 14: Suspension>\nPosition: [ 1., 3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 0.5,  3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5,  3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. ,  2.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. ,  3.5, -0.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1.,  3., -1.], Facing towards <straight down>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 15,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 15 <Suspension> is shifted by [0, 0, 0.5]. \n (FL independent coil-over strut) <ID 15: Suspension>\nPosition: [-1., 3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [-1.5,  3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  2.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  3.5, -0.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.,  3., -1.], Facing towards <straight down>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 16,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 16 <Suspension> is shifted by [0, 0, 0.5]. \n (RR independent coil-over strut) <ID 16: Suspension>\nPosition: [ 1.,-3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -3.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -2.5, -0.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1., -3., -1.], Facing towards <straight down>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 17,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 17 <Suspension> is shifted by [0, 0, 0.5]. \n (RL independent coil-over strut) <ID 17: Suspension>\nPosition: [-1.,-3.,-1.]\nSuspension axis: compresses toward <straight up> (negative face normal), extends toward <straight down> (positive face normal).\nAttachable Faces:\nFace label: f0, Face center: [-1.5, -3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -3.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -2.5, -0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1., -3., -1.], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 14,
+      "face": "f1",
+      "new_block": "Steering Hinge",
+      "note": "Front right steering knuckle, independent of suspension travel"
+    },
+    "result": "You have successfully added <ID 18: Steering Hinge>.\nExisting Blocks: 14\n(Front right steering knuckle, independent of suspension travel) <ID 18: Steering Hinge>\nPosition: [ 2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <South with 0.0\u00b0 pitch> and toward <North with -0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [ 2.5,  3. , -0.5], Facing towards <N 90.0\u00b0 E with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 15,
+      "face": "f0",
+      "new_block": "Steering Hinge",
+      "note": "Front left steering knuckle, independent of suspension travel"
+    },
+    "result": "You have successfully added <ID 19: Steering Hinge>.\nExisting Blocks: 15\n(Front left steering knuckle, independent of suspension travel) <ID 19: Steering Hinge>\nPosition: [-2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <South with 0.0\u00b0 pitch> and toward <North with -0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <South with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  3. , -0.5], Facing towards <W 0.0\u00b0 N with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 18,
+      "angle": 90.0
+    },
+    "result": "The block 18 <Steering Hinge> is twisted by 90.0 degrees. \n (Front right steering knuckle, independent of suspension travel) <ID 18: Steering Hinge>\nPosition: [ 2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <straight up> and toward <straight down> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [ 2.5,  3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 19,
+      "angle": 90.0
+    },
+    "result": "The block 19 <Steering Hinge> is twisted by 90.0 degrees. \n (Front left steering knuckle, independent of suspension travel) <ID 19: Steering Hinge>\nPosition: [-2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <straight down> and toward <straight up> (pin along local +X from dump layout).\nRolling towards <South with 0.0\u00b0 pitch> with -0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  3. , -0.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 16,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Rear right driven hub carrier"
+    },
+    "result": "You have successfully added <ID 20: Single Wooden Block>.\nExisting Blocks: 16\n(Rear right driven hub carrier) <ID 20: Single Wooden Block>\nPosition: [ 2. ,-3. ,-0.5]\nAttachable Faces:\nFace label: f0, Face center: [ 2., -3., -1.], Facing towards <straight down>\nFace label: f1, Face center: [ 2., -3.,  0.], Facing towards <straight up>\nFace label: f2, Face center: [ 2. , -3.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 2. , -2.5, -0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 2.5, -3. , -0.5], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 17,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Rear left driven hub carrier"
+    },
+    "result": "You have successfully added <ID 21: Single Wooden Block>.\nExisting Blocks: 17\n(Rear left driven hub carrier) <ID 21: Single Wooden Block>\nPosition: [-2. ,-3. ,-0.5]\nAttachable Faces:\nFace label: f0, Face center: [-2., -3.,  0.], Facing towards <straight up>\nFace label: f1, Face center: [-2., -3., -1.], Facing towards <straight down>\nFace label: f2, Face center: [-2. , -3.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-2. , -2.5, -0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-2.5, -3. , -0.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 18,
+      "face": "f0",
+      "new_block": "Large Wheel",
+      "note": "Front right low-profile driven tyre"
+    },
+    "result": "You have successfully added <ID 22: Large Wheel>.\nExisting Blocks: 18\n(Front right low-profile driven tyre) <ID 22: Large Wheel>\nPosition: [ 3. , 3. ,-0.5]\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [ 3.5,  3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [3.5, 3. , 0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 3.5,  3. , -1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 3.5,  4. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 3.5,  2. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f5, Face center: [3., 3., 1.], Facing towards <straight up>\nFace label: f6, Face center: [ 3.,  3., -2.], Facing towards <straight down>\nFace label: f7, Face center: [ 3. ,  4.5, -0.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f8, Face center: [ 3. ,  1.5, -0.5], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 19,
+      "face": "f0",
+      "new_block": "Large Wheel",
+      "note": "Front left low-profile driven tyre"
+    },
+    "result": "You have successfully added <ID 23: Large Wheel>.\nExisting Blocks: 19\n(Front left low-profile driven tyre) <ID 23: Large Wheel>\nPosition: [-3. , 3. ,-0.5]\nRolling towards <South with 0.0\u00b0 pitch> with -0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-3.5,  3. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-3.5,  3. , -1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-3.5,  3. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5,  4. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5,  2. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f5, Face center: [-3.,  3., -2.], Facing towards <straight down>\nFace label: f6, Face center: [-3.,  3.,  1.], Facing towards <straight up>\nFace label: f7, Face center: [-3. ,  4.5, -0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f8, Face center: [-3. ,  1.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 20,
+      "face": "f4",
+      "new_block": "Large Wheel",
+      "note": "Rear right low-profile driven tyre"
+    },
+    "result": "You have successfully added <ID 24: Large Wheel>.\nExisting Blocks: 20\n(Rear right low-profile driven tyre) <ID 24: Large Wheel>\nPosition: [ 3. ,-3. ,-0.5]\nRolling towards <North with 0.0\u00b0 pitch> with -0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [ 3.5, -3. , -0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 3.5, -4. , -0.5], Facing towards <E 0.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 3.5, -2. , -0.5], Facing towards <E 0.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 3.5, -3. ,  0.5], Facing towards <E 0.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 3.5, -3. , -1.5], Facing towards <E 0.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f5, Face center: [ 3. , -4.5, -0.5], Facing towards <E 90.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f6, Face center: [ 3. , -1.5, -0.5], Facing towards <W 90.0\u00b0 N with 0.0\u00b0 pitch>\nFace label: f7, Face center: [ 3., -3.,  1.], Facing towards <straight up>\nFace label: f8, Face center: [ 3., -3., -2.], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 21,
+      "face": "f4",
+      "new_block": "Large Wheel",
+      "note": "Rear left low-profile driven tyre"
+    },
+    "result": "You have successfully added <ID 25: Large Wheel>.\nExisting Blocks: 21\n(Rear left low-profile driven tyre) <ID 25: Large Wheel>\nPosition: [-3. ,-3. ,-0.5]\nRolling towards <South with 0.0\u00b0 pitch> with -0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-3.5, -3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-3.5, -4. , -0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-3.5, -2. , -0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5, -3. , -1.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5, -3. ,  0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f5, Face center: [-3. , -4.5, -0.5], Facing towards <S 0.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f6, Face center: [-3. , -1.5, -0.5], Facing towards <N 0.0\u00b0 E with -0.0\u00b0 pitch>\nFace label: f7, Face center: [-3., -3., -2.], Facing towards <straight down>\nFace label: f8, Face center: [-3., -3.,  1.], Facing towards <straight up>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 18,
+      "angle": -90.0
+    },
+    "result": "The block 18 <Steering Hinge> is twisted by -90.0 degrees. \n (Front right steering knuckle, independent of suspension travel) <ID 18: Steering Hinge>\nPosition: [ 2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <South with 0.0\u00b0 pitch> and toward <North with -0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 19,
+      "angle": -90.0
+    },
+    "result": "The block 19 <Steering Hinge> is twisted by -90.0 degrees. \n (Front left steering knuckle, independent of suspension travel) <ID 19: Steering Hinge>\nPosition: [-2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <South with 0.0\u00b0 pitch> and toward <North with -0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <South with 0.0\u00b0 pitch> with 0\u00b0 camber"
+  },
+  {
+    "op": "flip_spin",
+    "params": {
+      "block_id": 23
+    },
+    "result": "The block 23 <Large Wheel> is flipped. \n (Front left low-profile driven tyre) <ID 23: Large Wheel>\nPosition: [-3. , 3. ,-0.5]\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-3.5,  3. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-3.5,  3. , -1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-3.5,  3. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5,  4. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5,  2. , -0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f5, Face center: [-3.,  3., -2.], Facing towards <straight down>\nFace label: f6, Face center: [-3.,  3.,  1.], Facing towards <straight up>\nFace label: f7, Face center: [-3. ,  4.5, -0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f8, Face center: [-3. ,  1.5, -0.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "flip_spin",
+    "params": {
+      "block_id": 25
+    },
+    "result": "The block 25 <Large Wheel> is flipped. \n (Rear left low-profile driven tyre) <ID 25: Large Wheel>\nPosition: [-3. ,-3. ,-0.5]\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-3.5, -3. , -0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-3.5, -4. , -0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-3.5, -2. , -0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5, -3. , -1.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5, -3. ,  0.5], Facing towards <S 90.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f5, Face center: [-3. , -4.5, -0.5], Facing towards <S 0.0\u00b0 W with -0.0\u00b0 pitch>\nFace label: f6, Face center: [-3. , -1.5, -0.5], Facing towards <N 0.0\u00b0 E with -0.0\u00b0 pitch>\nFace label: f7, Face center: [-3., -3., -2.], Facing towards <straight down>\nFace label: f8, Face center: [-3., -3.,  1.], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 22,
+      "face": "f0",
+      "new_block": "Armor Plate Round",
+      "note": "Metallic turbine-style wheel centre"
+    },
+    "result": "You have successfully added <ID 26: Armor Plate Round>.\nExisting Blocks: 22\n(Metallic turbine-style wheel centre) <ID 26: Armor Plate Round>\nPosition: [ 3.88, 3.  ,-0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 23,
+      "face": "f0",
+      "new_block": "Armor Plate Round",
+      "note": "Metallic turbine-style wheel centre"
+    },
+    "result": "You have successfully added <ID 27: Armor Plate Round>.\nExisting Blocks: 23\n(Metallic turbine-style wheel centre) <ID 27: Armor Plate Round>\nPosition: [-3.88, 3.  ,-0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 24,
+      "face": "f0",
+      "new_block": "Armor Plate Round",
+      "note": "Metallic turbine-style wheel centre"
+    },
+    "result": "You have successfully added <ID 28: Armor Plate Round>.\nExisting Blocks: 24\n(Metallic turbine-style wheel centre) <ID 28: Armor Plate Round>\nPosition: [ 3.88,-3.  ,-0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 25,
+      "face": "f0",
+      "new_block": "Armor Plate Round",
+      "note": "Metallic turbine-style wheel centre"
+    },
+    "result": "You have successfully added <ID 29: Armor Plate Round>.\nExisting Blocks: 25\n(Metallic turbine-style wheel centre) <ID 29: Armor Plate Round>\nPosition: [-3.88,-3.  ,-0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Right monocoque sill node"
+    },
+    "result": "You have successfully added <ID 30: Single Wooden Block>.\nExisting Blocks: 26\n(Right monocoque sill node) <ID 30: Single Wooden Block>\nPosition: [1.,0.,0.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -0.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [1. , 0.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [1. , 0. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 1. ,  0. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [1.5, 0. , 0. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Left monocoque sill node"
+    },
+    "result": "You have successfully added <ID 31: Single Wooden Block>.\nExisting Blocks: 27\n(Left monocoque sill node) <ID 31: Single Wooden Block>\nPosition: [-1., 0., 0.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  0.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1. , -0.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  0. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. ,  0. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-1.5,  0. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 30,
+      "face": "f1",
+      "new_block": "Wooden Pole",
+      "note": "Front right longitudinal chassis rail"
+    },
+    "result": "You have successfully added <ID 32: Wooden Pole>.\nExisting Blocks: 28\n(Front right longitudinal chassis rail) <ID 32: Wooden Pole>\nPosition: [1. ,1.5,0. ]\nAttachable Faces:\nFace label: f0, Face center: [1.5, 2. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [0.5, 2. , 0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [1. , 2. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 1. ,  2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [1. , 2.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f5, Face center: [1.5, 1. , 0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f6, Face center: [0.5, 1. , 0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f7, Face center: [1. , 1. , 0.5], Facing towards <straight up>\nFace label: f8, Face center: [ 1. ,  1. , -0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 31,
+      "face": "f0",
+      "new_block": "Wooden Pole",
+      "note": "Front left longitudinal chassis rail"
+    },
+    "result": "You have successfully added <ID 33: Wooden Pole>.\nExisting Blocks: 29\n(Front left longitudinal chassis rail) <ID 33: Wooden Pole>\nPosition: [-1. , 1.5, 0. ]\nAttachable Faces:\nFace label: f0, Face center: [-0.5,  2. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5,  2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. ,  2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-1. ,  2.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f5, Face center: [-0.5,  1. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f6, Face center: [-1.5,  1. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f7, Face center: [-1. ,  1. ,  0.5], Facing towards <straight up>\nFace label: f8, Face center: [-1. ,  1. , -0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 30,
+      "face": "f0",
+      "new_block": "Wooden Pole",
+      "note": "Rear right longitudinal chassis rail"
+    },
+    "result": "You have successfully added <ID 34: Wooden Pole>.\nExisting Blocks: 30\n(Rear right longitudinal chassis rail) <ID 34: Wooden Pole>\nPosition: [ 1. ,-1.5, 0. ]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -2. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 1. , -2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [ 1. , -2.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f5, Face center: [ 0.5, -1. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f6, Face center: [ 1.5, -1. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f7, Face center: [ 1. , -1. ,  0.5], Facing towards <straight up>\nFace label: f8, Face center: [ 1. , -1. , -0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 31,
+      "face": "f1",
+      "new_block": "Wooden Pole",
+      "note": "Rear left longitudinal chassis rail"
+    },
+    "result": "You have successfully added <ID 35: Wooden Pole>.\nExisting Blocks: 31\n(Rear left longitudinal chassis rail) <ID 35: Wooden Pole>\nPosition: [-1. ,-1.5, 0. ]\nAttachable Faces:\nFace label: f0, Face center: [-1.5, -2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -2. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. , -2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-1. , -2.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f5, Face center: [-1.5, -1. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f6, Face center: [-0.5, -1. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f7, Face center: [-1. , -1. ,  0.5], Facing towards <straight up>\nFace label: f8, Face center: [-1. , -1. , -0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 2,
+      "face": "f13",
+      "new_block": "Plow",
+      "note": "Sculpted wedge nose and front splitter"
+    },
+    "result": "You have successfully added <ID 36: Plow>.\nExisting Blocks: 32\n(Sculpted wedge nose and front splitter) <ID 36: Plow>\nPosition: [0. ,4.5,0. ]\nPlow bottom-face corner range : [3.00, 5.50, -2.50]; [3.00, 3.50, -2.50]; [-3.00, 5.50, -2.50]; [-3.00, 3.50, -2.50]. Plow tip (farthest along working direction on that face) at [3.00, 5.50, -2.50]."
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 10,
+      "face_a": "f2",
+      "block_b": 33,
+      "face_b": "f7",
+      "connector": "Brace",
+      "note": "Front cross-braced upper wishbone frame"
+    },
+    "result": "You have successfully added <ID 37: Brace>.\nExisting Blocks: 33\n(Front cross-braced upper wishbone frame) <ID 37: Brace>\nConnecting <ID 10: Single Wooden Block> at [1.  2.5 1. ] and <ID 33: Wooden Pole> at [-1.   1.   0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 11,
+      "face_a": "f2",
+      "block_b": 32,
+      "face_b": "f7",
+      "connector": "Brace",
+      "note": "Front opposing cross-brace"
+    },
+    "result": "You have successfully added <ID 38: Brace>.\nExisting Blocks: 34\n(Front opposing cross-brace) <ID 38: Brace>\nConnecting <ID 11: Single Wooden Block> at [-1.   2.5  1. ] and <ID 32: Wooden Pole> at [1.  1.  0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 12,
+      "face_a": "f3",
+      "block_b": 35,
+      "face_b": "f7",
+      "connector": "Brace",
+      "note": "Rear crossed torsion reinforcement"
+    },
+    "result": "You have successfully added <ID 39: Brace>.\nExisting Blocks: 35\n(Rear crossed torsion reinforcement) <ID 39: Brace>\nConnecting <ID 12: Single Wooden Block> at [ 1.  -2.5  1. ] and <ID 35: Wooden Pole> at [-1.  -1.   0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 13,
+      "face_a": "f3",
+      "block_b": 34,
+      "face_b": "f7",
+      "connector": "Brace",
+      "note": "Rear opposing torsion reinforcement"
+    },
+    "result": "You have successfully added <ID 40: Brace>.\nExisting Blocks: 36\n(Rear opposing torsion reinforcement) <ID 40: Brace>\nConnecting <ID 13: Single Wooden Block> at [-1.  -2.5  1. ] and <ID 34: Wooden Pole> at [ 1.  -1.   0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 32,
+      "face_a": "f3",
+      "block_b": 35,
+      "face_b": "f8",
+      "connector": "Brace",
+      "note": "Diagonal underfloor A"
+    },
+    "result": "You have successfully added <ID 41: Brace>.\nExisting Blocks: 37\n(Diagonal underfloor A) <ID 41: Brace>\nConnecting <ID 32: Wooden Pole> at [ 1.   2.  -0.5] and <ID 35: Wooden Pole> at [-1.  -1.  -0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 33,
+      "face_a": "f3",
+      "block_b": 34,
+      "face_b": "f8",
+      "connector": "Brace",
+      "note": "Diagonal underfloor B"
+    },
+    "result": "You have successfully added <ID 42: Brace>.\nExisting Blocks: 38\n(Diagonal underfloor B) <ID 42: Brace>\nConnecting <ID 33: Wooden Pole> at [-1.   2.  -0.5] and <ID 34: Wooden Pole> at [ 1.  -1.  -0.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 10,
+      "face_a": "f1",
+      "block_b": 12,
+      "face_b": "f1",
+      "connector": "Brace",
+      "note": "Right upper chassis spine"
+    },
+    "result": "You have successfully added <ID 43: Brace>.\nExisting Blocks: 39\n(Right upper chassis spine) <ID 43: Brace>\nConnecting <ID 10: Single Wooden Block> at [1.  3.  1.5] and <ID 12: Single Wooden Block> at [ 1.  -3.   1.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 11,
+      "face_a": "f0",
+      "block_b": 13,
+      "face_b": "f0",
+      "connector": "Brace",
+      "note": "Left upper chassis spine"
+    },
+    "result": "You have successfully added <ID 44: Brace>.\nExisting Blocks: 40\n(Left upper chassis spine) <ID 44: Brace>\nConnecting <ID 11: Single Wooden Block> at [-1.   3.   1.5] and <ID 13: Single Wooden Block> at [-1.  -3.   1.5].\t"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "Central cockpit tub"
+    },
+    "result": "You have successfully added <ID 45: Single Wooden Block>.\nExisting Blocks: 41\n(Central cockpit tub) <ID 45: Single Wooden Block>\nPosition: [0.,0.,1.]\nAttachable Faces:\nFace label: f0, Face center: [0.5, 0. , 1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  0. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -0.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [0. , 0.5, 1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [0. , 0. , 1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 45,
+      "face": "f4",
+      "new_block": "Reaction Steering Block",
+      "note": "Hidden yaw stabilization unit"
+    },
+    "result": "You have successfully added <ID 46: Reaction Steering Block>.\nExisting Blocks: 42\n(Hidden yaw stabilization unit) <ID 46: Reaction Steering Block>\nPosition: [0.  ,0.  ,1.75]\nReaction-wheel control axis aligns with <straight up>. Positive spin: Almost horizontal spinning counterclockwise around with the axis pointing at <straight up> Opposite spin: Almost horizontal spinning clockwise around with the axis pointing at <straight down>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 32,
+      "face": "f0",
+      "new_block": "Piston",
+      "note": "FR deployable triple-rotor cassette"
+    },
+    "result": "You have successfully added <ID 47: Piston>.\nExisting Blocks: 43\n(FR deployable triple-rotor cassette) <ID 47: Piston>\nPosition: [1.75,2.  ,0.  ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [2. , 1.5, 0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [2. , 2.5, 0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [2. , 2. , 0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 2. ,  2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [2.5, 2. , 0. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 33,
+      "face": "f1",
+      "new_block": "Piston",
+      "note": "FL deployable triple-rotor cassette"
+    },
+    "result": "You have successfully added <ID 48: Piston>.\nExisting Blocks: 44\n(FL deployable triple-rotor cassette) <ID 48: Piston>\nPosition: [-1.75, 2.  , 0.  ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2. ,  2.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2. ,  1.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2. ,  2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-2. ,  2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-2.5,  2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 34,
+      "face": "f1",
+      "new_block": "Piston",
+      "note": "RR deployable triple-rotor cassette"
+    },
+    "result": "You have successfully added <ID 49: Piston>.\nExisting Blocks: 45\n(RR deployable triple-rotor cassette) <ID 49: Piston>\nPosition: [ 1.75,-2.  , 0.  ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 2. , -2.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 2. , -1.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 2. , -2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [ 2. , -2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [ 2.5, -2. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 35,
+      "face": "f0",
+      "new_block": "Piston",
+      "note": "RL deployable triple-rotor cassette"
+    },
+    "result": "You have successfully added <ID 50: Piston>.\nExisting Blocks: 46\n(RL deployable triple-rotor cassette) <ID 50: Piston>\nPosition: [-1.75,-2.  , 0.  ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2. , -1.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2. , -2.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2. , -2. ,  0.5], Facing towards <straight up>\nFace label: f3, Face center: [-2. , -2. , -0.5], Facing towards <straight down>\nFace label: f4, Face center: [-2.5, -2. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 47,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 47 <Piston> is shifted by [0, 0, 0.5]. \n (FR deployable triple-rotor cassette) <ID 47: Piston>\nPosition: [1.75,2.  ,0.  ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [2. , 1.5, 0.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [2. , 2.5, 0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [2., 2., 1.], Facing towards <straight up>\nFace label: f3, Face center: [2., 2., 0.], Facing towards <straight down>\nFace label: f4, Face center: [2.5, 2. , 0.5], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 48,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 48 <Piston> is shifted by [0, 0, 0.5]. \n (FL deployable triple-rotor cassette) <ID 48: Piston>\nPosition: [-1.75, 2.  , 0.  ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2. ,  2.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2. ,  1.5,  0.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2.,  2.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [-2.,  2.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [-2.5,  2. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 49,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 49 <Piston> is shifted by [0, 0, 0.5]. \n (RR deployable triple-rotor cassette) <ID 49: Piston>\nPosition: [ 1.75,-2.  , 0.  ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 2. , -2.5,  0.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 2. , -1.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 2., -2.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [ 2., -2.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [ 2.5, -2. ,  0.5], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 50,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 50 <Piston> is shifted by [0, 0, 0.5]. \n (RL deployable triple-rotor cassette) <ID 50: Piston>\nPosition: [-1.75,-2.  , 0.  ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2. , -1.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2. , -2.5,  0.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2., -2.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [-2., -2.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [-2.5, -2. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 47,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Inner rotor cassette carrier"
+    },
+    "result": "You have successfully added <ID 51: Single Wooden Block>.\nExisting Blocks: 47\n(Inner rotor cassette carrier) <ID 51: Single Wooden Block>\nPosition: [2. ,1. ,0.5]\nAttachable Faces:\nFace label: f0, Face center: [1.5, 1. , 0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [2.5, 1. , 0.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f2, Face center: [2., 1., 1.], Facing towards <straight up>\nFace label: f3, Face center: [2., 1., 0.], Facing towards <straight down>\nFace label: f4, Face center: [2. , 0.5, 0.5], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 48,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Inner rotor cassette carrier"
+    },
+    "result": "You have successfully added <ID 52: Single Wooden Block>.\nExisting Blocks: 48\n(Inner rotor cassette carrier) <ID 52: Single Wooden Block>\nPosition: [-2. , 1. , 0.5]\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5,  1. ,  0.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2.,  1.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [-2.,  1.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [-2. ,  0.5,  0.5], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 49,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Inner rotor cassette carrier"
+    },
+    "result": "You have successfully added <ID 53: Single Wooden Block>.\nExisting Blocks: 49\n(Inner rotor cassette carrier) <ID 53: Single Wooden Block>\nPosition: [ 2. ,-1. , 0.5]\nAttachable Faces:\nFace label: f0, Face center: [ 2.5, -1. ,  0.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 2., -1.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [ 2., -1.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [ 2. , -0.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 50,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Inner rotor cassette carrier"
+    },
+    "result": "You have successfully added <ID 54: Single Wooden Block>.\nExisting Blocks: 50\n(Inner rotor cassette carrier) <ID 54: Single Wooden Block>\nPosition: [-2. ,-1. , 0.5]\nAttachable Faces:\nFace label: f0, Face center: [-1.5, -1. ,  0.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2.5, -1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-2., -1.,  1.], Facing towards <straight up>\nFace label: f3, Face center: [-2., -1.,  0.], Facing towards <straight down>\nFace label: f4, Face center: [-2. , -0.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 47,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Outer lift fan above wheel clearance"
+    },
+    "result": "You have successfully added <ID 55: Flying Block>.\nExisting Blocks: 51\n(Outer lift fan above wheel clearance) <ID 55: Flying Block>\nPosition: [2. ,2. ,1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 48,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Outer lift fan above wheel clearance"
+    },
+    "result": "You have successfully added <ID 56: Flying Block>.\nExisting Blocks: 52\n(Outer lift fan above wheel clearance) <ID 56: Flying Block>\nPosition: [-2. , 2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 49,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Outer lift fan above wheel clearance"
+    },
+    "result": "You have successfully added <ID 57: Flying Block>.\nExisting Blocks: 53\n(Outer lift fan above wheel clearance) <ID 57: Flying Block>\nPosition: [ 2. ,-2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 50,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Outer lift fan above wheel clearance"
+    },
+    "result": "You have successfully added <ID 58: Flying Block>.\nExisting Blocks: 54\n(Outer lift fan above wheel clearance) <ID 58: Flying Block>\nPosition: [-2. ,-2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 51,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Inner lift fan, paired rotor bank"
+    },
+    "result": "You have successfully added <ID 59: Flying Block>.\nExisting Blocks: 55\n(Inner lift fan, paired rotor bank) <ID 59: Flying Block>\nPosition: [2. ,1. ,1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 52,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Inner lift fan, paired rotor bank"
+    },
+    "result": "You have successfully added <ID 60: Flying Block>.\nExisting Blocks: 56\n(Inner lift fan, paired rotor bank) <ID 60: Flying Block>\nPosition: [-2. , 1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 53,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Inner lift fan, paired rotor bank"
+    },
+    "result": "You have successfully added <ID 61: Flying Block>.\nExisting Blocks: 57\n(Inner lift fan, paired rotor bank) <ID 61: Flying Block>\nPosition: [ 2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 54,
+      "face": "f2",
+      "new_block": "Flying Block",
+      "note": "Inner lift fan, paired rotor bank"
+    },
+    "result": "You have successfully added <ID 62: Flying Block>.\nExisting Blocks: 58\n(Inner lift fan, paired rotor bank) <ID 62: Flying Block>\nPosition: [-2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 55,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 55 <Flying Block> is shifted by [0, 0, 0.2]. \n (Outer lift fan above wheel clearance) <ID 55: Flying Block>\nPosition: [2. ,2. ,1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 56,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 56 <Flying Block> is shifted by [0, 0, 0.2]. \n (Outer lift fan above wheel clearance) <ID 56: Flying Block>\nPosition: [-2. , 2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 57,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 57 <Flying Block> is shifted by [0, 0, 0.2]. \n (Outer lift fan above wheel clearance) <ID 57: Flying Block>\nPosition: [ 2. ,-2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 58,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 58 <Flying Block> is shifted by [0, 0, 0.2]. \n (Outer lift fan above wheel clearance) <ID 58: Flying Block>\nPosition: [-2. ,-2. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 59,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 59 <Flying Block> is shifted by [0, 0, 0.2]. \n (Inner lift fan, paired rotor bank) <ID 59: Flying Block>\nPosition: [2. ,1. ,1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 60,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 60 <Flying Block> is shifted by [0, 0, 0.2]. \n (Inner lift fan, paired rotor bank) <ID 60: Flying Block>\nPosition: [-2. , 1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 61,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 61 <Flying Block> is shifted by [0, 0, 0.2]. \n (Inner lift fan, paired rotor bank) <ID 61: Flying Block>\nPosition: [ 2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 62,
+      "shift_real": [
+        0,
+        0,
+        0.2
+      ]
+    },
+    "result": "The block 62 <Flying Block> is shifted by [0, 0, 0.2]. \n (Inner lift fan, paired rotor bank) <ID 62: Flying Block>\nPosition: [-2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 45,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Right angled canopy former"
+    },
+    "result": "You have successfully added <ID 63: Single Wooden Block>.\nExisting Blocks: 59\n(Right angled canopy former) <ID 63: Single Wooden Block>\nPosition: [ 1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 0. , 0.5], Facing towards <straight down>\nFace label: f1, Face center: [1. , 0. , 1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 1. , -0.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [1. , 0.5, 1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [1.5, 0. , 1. ], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 45,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Left angled canopy former"
+    },
+    "result": "You have successfully added <ID 64: Single Wooden Block>.\nExisting Blocks: 60\n(Left angled canopy former) <ID 64: Single Wooden Block>\nPosition: [-1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  0. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. ,  0. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1. , -0.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  0.5,  1. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5,  0. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 46
+    },
+    "result": "You have successfully removed <ID 46: Reaction Steering Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 1,
+      "face": "f3",
+      "new_block": "Reaction Steering Block",
+      "note": "Underfloor flight yaw-control unit"
+    },
+    "result": "You have successfully added <ID 65: Reaction Steering Block>.\nExisting Blocks: 60\n(Underfloor flight yaw-control unit) <ID 65: Reaction Steering Block>\nPosition: [ 0.  , 0.  ,-0.75]\nReaction-wheel control axis aligns with <straight down>. Positive spin: Almost horizontal spinning clockwise around with the axis pointing at <straight down> Opposite spin: Almost horizontal spinning counterclockwise around with the axis pointing at <straight up>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 63,
+      "shift_real": [
+        0,
+        0,
+        0.25
+      ]
+    },
+    "result": "The block 63 <Single Wooden Block> is shifted by [0, 0, 0.25]. \n (Right angled canopy former) <ID 63: Single Wooden Block>\nPosition: [ 1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [1.  , 0.  , 0.75], Facing towards <straight down>\nFace label: f1, Face center: [1.  , 0.  , 1.75], Facing towards <straight up>\nFace label: f2, Face center: [ 1.  , -0.5 ,  1.25], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [1.  , 0.5 , 1.25], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [1.5 , 0.  , 1.25], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 63,
+      "angle": 30.0
+    },
+    "result": "The block 63 <Single Wooden Block> is twisted by 30.0 degrees. \n (Right angled canopy former) <ID 63: Single Wooden Block>\nPosition: [ 1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1.  , -0.25,  0.82], Facing towards <South with -60.0\u00b0 pitch>\nFace label: f1, Face center: [1.  , 0.25, 1.68], Facing towards <North with 60.0\u00b0 pitch>\nFace label: f2, Face center: [ 1.  , -0.43,  1.5 ], Facing towards <South with 30.0\u00b0 pitch>\nFace label: f3, Face center: [1.  , 0.43, 1.  ], Facing towards <North with -30.0\u00b0 pitch>\nFace label: f4, Face center: [ 1.5 , -0.  ,  1.25], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 64,
+      "shift_real": [
+        0,
+        0,
+        0.25
+      ]
+    },
+    "result": "The block 64 <Single Wooden Block> is shifted by [0, 0, 0.25]. \n (Left angled canopy former) <ID 64: Single Wooden Block>\nPosition: [-1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1.  ,  0.  ,  1.75], Facing towards <straight up>\nFace label: f1, Face center: [-1.  ,  0.  ,  0.75], Facing towards <straight down>\nFace label: f2, Face center: [-1.  , -0.5 ,  1.25], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-1.  ,  0.5 ,  1.25], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5 ,  0.  ,  1.25], Facing towards <West with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 64,
+      "angle": -30.0
+    },
+    "result": "The block 64 <Single Wooden Block> is twisted by -30.0 degrees. \n (Left angled canopy former) <ID 64: Single Wooden Block>\nPosition: [-1.,-0., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1.  ,  0.25,  1.68], Facing towards <North with 60.0\u00b0 pitch>\nFace label: f1, Face center: [-1.  , -0.25,  0.82], Facing towards <South with -60.0\u00b0 pitch>\nFace label: f2, Face center: [-1.  , -0.43,  1.5 ], Facing towards <South with 30.0\u00b0 pitch>\nFace label: f3, Face center: [-1.  ,  0.43,  1.  ], Facing towards <North with -30.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5 , -0.  ,  1.25], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 8,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Wide metal bonnet"
+    },
+    "result": "You have successfully added <ID 66: Armor Plate Large>.\nExisting Blocks: 61\n(Wide metal bonnet) <ID 66: Armor Plate Large>\nPosition: [0.  ,3.  ,1.75]\nCoverage on attach face (2x1, four corner coordinates): [-1.00, 3.50, 1.50]; [-1.00, 2.50, 1.50]; [1.00, 3.50, 1.50]; [1.00, 2.50, 1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 9,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Rear engine-deck armour"
+    },
+    "result": "You have successfully added <ID 67: Armor Plate Large>.\nExisting Blocks: 62\n(Rear engine-deck armour) <ID 67: Armor Plate Large>\nPosition: [ 0.  ,-3.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [-1.00, -2.50, 1.50]; [-1.00, -3.50, 1.50]; [1.00, -2.50, 1.50]; [1.00, -3.50, 1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 63,
+      "face": "f1",
+      "new_block": "Armor Plate Small",
+      "note": "Right sloped metal canopy"
+    },
+    "result": "You have successfully added <ID 68: Armor Plate Small>.\nExisting Blocks: 63\n(Right sloped metal canopy) <ID 68: Armor Plate Small>\nPosition: [1.  ,0.38,1.9 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 64,
+      "face": "f0",
+      "new_block": "Armor Plate Small",
+      "note": "Left sloped metal canopy"
+    },
+    "result": "You have successfully added <ID 69: Armor Plate Small>.\nExisting Blocks: 64\n(Left sloped metal canopy) <ID 69: Armor Plate Small>\nPosition: [-1.  , 0.38, 1.9 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 45,
+      "face": "f4",
+      "new_block": "Armor Plate Small",
+      "note": "Central canopy crest"
+    },
+    "result": "You have successfully added <ID 70: Armor Plate Small>.\nExisting Blocks: 65\n(Central canopy crest) <ID 70: Armor Plate Small>\nPosition: [0.  ,0.  ,1.75]"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 66,
+      "angle": 90.0
+    },
+    "result": "The block 66 <Armor Plate Large> is twisted by 90.0 degrees. \n (Wide metal bonnet) <ID 66: Armor Plate Large>\nPosition: [0.  ,3.  ,1.75]\nCoverage on attach face (2x1, four corner coordinates): [0.50, 4.00, 1.50]; [-0.50, 4.00, 1.50]; [0.50, 2.00, 1.50]; [-0.50, 2.00, 1.50]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 67,
+      "angle": 90.0
+    },
+    "result": "The block 67 <Armor Plate Large> is twisted by 90.0 degrees. \n (Rear engine-deck armour) <ID 67: Armor Plate Large>\nPosition: [ 0.  ,-3.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [0.50, -2.00, 1.50]; [-0.50, -2.00, 1.50]; [0.50, -4.00, 1.50]; [-0.50, -4.00, 1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 10,
+      "face": "f1",
+      "new_block": "Armor Plate Small",
+      "note": "Right bonnet shoulder"
+    },
+    "result": "You have successfully added <ID 71: Armor Plate Small>.\nExisting Blocks: 66\n(Right bonnet shoulder) <ID 71: Armor Plate Small>\nPosition: [1.  ,3.  ,1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 11,
+      "face": "f0",
+      "new_block": "Armor Plate Small",
+      "note": "Left bonnet shoulder"
+    },
+    "result": "You have successfully added <ID 72: Armor Plate Small>.\nExisting Blocks: 67\n(Left bonnet shoulder) <ID 72: Armor Plate Small>\nPosition: [-1.  , 3.  , 1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 12,
+      "face": "f1",
+      "new_block": "Armor Plate Small",
+      "note": "Right tail shoulder"
+    },
+    "result": "You have successfully added <ID 73: Armor Plate Small>.\nExisting Blocks: 68\n(Right tail shoulder) <ID 73: Armor Plate Small>\nPosition: [ 1.  ,-3.  , 1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 13,
+      "face": "f0",
+      "new_block": "Armor Plate Small",
+      "note": "Left tail shoulder"
+    },
+    "result": "You have successfully added <ID 74: Armor Plate Small>.\nExisting Blocks: 69\n(Left tail shoulder) <ID 74: Armor Plate Small>\nPosition: [-1.  ,-3.  , 1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 3,
+      "face": "f13",
+      "new_block": "Single Wooden Block",
+      "note": "Rear diffuser and wing support"
+    },
+    "result": "You have successfully added <ID 75: Single Wooden Block>.\nExisting Blocks: 70\n(Rear diffuser and wing support) <ID 75: Single Wooden Block>\nPosition: [ 0.,-4., 0.]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -4. ,  0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -4. ,  0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -4. , -0.5], Facing towards <straight down>\nFace label: f3, Face center: [ 0. , -4. ,  0.5], Facing towards <straight up>\nFace label: f4, Face center: [ 0. , -4.5,  0. ], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 59,
+      "shift_real": [
+        0.2,
+        0,
+        -0.1
+      ]
+    },
+    "result": "The block 59 <Flying Block> is shifted by [0.2, 0, -0.1]. \n (Inner lift fan, paired rotor bank) <ID 59: Flying Block>\nPosition: [2. ,1. ,1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 60,
+      "shift_real": [
+        -0.2,
+        0,
+        -0.1
+      ]
+    },
+    "result": "The block 60 <Flying Block> is shifted by [-0.2, 0, -0.1]. \n (Inner lift fan, paired rotor bank) <ID 60: Flying Block>\nPosition: [-2. , 1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 61,
+      "shift_real": [
+        0.2,
+        0,
+        -0.1
+      ]
+    },
+    "result": "The block 61 <Flying Block> is shifted by [0.2, 0, -0.1]. \n (Inner lift fan, paired rotor bank) <ID 61: Flying Block>\nPosition: [ 2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 62,
+      "shift_real": [
+        -0.2,
+        0,
+        -0.1
+      ]
+    },
+    "result": "The block 62 <Flying Block> is shifted by [-0.2, 0, -0.1]. \n (Inner lift fan, paired rotor bank) <ID 62: Flying Block>\nPosition: [-2. ,-1. , 1.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 51,
+      "face": "f1",
+      "new_block": "Armor Plate Small",
+      "note": "FR rotor cassette side skin"
+    },
+    "result": "You have successfully added <ID 76: Armor Plate Small>.\nExisting Blocks: 71\n(FR rotor cassette side skin) <ID 76: Armor Plate Small>\nPosition: [2.75,1.  ,0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 52,
+      "face": "f0",
+      "new_block": "Armor Plate Small",
+      "note": "FL rotor cassette side skin"
+    },
+    "result": "You have successfully added <ID 77: Armor Plate Small>.\nExisting Blocks: 72\n(FL rotor cassette side skin) <ID 77: Armor Plate Small>\nPosition: [-2.75, 1.  , 0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 53,
+      "face": "f0",
+      "new_block": "Armor Plate Small",
+      "note": "RR rotor cassette side skin"
+    },
+    "result": "You have successfully added <ID 78: Armor Plate Small>.\nExisting Blocks: 73\n(RR rotor cassette side skin) <ID 78: Armor Plate Small>\nPosition: [ 2.75,-1.  , 0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 54,
+      "face": "f1",
+      "new_block": "Armor Plate Small",
+      "note": "RL rotor cassette side skin"
+    },
+    "result": "You have successfully added <ID 79: Armor Plate Small>.\nExisting Blocks: 74\n(RL rotor cassette side skin) <ID 79: Armor Plate Small>\nPosition: [-2.75,-1.  , 0.5 ]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 75,
+      "face": "f4",
+      "new_block": "Plow",
+      "note": "Swept metallic rear diffuser and tail blade"
+    },
+    "result": "You have successfully added <ID 80: Plow>.\nExisting Blocks: 75\n(Swept metallic rear diffuser and tail blade) <ID 80: Plow>\nPosition: [ 0. ,-5.5, 0. ]\nPlow bottom-face corner range : [3.00, -6.50, 2.50]; [3.00, -4.50, 2.50]; [-3.00, -6.50, 2.50]; [-3.00, -4.50, 2.50]. Plow tip (farthest along working direction on that face) at [3.00, -6.50, 2.50]."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 80
+    },
+    "result": "You have successfully removed <ID 80: Plow>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 75,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "Rear wing centre pylon"
+    },
+    "result": "You have successfully added <ID 81: Single Wooden Block>.\nExisting Blocks: 75\n(Rear wing centre pylon) <ID 81: Single Wooden Block>\nPosition: [ 0.,-4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -4. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -4. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -4.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 0. , -3.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 0. , -4. ,  1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 18,
+      "angle": 90.0
+    },
+    "result": "The block 18 <Steering Hinge> is twisted by 90.0 degrees. \n (Front right steering knuckle, independent of suspension travel) <ID 18: Steering Hinge>\nPosition: [ 2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <straight up> and toward <straight down> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 19,
+      "angle": 90.0
+    },
+    "result": "The block 19 <Steering Hinge> is twisted by 90.0 degrees. \n (Front left steering knuckle, independent of suspension travel) <ID 19: Steering Hinge>\nPosition: [-2.25, 3.  ,-0.5 ]\nPowered steering hinge: active swing toward <straight down> and toward <straight up> (pin along local +X from dump layout).\nRolling towards <South with 0.0\u00b0 pitch> with -0\u00b0 camber"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 36
+    },
+    "result": "You have successfully removed <ID 36: Plow>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 8,
+      "face": "f3",
+      "new_block": "Plow",
+      "note": "Forward-facing nose; teeth point down, raised for road clearance"
+    },
+    "result": "You have successfully added <ID 82: Plow>.\nExisting Blocks: 75\n(Forward-facing nose; teeth point down, raised for road clearance) <ID 82: Plow>\nPosition: [0. ,4.5,1. ]\nPlow bottom-face corner range : [3.00, 5.50, -1.50]; [3.00, 3.50, -1.50]; [-3.00, 5.50, -1.50]; [-3.00, 3.50, -1.50]. Plow tip (farthest along working direction on that face) at [3.00, 5.50, -1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 81,
+      "face": "f0",
+      "new_block": "Single Wooden Block",
+      "note": "Right rear-wing beam"
+    },
+    "result": "You have successfully added <ID 83: Single Wooden Block>.\nExisting Blocks: 76\n(Right rear-wing beam) <ID 83: Single Wooden Block>\nPosition: [ 1.,-4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -4. ,  0.5], Facing towards <straight down>\nFace label: f1, Face center: [ 1. , -4. ,  1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 1. , -4.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -3.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1.5, -4. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 81,
+      "face": "f1",
+      "new_block": "Single Wooden Block",
+      "note": "Left rear-wing beam"
+    },
+    "result": "You have successfully added <ID 84: Single Wooden Block>.\nExisting Blocks: 77\n(Left rear-wing beam) <ID 84: Single Wooden Block>\nPosition: [-1.,-4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -4. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. , -4. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1. , -4.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -3.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1.5, -4. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 67
+    },
+    "result": "You have successfully removed <ID 67: Armor Plate Large>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 83,
+      "face": "f1",
+      "new_block": "Armor Plate Large",
+      "note": "Flat metallic rear wing, right half"
+    },
+    "result": "You have successfully added <ID 85: Armor Plate Large>.\nExisting Blocks: 77\n(Flat metallic rear wing, right half) <ID 85: Armor Plate Large>\nPosition: [ 1.  ,-4.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [0.00, -3.50, 1.50]; [-0.00, -4.50, 1.50]; [2.00, -3.50, 1.50]; [2.00, -4.50, 1.50]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 85,
+      "shift_real": [
+        0.5,
+        0,
+        0
+      ]
+    },
+    "result": "The block 85 <Armor Plate Large> is shifted by [0.5, 0, 0]. \n (Flat metallic rear wing, right half) <ID 85: Armor Plate Large>\nPosition: [ 1.  ,-4.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [0.00, -3.50, 1.50]; [-0.00, -4.50, 1.50]; [2.00, -3.50, 1.50]; [2.00, -4.50, 1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 84,
+      "face": "f0",
+      "new_block": "Armor Plate Large",
+      "note": "Flat metallic rear wing, left half"
+    },
+    "result": "You have successfully added <ID 86: Armor Plate Large>.\nExisting Blocks: 78\n(Flat metallic rear wing, left half) <ID 86: Armor Plate Large>\nPosition: [-1.  ,-4.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [-2.00, -3.50, 1.50]; [-2.00, -4.50, 1.50]; [-0.00, -3.50, 1.50]; [0.00, -4.50, 1.50]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 86,
+      "shift_real": [
+        -0.5,
+        0,
+        0
+      ]
+    },
+    "result": "The block 86 <Armor Plate Large> is shifted by [-0.5, 0, 0]. \n (Flat metallic rear wing, left half) <ID 86: Armor Plate Large>\nPosition: [-1.  ,-4.  , 1.75]\nCoverage on attach face (2x1, four corner coordinates): [-2.00, -3.50, 1.50]; [-2.00, -4.50, 1.50]; [-0.00, -3.50, 1.50]; [0.00, -4.50, 1.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 81,
+      "face": "f4",
+      "new_block": "Armor Plate Small",
+      "note": "Rear wing centre strip"
+    },
+    "result": "You have successfully added <ID 87: Armor Plate Small>.\nExisting Blocks: 79\n(Rear wing centre strip) <ID 87: Armor Plate Small>\nPosition: [ 0.  ,-4.  , 1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 9,
+      "face": "f4",
+      "new_block": "Armor Plate Small",
+      "note": "Rear deck centre cover"
+    },
+    "result": "You have successfully added <ID 88: Armor Plate Small>.\nExisting Blocks: 80\n(Rear deck centre cover) <ID 88: Armor Plate Small>\nPosition: [ 0.  ,-3.  , 1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 2,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "Bonnet-to-cockpit centre former"
+    },
+    "result": "You have successfully added <ID 89: Single Wooden Block>.\nExisting Blocks: 81\n(Bonnet-to-cockpit centre former) <ID 89: Single Wooden Block>\nPosition: [0.,1.,1.]\nAttachable Faces:\nFace label: f0, Face center: [0.5, 1. , 1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  1. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [0. , 0.5, 1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [0. , 1.5, 1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [0. , 1. , 1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 89,
+      "face": "f4",
+      "new_block": "Armor Plate Small",
+      "note": "Central front body cover"
+    },
+    "result": "You have successfully added <ID 90: Armor Plate Small>.\nExisting Blocks: 82\n(Central front body cover) <ID 90: Armor Plate Small>\nPosition: [0.  ,1.  ,1.75]"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 3,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "Cockpit-to-engine rear former"
+    },
+    "result": "You have successfully added <ID 91: Single Wooden Block>.\nExisting Blocks: 83\n(Cockpit-to-engine rear former) <ID 91: Single Wooden Block>\nPosition: [ 0.,-1., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -1. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5, -1. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 0. , -1.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 0. , -0.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 0. , -1. ,  1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 91,
+      "face": "f4",
+      "new_block": "Armor Plate Small",
+      "note": "Central rear body cover"
+    },
+    "result": "You have successfully added <ID 92: Armor Plate Small>.\nExisting Blocks: 84\n(Central rear body cover) <ID 92: Armor Plate Small>\nPosition: [ 0.  ,-1.  , 1.75]"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 76
+    },
+    "result": "You have successfully removed <ID 76: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 77
+    },
+    "result": "You have successfully removed <ID 77: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 78
+    },
+    "result": "You have successfully removed <ID 78: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 79
+    },
+    "result": "You have successfully removed <ID 79: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 55
+    },
+    "result": "You have successfully removed <ID 55: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 56
+    },
+    "result": "You have successfully removed <ID 56: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 57
+    },
+    "result": "You have successfully removed <ID 57: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 58
+    },
+    "result": "You have successfully removed <ID 58: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 59
+    },
+    "result": "You have successfully removed <ID 59: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 60
+    },
+    "result": "You have successfully removed <ID 60: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 61
+    },
+    "result": "You have successfully removed <ID 61: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 62
+    },
+    "result": "You have successfully removed <ID 62: Flying Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 51
+    },
+    "result": "You have successfully removed <ID 51: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 52
+    },
+    "result": "You have successfully removed <ID 52: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 53
+    },
+    "result": "You have successfully removed <ID 53: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 54
+    },
+    "result": "You have successfully removed <ID 54: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 47
+    },
+    "result": "You have successfully removed <ID 47: Piston>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 48
+    },
+    "result": "You have successfully removed <ID 48: Piston>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 49
+    },
+    "result": "You have successfully removed <ID 49: Piston>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 50
+    },
+    "result": "You have successfully removed <ID 50: Piston>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 10,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "FR fixed rotor outrigger mount"
+    },
+    "result": "You have successfully added <ID 93: Single Wooden Block>.\nExisting Blocks: 65\n(FR fixed rotor outrigger mount) <ID 93: Single Wooden Block>\nPosition: [1.,2.,1.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 2. , 0.5], Facing towards <straight down>\nFace label: f1, Face center: [1. , 2. , 1.5], Facing towards <straight up>\nFace label: f2, Face center: [0.5, 2. , 1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f3, Face center: [1.5, 2. , 1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [1. , 1.5, 1. ], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 11,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "FL fixed rotor outrigger mount"
+    },
+    "result": "You have successfully added <ID 94: Single Wooden Block>.\nExisting Blocks: 66\n(FL fixed rotor outrigger mount) <ID 94: Single Wooden Block>\nPosition: [-1., 2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  2. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. ,  2. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-0.5,  2. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1.5,  2. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. ,  1.5,  1. ], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 12,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "RR fixed rotor outrigger mount"
+    },
+    "result": "You have successfully added <ID 95: Single Wooden Block>.\nExisting Blocks: 67\n(RR fixed rotor outrigger mount) <ID 95: Single Wooden Block>\nPosition: [ 1.,-2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -2. ,  0.5], Facing towards <straight down>\nFace label: f1, Face center: [ 1. , -2. ,  1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 1.5, -2. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 0.5, -2. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. , -1.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 13,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "RL fixed rotor outrigger mount"
+    },
+    "result": "You have successfully added <ID 96: Single Wooden Block>.\nExisting Blocks: 68\n(RL fixed rotor outrigger mount) <ID 96: Single Wooden Block>\nPosition: [-1.,-2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -2. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. , -2. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1.5, -2. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-0.5, -2. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. , -1.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 93,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 93 <Single Wooden Block> is shifted by [0, 0, 0.5]. \n (FR fixed rotor outrigger mount) <ID 93: Single Wooden Block>\nPosition: [1.,2.,1.]\nAttachable Faces:\nFace label: f0, Face center: [1., 2., 1.], Facing towards <straight down>\nFace label: f1, Face center: [1., 2., 2.], Facing towards <straight up>\nFace label: f2, Face center: [0.5, 2. , 1.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f3, Face center: [1.5, 2. , 1.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [1. , 1.5, 1.5], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 94,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 94 <Single Wooden Block> is shifted by [0, 0, 0.5]. \n (FL fixed rotor outrigger mount) <ID 94: Single Wooden Block>\nPosition: [-1., 2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1.,  2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-1.,  2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-0.5,  2. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1.5,  2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. ,  1.5,  1.5], Facing towards <South with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 95,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 95 <Single Wooden Block> is shifted by [0, 0, 0.5]. \n (RR fixed rotor outrigger mount) <ID 95: Single Wooden Block>\nPosition: [ 1.,-2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1., -2.,  1.], Facing towards <straight down>\nFace label: f1, Face center: [ 1., -2.,  2.], Facing towards <straight up>\nFace label: f2, Face center: [ 1.5, -2. ,  1.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 0.5, -2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 96,
+      "shift_real": [
+        0,
+        0,
+        0.5
+      ]
+    },
+    "result": "The block 96 <Single Wooden Block> is shifted by [0, 0, 0.5]. \n (RL fixed rotor outrigger mount) <ID 96: Single Wooden Block>\nPosition: [-1.,-2., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1., -2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-1., -2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-1.5, -2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-0.5, -2. ,  1.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 93,
+      "face": "f3",
+      "new_block": "Piston",
+      "note": "FR piston base on solid fixed chassis mount"
+    },
+    "result": "You have successfully added <ID 97: Piston>.\nExisting Blocks: 69\n(FR piston base on solid fixed chassis mount) <ID 97: Piston>\nPosition: [1.75,2.  ,1.5 ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [2., 2., 1.], Facing towards <straight down>\nFace label: f1, Face center: [2., 2., 2.], Facing towards <straight up>\nFace label: f2, Face center: [2. , 1.5, 1.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [2. , 2.5, 1.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [2.5, 2. , 1.5], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 94,
+      "face": "f3",
+      "new_block": "Piston",
+      "note": "FL piston base on solid fixed chassis mount"
+    },
+    "result": "You have successfully added <ID 98: Piston>.\nExisting Blocks: 70\n(FL piston base on solid fixed chassis mount) <ID 98: Piston>\nPosition: [-1.75, 2.  , 1.5 ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2.,  2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-2.,  2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-2. ,  1.5,  1.5], Facing towards <South with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-2. ,  2.5,  1.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-2.5,  2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 95,
+      "face": "f2",
+      "new_block": "Piston",
+      "note": "RR piston base on solid fixed chassis mount"
+    },
+    "result": "You have successfully added <ID 99: Piston>.\nExisting Blocks: 71\n(RR piston base on solid fixed chassis mount) <ID 99: Piston>\nPosition: [ 1.75,-2.  , 1.5 ]\nPiston stroke axis: extends toward <East with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <West with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [ 2., -2.,  1.], Facing towards <straight down>\nFace label: f1, Face center: [ 2., -2.,  2.], Facing towards <straight up>\nFace label: f2, Face center: [ 2. , -2.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 2. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 2.5, -2. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 96,
+      "face": "f2",
+      "new_block": "Piston",
+      "note": "RL piston base on solid fixed chassis mount"
+    },
+    "result": "You have successfully added <ID 100: Piston>.\nExisting Blocks: 72\n(RL piston base on solid fixed chassis mount) <ID 100: Piston>\nPosition: [-1.75,-2.  , 1.5 ]\nPiston stroke axis: extends toward <West with 0.0\u00b0 pitch> (outward, positive face normal), retracts toward <East with -0.0\u00b0 pitch> (negative face normal).\nAttachable Faces:\nFace label: f0, Face center: [-2., -2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-2., -2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-2. , -2.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-2. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-2.5, -2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 97,
+      "face": "f4",
+      "new_block": "Single Wooden Block",
+      "note": "Twin-rotor carrier directly connected to piston moving end cap"
+    },
+    "result": "You have successfully added <ID 101: Single Wooden Block>.\nExisting Blocks: 73\n(Twin-rotor carrier directly connected to piston moving end cap) <ID 101: Single Wooden Block>\nPosition: [3. ,2. ,1.5]\nAttachable Faces:\nFace label: f0, Face center: [3., 2., 1.], Facing towards <straight down>\nFace label: f1, Face center: [3., 2., 2.], Facing towards <straight up>\nFace label: f2, Face center: [3. , 1.5, 1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [3. , 2.5, 1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [3.5, 2. , 1.5], Facing towards <East with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 98,
+      "face": "f4",
+      "new_block": "Single Wooden Block",
+      "note": "Twin-rotor carrier directly connected to piston moving end cap"
+    },
+    "result": "You have successfully added <ID 102: Single Wooden Block>.\nExisting Blocks: 74\n(Twin-rotor carrier directly connected to piston moving end cap) <ID 102: Single Wooden Block>\nPosition: [-3. , 2. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3.,  2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3.,  2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-3. ,  1.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3. ,  2.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5,  2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 99,
+      "face": "f4",
+      "new_block": "Single Wooden Block",
+      "note": "Twin-rotor carrier directly connected to piston moving end cap"
+    },
+    "result": "You have successfully added <ID 103: Single Wooden Block>.\nExisting Blocks: 75\n(Twin-rotor carrier directly connected to piston moving end cap) <ID 103: Single Wooden Block>\nPosition: [ 3. ,-2. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [ 3., -2.,  1.], Facing towards <straight down>\nFace label: f1, Face center: [ 3., -2.,  2.], Facing towards <straight up>\nFace label: f2, Face center: [ 3. , -2.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 3. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 3.5, -2. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 100,
+      "face": "f4",
+      "new_block": "Single Wooden Block",
+      "note": "Twin-rotor carrier directly connected to piston moving end cap"
+    },
+    "result": "You have successfully added <ID 104: Single Wooden Block>.\nExisting Blocks: 76\n(Twin-rotor carrier directly connected to piston moving end cap) <ID 104: Single Wooden Block>\nPosition: [-3. ,-2. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3., -2.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3., -2.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-3. , -2.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3. , -1.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3.5, -2. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 101,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "Longitudinal extension of moving twin-rotor carrier"
+    },
+    "result": "You have successfully added <ID 105: Single Wooden Block>.\nExisting Blocks: 77\n(Longitudinal extension of moving twin-rotor carrier) <ID 105: Single Wooden Block>\nPosition: [3. ,1. ,1.5]\nAttachable Faces:\nFace label: f0, Face center: [3., 1., 1.], Facing towards <straight down>\nFace label: f1, Face center: [3., 1., 2.], Facing towards <straight up>\nFace label: f2, Face center: [2.5, 1. , 1.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f3, Face center: [3.5, 1. , 1.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [3. , 0.5, 1.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 102,
+      "face": "f2",
+      "new_block": "Single Wooden Block",
+      "note": "Longitudinal extension of moving twin-rotor carrier"
+    },
+    "result": "You have successfully added <ID 106: Single Wooden Block>.\nExisting Blocks: 78\n(Longitudinal extension of moving twin-rotor carrier) <ID 106: Single Wooden Block>\nPosition: [-3. , 1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3.,  1.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3.,  1.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-2.5,  1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5,  1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3. ,  0.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 103,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "Longitudinal extension of moving twin-rotor carrier"
+    },
+    "result": "You have successfully added <ID 107: Single Wooden Block>.\nExisting Blocks: 79\n(Longitudinal extension of moving twin-rotor carrier) <ID 107: Single Wooden Block>\nPosition: [ 3. ,-1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [ 3., -1.,  1.], Facing towards <straight down>\nFace label: f1, Face center: [ 3., -1.,  2.], Facing towards <straight up>\nFace label: f2, Face center: [ 3.5, -1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 2.5, -1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 3. , -0.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 104,
+      "face": "f3",
+      "new_block": "Single Wooden Block",
+      "note": "Longitudinal extension of moving twin-rotor carrier"
+    },
+    "result": "You have successfully added <ID 108: Single Wooden Block>.\nExisting Blocks: 80\n(Longitudinal extension of moving twin-rotor carrier) <ID 108: Single Wooden Block>\nPosition: [-3. ,-1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3., -1.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3., -1.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-3.5, -1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-2.5, -1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-3. , -0.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 101,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Outer vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 109: Flying Block>.\nExisting Blocks: 81\n(Outer vertical lift fan, direct attachment on moving carrier) <ID 109: Flying Block>\nPosition: [3. ,2. ,2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 102,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Outer vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 110: Flying Block>.\nExisting Blocks: 82\n(Outer vertical lift fan, direct attachment on moving carrier) <ID 110: Flying Block>\nPosition: [-3. , 2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 103,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Outer vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 111: Flying Block>.\nExisting Blocks: 83\n(Outer vertical lift fan, direct attachment on moving carrier) <ID 111: Flying Block>\nPosition: [ 3. ,-2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 104,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Outer vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 112: Flying Block>.\nExisting Blocks: 84\n(Outer vertical lift fan, direct attachment on moving carrier) <ID 112: Flying Block>\nPosition: [-3. ,-2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 105,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Inner vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 113: Flying Block>.\nExisting Blocks: 85\n(Inner vertical lift fan, direct attachment on moving carrier) <ID 113: Flying Block>\nPosition: [3. ,1. ,2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 106,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Inner vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 114: Flying Block>.\nExisting Blocks: 86\n(Inner vertical lift fan, direct attachment on moving carrier) <ID 114: Flying Block>\nPosition: [-3. , 1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 107,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Inner vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 115: Flying Block>.\nExisting Blocks: 87\n(Inner vertical lift fan, direct attachment on moving carrier) <ID 115: Flying Block>\nPosition: [ 3. ,-1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 108,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Inner vertical lift fan, direct attachment on moving carrier"
+    },
+    "result": "You have successfully added <ID 116: Flying Block>.\nExisting Blocks: 88\n(Inner vertical lift fan, direct attachment on moving carrier) <ID 116: Flying Block>\nPosition: [-3. ,-1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 101,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Metal side fairing for deployable rotor pod"
+    },
+    "result": "You have successfully added <ID 117: Armor Plate Large>.\nExisting Blocks: 89\n(Metal side fairing for deployable rotor pod) <ID 117: Armor Plate Large>\nPosition: [3.75,2.  ,1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, 2.50, 2.50]; [3.50, 1.50, 2.50]; [3.50, 2.50, 0.50]; [3.50, 1.50, 0.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 102,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Metal side fairing for deployable rotor pod"
+    },
+    "result": "You have successfully added <ID 118: Armor Plate Large>.\nExisting Blocks: 90\n(Metal side fairing for deployable rotor pod) <ID 118: Armor Plate Large>\nPosition: [-3.75, 2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, 2.50, 0.50]; [-3.50, 1.50, 0.50]; [-3.50, 2.50, 2.50]; [-3.50, 1.50, 2.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 103,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Metal side fairing for deployable rotor pod"
+    },
+    "result": "You have successfully added <ID 119: Armor Plate Large>.\nExisting Blocks: 91\n(Metal side fairing for deployable rotor pod) <ID 119: Armor Plate Large>\nPosition: [ 3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, -1.50, 2.50]; [3.50, -2.50, 2.50]; [3.50, -1.50, 0.50]; [3.50, -2.50, 0.50]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 104,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Metal side fairing for deployable rotor pod"
+    },
+    "result": "You have successfully added <ID 120: Armor Plate Large>.\nExisting Blocks: 92\n(Metal side fairing for deployable rotor pod) <ID 120: Armor Plate Large>\nPosition: [-3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, -1.50, 0.50]; [-3.50, -2.50, 0.50]; [-3.50, -1.50, 2.50]; [-3.50, -2.50, 2.50]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 117,
+      "angle": 90.0
+    },
+    "result": "The block 117 <Armor Plate Large> is twisted by 90.0 degrees. \n (Metal side fairing for deployable rotor pod) <ID 117: Armor Plate Large>\nPosition: [3.75,2.  ,1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, 3.00, 1.00]; [3.50, 3.00, 2.00]; [3.50, 1.00, 1.00]; [3.50, 1.00, 2.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 118,
+      "angle": 90.0
+    },
+    "result": "The block 118 <Armor Plate Large> is twisted by 90.0 degrees. \n (Metal side fairing for deployable rotor pod) <ID 118: Armor Plate Large>\nPosition: [-3.75, 2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, 3.00, 2.00]; [-3.50, 3.00, 1.00]; [-3.50, 1.00, 2.00]; [-3.50, 1.00, 1.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 119,
+      "angle": 90.0
+    },
+    "result": "The block 119 <Armor Plate Large> is twisted by 90.0 degrees. \n (Metal side fairing for deployable rotor pod) <ID 119: Armor Plate Large>\nPosition: [ 3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, -1.00, 1.00]; [3.50, -1.00, 2.00]; [3.50, -3.00, 1.00]; [3.50, -3.00, 2.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 120,
+      "angle": 90.0
+    },
+    "result": "The block 120 <Armor Plate Large> is twisted by 90.0 degrees. \n (Metal side fairing for deployable rotor pod) <ID 120: Armor Plate Large>\nPosition: [-3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, -1.00, 2.00]; [-3.50, -1.00, 1.00]; [-3.50, -3.00, 2.00]; [-3.50, -3.00, 1.00]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 117,
+      "shift_real": [
+        0,
+        -0.5,
+        0
+      ]
+    },
+    "result": "The block 117 <Armor Plate Large> is shifted by [0, -0.5, 0]. \n (Metal side fairing for deployable rotor pod) <ID 117: Armor Plate Large>\nPosition: [3.75,2.  ,1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, 3.00, 1.00]; [3.50, 3.00, 2.00]; [3.50, 1.00, 1.00]; [3.50, 1.00, 2.00]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 118,
+      "shift_real": [
+        0,
+        -0.5,
+        0
+      ]
+    },
+    "result": "The block 118 <Armor Plate Large> is shifted by [0, -0.5, 0]. \n (Metal side fairing for deployable rotor pod) <ID 118: Armor Plate Large>\nPosition: [-3.75, 2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, 3.00, 2.00]; [-3.50, 3.00, 1.00]; [-3.50, 1.00, 2.00]; [-3.50, 1.00, 1.00]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 119,
+      "shift_real": [
+        0,
+        0.5,
+        0
+      ]
+    },
+    "result": "The block 119 <Armor Plate Large> is shifted by [0, 0.5, 0]. \n (Metal side fairing for deployable rotor pod) <ID 119: Armor Plate Large>\nPosition: [ 3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [3.50, -1.00, 1.00]; [3.50, -1.00, 2.00]; [3.50, -3.00, 1.00]; [3.50, -3.00, 2.00]."
+  },
+  {
+    "op": "shift_block",
+    "params": {
+      "block_id": 120,
+      "shift_real": [
+        0,
+        0.5,
+        0
+      ]
+    },
+    "result": "The block 120 <Armor Plate Large> is shifted by [0, 0.5, 0]. \n (Metal side fairing for deployable rotor pod) <ID 120: Armor Plate Large>\nPosition: [-3.75,-2.  , 1.5 ]\nCoverage on attach face (2x1, four corner coordinates): [-3.50, -1.00, 2.00]; [-3.50, -1.00, 1.00]; [-3.50, -3.00, 2.00]; [-3.50, -3.00, 1.00]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 63,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Swept metal canopy side panel"
+    },
+    "result": "You have successfully added <ID 121: Armor Plate Large>.\nExisting Blocks: 93\n(Swept metal canopy side panel) <ID 121: Armor Plate Large>\nPosition: [ 1.75,-0.  , 1.25]\nCoverage on attach face (2x1, four corner coordinates): [1.50, 0.93, 1.87]; [1.50, 0.07, 2.37]; [1.50, -0.07, 0.13]; [1.50, -0.93, 0.63]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 64,
+      "face": "f4",
+      "new_block": "Armor Plate Large",
+      "note": "Swept metal canopy side panel"
+    },
+    "result": "You have successfully added <ID 122: Armor Plate Large>.\nExisting Blocks: 94\n(Swept metal canopy side panel) <ID 122: Armor Plate Large>\nPosition: [-1.75,-0.  , 1.25]\nCoverage on attach face (2x1, four corner coordinates): [-1.50, -0.07, 0.13]; [-1.50, -0.93, 0.63]; [-1.50, 0.93, 1.87]; [-1.50, 0.07, 2.37]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 121,
+      "angle": 90.0
+    },
+    "result": "The block 121 <Armor Plate Large> is twisted by 90.0 degrees. \n (Swept metal canopy side panel) <ID 121: Armor Plate Large>\nPosition: [ 1.75,-0.  , 1.25]\nCoverage on attach face (2x1, four corner coordinates): [1.50, 0.62, 0.32]; [1.50, 1.12, 1.18]; [1.50, -1.12, 1.32]; [1.50, -0.62, 2.18]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 122,
+      "angle": 90.0
+    },
+    "result": "The block 122 <Armor Plate Large> is twisted by 90.0 degrees. \n (Swept metal canopy side panel) <ID 122: Armor Plate Large>\nPosition: [-1.75,-0.  , 1.25]\nCoverage on attach face (2x1, four corner coordinates): [-1.50, 1.12, 1.18]; [-1.50, 0.62, 0.32]; [-1.50, -0.62, 2.18]; [-1.50, -1.12, 1.32]."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 26
+    },
+    "result": "You have successfully removed <ID 26: Armor Plate Round>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 27
+    },
+    "result": "You have successfully removed <ID 27: Armor Plate Round>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 28
+    },
+    "result": "You have successfully removed <ID 28: Armor Plate Round>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 29
+    },
+    "result": "You have successfully removed <ID 29: Armor Plate Round>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 66
+    },
+    "result": "You have successfully removed <ID 66: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 68
+    },
+    "result": "You have successfully removed <ID 68: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 69
+    },
+    "result": "You have successfully removed <ID 69: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 70
+    },
+    "result": "You have successfully removed <ID 70: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 71
+    },
+    "result": "You have successfully removed <ID 71: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 72
+    },
+    "result": "You have successfully removed <ID 72: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 73
+    },
+    "result": "You have successfully removed <ID 73: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 74
+    },
+    "result": "You have successfully removed <ID 74: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 85
+    },
+    "result": "You have successfully removed <ID 85: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 86
+    },
+    "result": "You have successfully removed <ID 86: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 87
+    },
+    "result": "You have successfully removed <ID 87: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 88
+    },
+    "result": "You have successfully removed <ID 88: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 90
+    },
+    "result": "You have successfully removed <ID 90: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 92
+    },
+    "result": "You have successfully removed <ID 92: Armor Plate Small>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 117
+    },
+    "result": "You have successfully removed <ID 117: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 118
+    },
+    "result": "You have successfully removed <ID 118: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 119
+    },
+    "result": "You have successfully removed <ID 119: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 120
+    },
+    "result": "You have successfully removed <ID 120: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 121
+    },
+    "result": "You have successfully removed <ID 121: Armor Plate Large>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 122
+    },
+    "result": "You have successfully removed <ID 122: Armor Plate Large>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 97,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve"
+    },
+    "result": "You have successfully added <ID 123: Flying Block>.\nExisting Blocks: 71\n(Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve) <ID 123: Flying Block>\nPosition: [2. ,2. ,2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 98,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve"
+    },
+    "result": "You have successfully added <ID 124: Flying Block>.\nExisting Blocks: 72\n(Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve) <ID 124: Flying Block>\nPosition: [-2. , 2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 99,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve"
+    },
+    "result": "You have successfully added <ID 125: Flying Block>.\nExisting Blocks: 73\n(Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve) <ID 125: Flying Block>\nPosition: [ 2. ,-2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 100,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve"
+    },
+    "result": "You have successfully added <ID 126: Flying Block>.\nExisting Blocks: 74\n(Supplemental vertical rotor mounted directly on the piston moving head; calibrate actual attachment and thrust reserve) <ID 126: Flying Block>\nPosition: [-2. ,-2. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 83
+    },
+    "result": "You have successfully removed <ID 83: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 84
+    },
+    "result": "You have successfully removed <ID 84: Single Wooden Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 12,
+      "face": "f2",
+      "new_block": "Fuel Barrel",
+      "note": "Right rear former replaced by direct-feed rocket fuel cell"
+    },
+    "result": "You have successfully added <ID 127: Fuel Barrel>.\nExisting Blocks: 73\n(Right rear former replaced by direct-feed rocket fuel cell) <ID 127: Fuel Barrel>\nPosition: [ 1.,-4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -4. ,  0.5], Facing towards <straight down>\nFace label: f1, Face center: [ 1. , -4. ,  1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 0.5, -4. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1.5, -4. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. , -4.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 13,
+      "face": "f2",
+      "new_block": "Fuel Barrel",
+      "note": "Left rear former replaced by direct-feed rocket fuel cell"
+    },
+    "result": "You have successfully added <ID 128: Fuel Barrel>.\nExisting Blocks: 74\n(Left rear former replaced by direct-feed rocket fuel cell) <ID 128: Fuel Barrel>\nPosition: [-1.,-4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -4. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. , -4. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-0.5, -4. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-1.5, -4. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. , -4.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 127,
+      "face": "f4",
+      "new_block": "Booster",
+      "note": "Right axial forward rocket, independently throttled"
+    },
+    "result": "You have successfully added <ID 129: Booster>.\nExisting Blocks: 75\n(Right axial forward rocket, independently throttled) <ID 129: Booster>\nPosition: [ 1.,-5., 1.]\nThrust is directed away from the mount face toward <South with -0.0\u00b0 pitch>.\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -5. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -5. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -5. ,  0.5], Facing towards <straight down>\nFace label: f3, Face center: [ 1. , -5. ,  1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 128,
+      "face": "f4",
+      "new_block": "Booster",
+      "note": "Left axial rocket; verify thrust sign before flight"
+    },
+    "result": "You have successfully added <ID 130: Booster>.\nExisting Blocks: 76\n(Left axial rocket; verify thrust sign before flight) <ID 130: Booster>\nPosition: [-1.,-5., 1.]\nThrust is directed away from the mount face toward <South with -0.0\u00b0 pitch>.\nAttachable Faces:\nFace label: f0, Face center: [-0.5, -5. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5, -5. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -5. ,  1.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. , -5. ,  0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 105
+    },
+    "result": "You have successfully removed <ID 105: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 113
+    },
+    "result": "You have successfully removed <ID 113: Flying Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 101,
+      "face": "f2",
+      "new_block": "Fuel Barrel",
+      "note": "FR fuel-bearing moving rotor carrier"
+    },
+    "result": "You have successfully added <ID 131: Fuel Barrel>.\nExisting Blocks: 75\n(FR fuel-bearing moving rotor carrier) <ID 131: Fuel Barrel>\nPosition: [3. ,1. ,1.5]\nAttachable Faces:\nFace label: f0, Face center: [3., 1., 1.], Facing towards <straight down>\nFace label: f1, Face center: [3., 1., 2.], Facing towards <straight up>\nFace label: f2, Face center: [2.5, 1. , 1.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f3, Face center: [3.5, 1. , 1.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [3. , 0.5, 1.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 131,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "FR fan directly attached on fuel-bearing moving carrier"
+    },
+    "result": "You have successfully added <ID 132: Flying Block>.\nExisting Blocks: 76\n(FR fan directly attached on fuel-bearing moving carrier) <ID 132: Flying Block>\nPosition: [3. ,1. ,2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 131,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "FR vertical augmentation rocket, nozzle down; verify force and structural load"
+    },
+    "result": "You have successfully added <ID 133: Booster>.\nExisting Blocks: 77\n(FR vertical augmentation rocket, nozzle down; verify force and structural load) <ID 133: Booster>\nPosition: [3. ,1. ,0.5]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [2.5, 1. , 0.5], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [3.5, 1. , 0.5], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f2, Face center: [3. , 1.5, 0.5], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f3, Face center: [3. , 0.5, 0.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 106
+    },
+    "result": "You have successfully removed <ID 106: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 114
+    },
+    "result": "You have successfully removed <ID 114: Flying Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 102,
+      "face": "f2",
+      "new_block": "Fuel Barrel",
+      "note": "FL fuel-bearing moving rotor carrier"
+    },
+    "result": "You have successfully added <ID 134: Fuel Barrel>.\nExisting Blocks: 76\n(FL fuel-bearing moving rotor carrier) <ID 134: Fuel Barrel>\nPosition: [-3. , 1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3.,  1.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3.,  1.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-2.5,  1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3.5,  1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-3. ,  0.5,  1.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 134,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "FL fan on fuel-bearing carrier"
+    },
+    "result": "You have successfully added <ID 135: Flying Block>.\nExisting Blocks: 77\n(FL fan on fuel-bearing carrier) <ID 135: Flying Block>\nPosition: [-3. , 1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 134,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "FL downward nozzle lift booster"
+    },
+    "result": "You have successfully added <ID 136: Booster>.\nExisting Blocks: 78\n(FL downward nozzle lift booster) <ID 136: Booster>\nPosition: [-3. , 1. , 0.5]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  1. ,  0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-3.5,  1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-3. ,  0.5,  0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-3. ,  1.5,  0.5], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 107
+    },
+    "result": "You have successfully removed <ID 107: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 115
+    },
+    "result": "You have successfully removed <ID 115: Flying Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 103,
+      "face": "f3",
+      "new_block": "Fuel Barrel",
+      "note": "RR fuel-bearing moving rotor carrier"
+    },
+    "result": "You have successfully added <ID 137: Fuel Barrel>.\nExisting Blocks: 77\n(RR fuel-bearing moving rotor carrier) <ID 137: Fuel Barrel>\nPosition: [ 3. ,-1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [ 3., -1.,  1.], Facing towards <straight down>\nFace label: f1, Face center: [ 3., -1.,  2.], Facing towards <straight up>\nFace label: f2, Face center: [ 3.5, -1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 2.5, -1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [ 3. , -0.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 137,
+      "face": "f1",
+      "new_block": "Flying Block",
+      "note": "RR fan on fuel-bearing carrier"
+    },
+    "result": "You have successfully added <ID 138: Flying Block>.\nExisting Blocks: 78\n(RR fan on fuel-bearing carrier) <ID 138: Flying Block>\nPosition: [ 3. ,-1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 137,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "RR downward nozzle lift booster"
+    },
+    "result": "You have successfully added <ID 139: Booster>.\nExisting Blocks: 79\n(RR downward nozzle lift booster) <ID 139: Booster>\nPosition: [ 3. ,-1. , 0.5]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [ 3.5, -1. ,  0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 2.5, -1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [ 3. , -1.5,  0.5], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 3. , -0.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 108
+    },
+    "result": "You have successfully removed <ID 108: Single Wooden Block>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 116
+    },
+    "result": "You have successfully removed <ID 116: Flying Block>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 104,
+      "face": "f3",
+      "new_block": "Fuel Barrel",
+      "note": "RL fuel-bearing moving rotor carrier"
+    },
+    "result": "You have successfully added <ID 140: Fuel Barrel>.\nExisting Blocks: 78\n(RL fuel-bearing moving rotor carrier) <ID 140: Fuel Barrel>\nPosition: [-3. ,-1. , 1.5]\nAttachable Faces:\nFace label: f0, Face center: [-3., -1.,  2.], Facing towards <straight up>\nFace label: f1, Face center: [-3., -1.,  1.], Facing towards <straight down>\nFace label: f2, Face center: [-3.5, -1. ,  1.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-2.5, -1. ,  1.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-3. , -0.5,  1.5], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 140,
+      "face": "f0",
+      "new_block": "Flying Block",
+      "note": "RL fan on fuel-bearing carrier"
+    },
+    "result": "You have successfully added <ID 141: Flying Block>.\nExisting Blocks: 79\n(RL fan on fuel-bearing carrier) <ID 141: Flying Block>\nPosition: [-3. ,-1. , 2.5]\nDirected lift is perpendicular to the install face and aligns with <straight up>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 140,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "RL downward nozzle lift booster"
+    },
+    "result": "You have successfully added <ID 142: Booster>.\nExisting Blocks: 80\n(RL downward nozzle lift booster) <ID 142: Booster>\nPosition: [-3. ,-1. , 0.5]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-3.5, -1. ,  0.5], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-2.5, -1. ,  0.5], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-3. , -0.5,  0.5], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-3. , -1.5,  0.5], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 133
+    },
+    "result": "You have successfully removed <ID 133: Booster>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 136
+    },
+    "result": "You have successfully removed <ID 136: Booster>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 139
+    },
+    "result": "You have successfully removed <ID 139: Booster>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 142
+    },
+    "result": "You have successfully removed <ID 142: Booster>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 82
+    },
+    "result": "You have successfully removed <ID 82: Plow>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 10,
+      "face": "f3",
+      "new_block": "Fuel Barrel",
+      "note": "Fixed FR nose fuel cell; replaces heavy plow region with useful propulsion structure"
+    },
+    "result": "You have successfully added <ID 143: Fuel Barrel>.\nExisting Blocks: 76\n(Fixed FR nose fuel cell; replaces heavy plow region with useful propulsion structure) <ID 143: Fuel Barrel>\nPosition: [1.,4.,1.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 4. , 0.5], Facing towards <straight down>\nFace label: f1, Face center: [1. , 4. , 1.5], Facing towards <straight up>\nFace label: f2, Face center: [1.5, 4. , 1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [0.5, 4. , 1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f4, Face center: [1. , 4.5, 1. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 11,
+      "face": "f3",
+      "new_block": "Fuel Barrel",
+      "note": "Fixed FL nose fuel cell"
+    },
+    "result": "You have successfully added <ID 144: Fuel Barrel>.\nExisting Blocks: 77\n(Fixed FL nose fuel cell) <ID 144: Fuel Barrel>\nPosition: [-1., 4., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  4. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. ,  4. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1.5,  4. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-0.5,  4. ,  1. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. ,  4.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 143,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "FR fixed-chassis lift engine"
+    },
+    "result": "You have successfully added <ID 145: Booster>.\nExisting Blocks: 78\n(FR fixed-chassis lift engine) <ID 145: Booster>\nPosition: [ 1., 4.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [ 1.5,  4. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 0.5,  4. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. ,  3.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. ,  4.5, -0. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 127,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "RR fixed-chassis lift engine, direct shared rear tank"
+    },
+    "result": "You have successfully added <ID 146: Booster>.\nExisting Blocks: 79\n(RR fixed-chassis lift engine, direct shared rear tank) <ID 146: Booster>\nPosition: [ 1.,-4.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -4. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -4. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -3.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -4.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 128,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "RL fixed-chassis lift engine, direct shared rear tank"
+    },
+    "result": "You have successfully added <ID 147: Booster>.\nExisting Blocks: 80\n(RL fixed-chassis lift engine, direct shared rear tank) <ID 147: Booster>\nPosition: [-1.,-4.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-0.5, -4. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5, -4. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -4.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -3.5,  0. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 144,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "FL fixed-chassis lift engine"
+    },
+    "result": "You have successfully added <ID 148: Booster>.\nExisting Blocks: 81\n(FL fixed-chassis lift engine) <ID 148: Booster>\nPosition: [-1., 4.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-1.5,  4. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  4. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  4.5, -0. ], Facing towards <North with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  3.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 30,
+      "face": "f4",
+      "new_block": "Steering Hinge",
+      "note": "Right folding wing root on rigid central sill, independent from wheel steering"
+    },
+    "result": "You have successfully added <ID 149: Steering Hinge>.\nExisting Blocks: 82\n(Right folding wing root on rigid central sill, independent from wheel steering) <ID 149: Steering Hinge>\nPosition: [2.25,0.  ,0.  ]\nPowered steering hinge: active swing toward <straight up> and toward <straight down> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [2.5, 0. , 0. ], Facing towards <East with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 149,
+      "face": "f0",
+      "new_block": "Wing Panel",
+      "note": "Right folding delta panel, trial aerodynamic surface"
+    },
+    "result": "You have successfully added <ID 150: Wing Panel>.\nExisting Blocks: 83\n(Right folding delta panel, trial aerodynamic surface) <ID 150: Wing Panel>\nPosition: [ 4., 0.,-0.]\nPentagonal wing planform vertices : [2.20, 0.00, 0.00]; [2.95, -0.75, -0.00]; [5.95, -0.75, -0.00]; [5.95, 0.75, -0.00]; [2.95, 0.75, -0.00]. Leading-to-trailing chord direction (local +Z): <East with -0.0\u00b0 pitch>. Span direction (local +X): <South with 0.0\u00b0 pitch>. Wing-plane normal / lift-drag axis (local +Y, two-sided, same convention as Wing): <straight up> and <straight down> (the two faces are aerodynamically equivalent).\nAttachable Faces:\nFace label: f1, Face center: [ 5.5,  0. , -0. ], Facing towards <E 0.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 4. , -1.5, -0. ], Facing towards <S 0.0\u00b0 W with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 4. ,  1.5, -0. ], Facing towards <N 0.0\u00b0 E with -0.0\u00b0 pitch>\nFace label: f4, Face center: [4. , 0. , 0.5], Facing towards <straight up>\nFace label: f5, Face center: [ 4. ,  0. , -0.5], Facing towards <straight down>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 149,
+      "angle": 90.0
+    },
+    "result": "The block 149 <Steering Hinge> is twisted by 90.0 degrees. \n (Right folding wing root on rigid central sill, independent from wheel steering) <ID 149: Steering Hinge>\nPosition: [2.25,0.  ,0.  ]\nPowered steering hinge: active swing toward <North with -0.0\u00b0 pitch> and toward <South with 0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <North with 0.0\u00b0 pitch> with 0\u00b0 camber"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 31,
+      "face": "f4",
+      "new_block": "Steering Hinge",
+      "note": "Left folding wing root, independent steering channel"
+    },
+    "result": "You have successfully added <ID 151: Steering Hinge>.\nExisting Blocks: 84\n(Left folding wing root, independent steering channel) <ID 151: Steering Hinge>\nPosition: [-2.25, 0.  , 0.  ]\nPowered steering hinge: active swing toward <straight up> and toward <straight down> (pin along local +X from dump layout).\nRolling towards <South with -0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  0. ,  0. ], Facing towards <West with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 151,
+      "angle": 90.0
+    },
+    "result": "The block 151 <Steering Hinge> is twisted by 90.0 degrees. \n (Left folding wing root, independent steering channel) <ID 151: Steering Hinge>\nPosition: [-2.25, 0.  , 0.  ]\nPowered steering hinge: active swing toward <South with -0.0\u00b0 pitch> and toward <North with 0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <South with -0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-2.5,  0. ,  0. ], Facing towards <W 0.0\u00b0 N with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 151,
+      "face": "f0",
+      "new_block": "Wing Panel",
+      "note": "Left folding delta panel trial"
+    },
+    "result": "You have successfully added <ID 152: Wing Panel>.\nExisting Blocks: 85\n(Left folding delta panel trial) <ID 152: Wing Panel>\nPosition: [-4., 0., 0.]\nPentagonal wing planform vertices : [-2.20, -0.00, -0.00]; [-2.95, 0.00, 0.75]; [-5.95, 0.00, 0.75]; [-5.95, 0.00, -0.75]; [-2.95, 0.00, -0.75]. Leading-to-trailing chord direction (local +Z): <W 0.0\u00b0 N with 0.0\u00b0 pitch>. Span direction (local +X): <straight up>. Wing-plane normal / lift-drag axis (local +Y, two-sided, same convention as Wing): <S 0.0\u00b0 W with -0.0\u00b0 pitch> and <N 0.0\u00b0 E with 0.0\u00b0 pitch> (the two faces are aerodynamically equivalent).\nAttachable Faces:\nFace label: f1, Face center: [-5.5,  0. ,  0. ], Facing towards <W 0.0\u00b0 N with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-4. ,  0. ,  1.5], Facing towards <straight up>\nFace label: f3, Face center: [-4. ,  0. , -1.5], Facing towards <straight down>\nFace label: f4, Face center: [-4. , -0.5,  0. ], Facing towards <E 90.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f5, Face center: [-4. ,  0.5,  0. ], Facing towards <N 0.0\u00b0 E with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 152,
+      "angle": 90.0
+    },
+    "result": "The block 152 <Wing Panel> is twisted by 90.0 degrees. \n (Left folding delta panel trial) <ID 152: Wing Panel>\nPosition: [-4., 0., 0.]\nPentagonal wing planform vertices : [-2.20, -0.00, -0.00]; [-2.95, -0.75, -0.00]; [-5.95, -0.75, 0.00]; [-5.95, 0.75, 0.00]; [-2.95, 0.75, 0.00]. Leading-to-trailing chord direction (local +Z): <W 0.0\u00b0 N with 0.0\u00b0 pitch>. Span direction (local +X): <S 0.0\u00b0 W with -0.0\u00b0 pitch>. Wing-plane normal / lift-drag axis (local +Y, two-sided, same convention as Wing): <straight down> and <straight up> (the two faces are aerodynamically equivalent).\nAttachable Faces:\nFace label: f1, Face center: [-5.5,  0. ,  0. ], Facing towards <S 90.0\u00b0 W with 0.0\u00b0 pitch>\nFace label: f2, Face center: [-4. , -1.5, -0. ], Facing towards <E 90.0\u00b0 S with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-4. ,  1.5,  0. ], Facing towards <W 90.0\u00b0 N with 0.0\u00b0 pitch>\nFace label: f4, Face center: [-4. ,  0. , -0.5], Facing towards <straight down>\nFace label: f5, Face center: [-4. ,  0. ,  0.5], Facing towards <straight up>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 150
+    },
+    "result": "You have successfully removed <ID 150: Wing Panel>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 152
+    },
+    "result": "You have successfully removed <ID 152: Wing Panel>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 149,
+      "face": "f0",
+      "new_block": "Propeller",
+      "note": "Narrow right folding aerodynamic blade; clear rotor/fuel pod swept volume"
+    },
+    "result": "You have successfully added <ID 153: Propeller>.\nExisting Blocks: 84\n(Narrow right folding aerodynamic blade; clear rotor/fuel pod swept volume) <ID 153: Propeller>\nPosition: [ 4.25,-0.  ,-0.  ]\nBlade horizontal angle of attack (chord projection vs forward): 90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [5.50, -0.00, -0.00]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 151,
+      "face": "f0",
+      "new_block": "Propeller",
+      "note": "Narrow left folding aerodynamic blade"
+    },
+    "result": "You have successfully added <ID 154: Propeller>.\nExisting Blocks: 85\n(Narrow left folding aerodynamic blade) <ID 154: Propeller>\nPosition: [-4.25, 0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): -90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [-5.50, 0.00, 0.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 153,
+      "angle": 90.0
+    },
+    "result": "The block 153 <Propeller> is twisted by 90.0 degrees. \n (Narrow right folding aerodynamic blade; clear rotor/fuel pod swept volume) <ID 153: Propeller>\nPosition: [ 4.25,-0.  ,-0.  ]\nBlade horizontal angle of attack (chord projection vs forward): 90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [5.50, -0.00, -0.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 154,
+      "angle": 90.0
+    },
+    "result": "The block 154 <Propeller> is twisted by 90.0 degrees. \n (Narrow left folding aerodynamic blade) <ID 154: Propeller>\nPosition: [-4.25, 0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): -90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [-5.50, 0.00, 0.00]."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 153
+    },
+    "result": "You have successfully removed <ID 153: Propeller>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 154
+    },
+    "result": "You have successfully removed <ID 154: Propeller>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 149,
+      "face": "f0",
+      "new_block": "Steering Hinge",
+      "note": "Right second-stage fold joint to combine two approximately 40 degree hinge strokes"
+    },
+    "result": "You have successfully added <ID 155: Steering Hinge>.\nExisting Blocks: 84\n(Right second-stage fold joint to combine two approximately 40 degree hinge strokes) <ID 155: Steering Hinge>\nPosition: [ 3.25,-0.  ,-0.  ]\nPowered steering hinge: active swing toward <N 0.0\u00b0 E with -0.0\u00b0 pitch> and toward <S 0.0\u00b0 W with 0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <N 0.0\u00b0 E with 0.0\u00b0 pitch> with 0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [ 3.5, -0. , -0. ], Facing towards <E 0.0\u00b0 S with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 151,
+      "face": "f0",
+      "new_block": "Steering Hinge",
+      "note": "Left second-stage fold joint"
+    },
+    "result": "You have successfully added <ID 156: Steering Hinge>.\nExisting Blocks: 85\n(Left second-stage fold joint) <ID 156: Steering Hinge>\nPosition: [-3.25, 0.  , 0.  ]\nPowered steering hinge: active swing toward <S 0.0\u00b0 W with -0.0\u00b0 pitch> and toward <N 0.0\u00b0 E with 0.0\u00b0 pitch> (pin along local +X from dump layout).\nRolling towards <S 0.0\u00b0 W with -0.0\u00b0 pitch> with -0\u00b0 camber\nAttachable Faces:\nFace label: f0, Face center: [-3.5,  0. ,  0. ], Facing towards <W 0.0\u00b0 N with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 155,
+      "face": "f0",
+      "new_block": "Propeller",
+      "note": "Right two-stage folding aerodynamic blade"
+    },
+    "result": "You have successfully added <ID 157: Propeller>.\nExisting Blocks: 86\n(Right two-stage folding aerodynamic blade) <ID 157: Propeller>\nPosition: [ 5.25,-0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): 90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [6.50, -0.00, 0.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 157,
+      "angle": 90.0
+    },
+    "result": "The block 157 <Propeller> is twisted by 90.0 degrees. \n (Right two-stage folding aerodynamic blade) <ID 157: Propeller>\nPosition: [ 5.25,-0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): 90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [6.50, -0.00, 0.00]."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 156,
+      "face": "f0",
+      "new_block": "Propeller",
+      "note": "Left two-stage folding aerodynamic blade"
+    },
+    "result": "You have successfully added <ID 158: Propeller>.\nExisting Blocks: 87\n(Left two-stage folding aerodynamic blade) <ID 158: Propeller>\nPosition: [-5.25, 0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): -90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [-6.50, 0.00, 0.00]."
+  },
+  {
+    "op": "twist_block",
+    "params": {
+      "block_id": 158,
+      "angle": 90.0
+    },
+    "result": "The block 158 <Propeller> is twisted by 90.0 degrees. \n (Left two-stage folding aerodynamic blade) <ID 158: Propeller>\nPosition: [-5.25, 0.  , 0.  ]\nBlade horizontal angle of attack (chord projection vs forward): -90.0\u00b0 from forward (horizontal projection). Outboard tip (local +Z end) at [-6.50, 0.00, 0.00]."
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 131,
+      "face_a": "f2",
+      "block_b": 143,
+      "face_b": "f2",
+      "connector": "Fuel Line",
+      "note": "Flexible FR fuel feed, no structural brace across piston"
+    },
+    "result": "You have successfully added <ID 159: Fuel Line>.\nExisting Blocks: 88\n(Flexible FR fuel feed, no structural brace across piston) <ID 159: Fuel Line>\nConnecting <ID 131: Fuel Barrel> at [2.5 1.  1.5] and <ID 143: Fuel Barrel> at [1.5 4.  1. ].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 134,
+      "face_a": "f2",
+      "block_b": 144,
+      "face_b": "f2",
+      "connector": "Fuel Line",
+      "note": "Flexible FL fuel feed"
+    },
+    "result": "You have successfully added <ID 160: Fuel Line>.\nExisting Blocks: 89\n(Flexible FL fuel feed) <ID 160: Fuel Line>\nConnecting <ID 134: Fuel Barrel> at [-2.5  1.   1.5] and <ID 144: Fuel Barrel> at [-1.5  4.   1. ].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 137,
+      "face_a": "f3",
+      "block_b": 127,
+      "face_b": "f3",
+      "connector": "Fuel Line",
+      "note": "Flexible RR supply for lift and forward engine"
+    },
+    "result": "You have successfully added <ID 161: Fuel Line>.\nExisting Blocks: 90\n(Flexible RR supply for lift and forward engine) <ID 161: Fuel Line>\nConnecting <ID 137: Fuel Barrel> at [ 2.5 -1.   1.5] and <ID 127: Fuel Barrel> at [ 1.5 -4.   1. ].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 140,
+      "face_a": "f3",
+      "block_b": 128,
+      "face_b": "f3",
+      "connector": "Fuel Line",
+      "note": "Flexible RL supply for lift and forward engine"
+    },
+    "result": "You have successfully added <ID 162: Fuel Line>.\nExisting Blocks: 91\n(Flexible RL supply for lift and forward engine) <ID 162: Fuel Line>\nConnecting <ID 140: Fuel Barrel> at [-2.5 -1.   1.5] and <ID 128: Fuel Barrel> at [-1.5 -4.   1. ].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 143,
+      "face_a": "f1",
+      "block_b": 127,
+      "face_b": "f1",
+      "connector": "Fuel Line",
+      "note": "Right fore-aft crossfeed balances acrobatic and forward-engine fuel reserves"
+    },
+    "result": "You have successfully added <ID 163: Fuel Line>.\nExisting Blocks: 92\n(Right fore-aft crossfeed balances acrobatic and forward-engine fuel reserves) <ID 163: Fuel Line>\nConnecting <ID 143: Fuel Barrel> at [1.  4.  1.5] and <ID 127: Fuel Barrel> at [ 1.  -4.   1.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 144,
+      "face_a": "f0",
+      "block_b": 128,
+      "face_b": "f0",
+      "connector": "Fuel Line",
+      "note": "Left fore-aft crossfeed balances fuel reserves"
+    },
+    "result": "You have successfully added <ID 164: Fuel Line>.\nExisting Blocks: 93\n(Left fore-aft crossfeed balances fuel reserves) <ID 164: Fuel Line>\nConnecting <ID 144: Fuel Barrel> at [-1.   4.   1.5] and <ID 128: Fuel Barrel> at [-1.  -4.   1.5].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 45,
+      "face_a": "f4",
+      "block_b": 95,
+      "face_b": "f1",
+      "connector": "Brace",
+      "note": "Fixed rear-right rotor-base triangulation into central cockpit; never touches piston moving end"
+    },
+    "result": "You have successfully added <ID 165: Brace>.\nExisting Blocks: 94\n(Fixed rear-right rotor-base triangulation into central cockpit; never touches piston moving end) <ID 165: Brace>\nConnecting <ID 45: Single Wooden Block> at [0.00000000e+00 2.22044605e-16 1.50000000e+00] and <ID 95: Single Wooden Block> at [ 1. -2.  2.].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 45,
+      "face_a": "f4",
+      "block_b": 96,
+      "face_b": "f0",
+      "connector": "Brace",
+      "note": "Fixed rear-left rotor-base triangulation into central cockpit"
+    },
+    "result": "You have successfully added <ID 166: Brace>.\nExisting Blocks: 95\n(Fixed rear-left rotor-base triangulation into central cockpit) <ID 166: Brace>\nConnecting <ID 45: Single Wooden Block> at [0.00000000e+00 2.22044605e-16 1.50000000e+00] and <ID 96: Single Wooden Block> at [-1. -2.  2.].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 45,
+      "face_a": "f4",
+      "block_b": 93,
+      "face_b": "f1",
+      "connector": "Brace",
+      "note": "Fixed FR rotor-base diagonal into central chassis"
+    },
+    "result": "You have successfully added <ID 167: Brace>.\nExisting Blocks: 96\n(Fixed FR rotor-base diagonal into central chassis) <ID 167: Brace>\nConnecting <ID 45: Single Wooden Block> at [0.00000000e+00 2.22044605e-16 1.50000000e+00] and <ID 93: Single Wooden Block> at [1. 2. 2.].\t"
+  },
+  {
+    "op": "connect_blocks",
+    "params": {
+      "block_a": 45,
+      "face_a": "f4",
+      "block_b": 94,
+      "face_b": "f0",
+      "connector": "Brace",
+      "note": "Fixed FL rotor-base diagonal into central chassis"
+    },
+    "result": "You have successfully added <ID 168: Brace>.\nExisting Blocks: 97\n(Fixed FL rotor-base diagonal into central chassis) <ID 168: Brace>\nConnecting <ID 45: Single Wooden Block> at [0.00000000e+00 2.22044605e-16 1.50000000e+00] and <ID 94: Single Wooden Block> at [-1.  2.  2.].\t"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 143,
+      "face": "f4",
+      "new_block": "Fuel Barrel",
+      "note": "Forward-right fuel extension for additional fixed lift engine"
+    },
+    "result": "You have successfully added <ID 169: Fuel Barrel>.\nExisting Blocks: 98\n(Forward-right fuel extension for additional fixed lift engine) <ID 169: Fuel Barrel>\nPosition: [1.,5.,1.]\nAttachable Faces:\nFace label: f0, Face center: [1. , 5. , 0.5], Facing towards <straight down>\nFace label: f1, Face center: [1. , 5. , 1.5], Facing towards <straight up>\nFace label: f2, Face center: [1.5, 5. , 1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [0.5, 5. , 1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f4, Face center: [1. , 5.5, 1. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 144,
+      "face": "f4",
+      "new_block": "Fuel Barrel",
+      "note": "Forward-left fuel extension for additional fixed lift engine"
+    },
+    "result": "You have successfully added <ID 170: Fuel Barrel>.\nExisting Blocks: 99\n(Forward-left fuel extension for additional fixed lift engine) <ID 170: Fuel Barrel>\nPosition: [-1., 5., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. ,  5. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. ,  5. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-1.5,  5. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-0.5,  5. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. ,  5.5,  1. ], Facing towards <North with 0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 169,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "Additional FR fixed lift engine; size from high-load system identification"
+    },
+    "result": "You have successfully added <ID 171: Booster>.\nExisting Blocks: 100\n(Additional FR fixed lift engine; size from high-load system identification) <ID 171: Booster>\nPosition: [ 1., 5.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [ 1.5,  5. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [0.5, 5. , 0. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f2, Face center: [1. , 4.5, 0. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. ,  5.5, -0. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 170,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "Additional FL fixed lift engine"
+    },
+    "result": "You have successfully added <ID 172: Booster>.\nExisting Blocks: 101\n(Additional FL fixed lift engine) <ID 172: Booster>\nPosition: [-1., 5., 0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-1.5,  5. ,  0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-0.5,  5. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. ,  5.5,  0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. ,  4.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 129
+    },
+    "result": "You have successfully removed <ID 129: Booster>."
+  },
+  {
+    "op": "remove_block",
+    "params": {
+      "block_id": 130
+    },
+    "result": "You have successfully removed <ID 130: Booster>."
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 127,
+      "face": "f4",
+      "new_block": "Fuel Barrel",
+      "note": "Rear-right extended fuel bay with shared axial/vertical supply"
+    },
+    "result": "You have successfully added <ID 173: Fuel Barrel>.\nExisting Blocks: 100\n(Rear-right extended fuel bay with shared axial/vertical supply) <ID 173: Fuel Barrel>\nPosition: [ 1.,-5., 1.]\nAttachable Faces:\nFace label: f0, Face center: [ 1. , -5. ,  0.5], Facing towards <straight down>\nFace label: f1, Face center: [ 1. , -5. ,  1.5], Facing towards <straight up>\nFace label: f2, Face center: [ 0.5, -5. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1.5, -5. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f4, Face center: [ 1. , -5.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 128,
+      "face": "f4",
+      "new_block": "Fuel Barrel",
+      "note": "Rear-left extended fuel bay"
+    },
+    "result": "You have successfully added <ID 174: Fuel Barrel>.\nExisting Blocks: 101\n(Rear-left extended fuel bay) <ID 174: Fuel Barrel>\nPosition: [-1.,-5., 1.]\nAttachable Faces:\nFace label: f0, Face center: [-1. , -5. ,  1.5], Facing towards <straight up>\nFace label: f1, Face center: [-1. , -5. ,  0.5], Facing towards <straight down>\nFace label: f2, Face center: [-0.5, -5. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1.5, -5. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f4, Face center: [-1. , -5.5,  1. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 173,
+      "face": "f0",
+      "new_block": "Booster",
+      "note": "Additional RR fixed lift engine"
+    },
+    "result": "You have successfully added <ID 175: Booster>.\nExisting Blocks: 102\n(Additional RR fixed lift engine) <ID 175: Booster>\nPosition: [ 1.,-5.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -5. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -5. , -0. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -4.5, -0. ], Facing towards <North with 0.0\u00b0 pitch>\nFace label: f3, Face center: [ 1. , -5.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 174,
+      "face": "f1",
+      "new_block": "Booster",
+      "note": "Additional RL fixed lift engine"
+    },
+    "result": "You have successfully added <ID 176: Booster>.\nExisting Blocks: 103\n(Additional RL fixed lift engine) <ID 176: Booster>\nPosition: [-1.,-5.,-0.]\nThrust is directed away from the mount face toward <straight down>.\nAttachable Faces:\nFace label: f0, Face center: [-0.5, -5. , -0. ], Facing towards <East with 0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5, -5. , -0. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -5.5, -0. ], Facing towards <South with -0.0\u00b0 pitch>\nFace label: f3, Face center: [-1. , -4.5, -0. ], Facing towards <North with -0.0\u00b0 pitch>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 173,
+      "face": "f4",
+      "new_block": "Booster",
+      "note": "Relocated right axial engine, exhaust clear of extended fuel bay"
+    },
+    "result": "You have successfully added <ID 177: Booster>.\nExisting Blocks: 104\n(Relocated right axial engine, exhaust clear of extended fuel bay) <ID 177: Booster>\nPosition: [ 1.,-6., 1.]\nThrust is directed away from the mount face toward <South with -0.0\u00b0 pitch>.\nAttachable Faces:\nFace label: f0, Face center: [ 0.5, -6. ,  1. ], Facing towards <West with 0.0\u00b0 pitch>\nFace label: f1, Face center: [ 1.5, -6. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f2, Face center: [ 1. , -6. ,  0.5], Facing towards <straight down>\nFace label: f3, Face center: [ 1. , -6. ,  1.5], Facing towards <straight up>"
+  },
+  {
+    "op": "attach_block_to",
+    "params": {
+      "base_block": 174,
+      "face": "f4",
+      "new_block": "Booster",
+      "note": "Relocated left axial engine"
+    },
+    "result": "You have successfully added <ID 178: Booster>.\nExisting Blocks: 105\n(Relocated left axial engine) <ID 178: Booster>\nPosition: [-1.,-6., 1.]\nThrust is directed away from the mount face toward <South with -0.0\u00b0 pitch>.\nAttachable Faces:\nFace label: f0, Face center: [-0.5, -6. ,  1. ], Facing towards <East with -0.0\u00b0 pitch>\nFace label: f1, Face center: [-1.5, -6. ,  1. ], Facing towards <West with -0.0\u00b0 pitch>\nFace label: f2, Face center: [-1. , -6. ,  1.5], Facing towards <straight up>\nFace label: f3, Face center: [-1. , -6. ,  0.5], Facing towards <straight down>"
+  }
+]

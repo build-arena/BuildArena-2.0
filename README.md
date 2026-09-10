@@ -22,6 +22,48 @@ control it in simulation.
 - **[BuildArena 1.0 (ICML 2026)](https://build-arena.github.io/)**: the original benchmark, paper, and project.
 - **[Control guide](./control/README.md)**: run commands, controllers, telemetry, and replay.
 
+## Run three automatic machine examples
+
+After [one-command setup](#one-command-setup), run these from the repository root.
+Each command rebuilds its final machine from **one MCP tool-history JSON**, then
+launches the game and runs the complete controller:
+
+```powershell
+# Heavy rocket: reach orbit, complete one revolution, and return to land
+uv run python control/examples/rocket_orbit_return/run.py
+
+# Transforming car: drive, take off, perform aerobatics, land, and drive on
+uv run python control/examples/transforming_car_aerobatics/run.py
+
+# Shuttle: orbital flight, twin-booster return, and glide recovery
+uv run python control/examples/shuttle_booster_recovery/run.py
+```
+
+Each example directory contains only `machine.json` and its Python launch/control
+code. The shuttle's four hinge limits and three blade flips are applied before
+simulation; its geometry comes entirely from the history. Rebuilt machines,
+calibration bindings, logs and telemetry go to the Git-ignored `datacache/manual_cases/`.
+Setup itself uses the same rocket orbit-and-return Python runner.
+The car runner re-enters the sandbox before loading the machine to clear stale
+building objects. This happens before the optional camera-editing pause.
+
+**Place cameras and record manually:** append `--edit-before-start` to any command.
+After the machine loads in build mode, add cameras, **Save As** the name printed
+in the terminal, then type `yes`. For an explicit save name:
+
+```powershell
+uv run python control/examples/rocket_orbit_return/run.py --edit-before-start --camera-bsg Rocket_orbit_camera
+# Next recording: reuse cameras without the editing pause
+uv run python control/examples/rocket_orbit_return/run.py --camera-bsg Rocket_orbit_camera
+```
+
+Use OBS or another external recorder and the game's camera controls; these
+scripts do not enable CLI screen recording or camera follow. Rebuilding displays
+a tqdm progress bar; simulation starts without a countdown or recording reminder.
+The default tail is 20 simulation seconds after controller completion.
+Use `--tail-seconds` or `--prepare-only` as needed.
+The latter only rebuilds, without loading or simulating in the game.
+
 ## One-command setup
 
 **On Windows 10 or 11, run this from the repository root in PowerShell:**

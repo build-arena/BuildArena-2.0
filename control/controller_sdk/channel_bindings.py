@@ -15,6 +15,7 @@ BINDINGS_SCHEMA = "buildarena.control_bindings.v1"
 BINDINGS_VERSION = 1
 BINDINGS_FILE = "control_bindings.json"
 ENV_CONTROL_BINDINGS = "BUILDARENA_CONTROL_BINDINGS"
+MANUAL_CAMERA_BLOCK_ID = 58
 
 
 def _index(value: Any, label: str) -> int:
@@ -41,13 +42,16 @@ def bind_channels(channels: list, *, path: Path, run_id: str) -> list:
             raise ValueError("Control binding block requires a GUID.")
         guid = guid.lower()
         local = _index(block.get("local_index"), "binding local_index")
-        _index(block.get("block_id"), "binding block_id")
+        block_id = _index(block.get("block_id"), "binding block_id")
+        manual_camera = block_id == MANUAL_CAMERA_BLOCK_ID
         if guid in by_guid or local in locals_seen:
             raise ValueError("Duplicate block identity in control bindings.")
         slots = block.get("channels")
         ignored = block.get("ignored_keylist_indices", [])
         if not isinstance(slots, list) or not isinstance(ignored, list):
             raise ValueError("Control binding channels/ignored indices must be arrays.")
+        if manual_camera and slots:
+            raise ValueError("Camera Blocks are manually controlled; regenerate bindings without camera channels.")
         ignored = {_index(i, "ignored KeyList index") for i in ignored}
         names_seen = set()
         for slot in slots:
@@ -64,7 +68,7 @@ def bind_channels(channels: list, *, path: Path, run_id: str) -> list:
                 raise ValueError(f"Duplicate/ignored KeyList slot on block {local}.")
             expected[(guid, index)] = (local, names)
             names_seen.update(names)
-        by_guid[guid] = (local, ignored)
+        by_guid[guid] = (local, ignored, manual_camera)
         locals_seen.add(local)
     result, found = [], set()
     for channel in channels:
@@ -76,7 +80,10 @@ def bind_channels(channels: list, *, path: Path, run_id: str) -> list:
         if key in found:
             raise ValueError(f"Duplicate runtime KeyList address {key}.")
         found.add(key)
-        if channel.keylist_index in identity[1]:
+        # Cameras retain their native game keys, but expose no SDK controls.
+        # Match authored type and runtime GUID/local index; never ignore an
+        # unknown address merely because it is absent from the catalog.
+        if identity[2] or channel.keylist_index in identity[1]:
             continue
         binding = expected.get(key)
         if binding is None:

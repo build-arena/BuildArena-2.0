@@ -90,6 +90,20 @@ def ensure_sandbox(
     print(f"Sandbox ready: {level!r}.", flush=True)
 
 
+def ensure_fresh_sandbox(*, orchestrator: BesiegeOrchestrator, timeout: float,
+                         level: str = DEFAULT_SANDBOX_LEVEL) -> None:
+    """Unload the current sandbox before loading a new machine into it.
+
+    A same-scene reload cannot be distinguished from the old scene heartbeat.
+    Go through another supported sandbox so each scene wait observes an actual
+    transition, and stale building objects are destroyed before machine load.
+    """
+    if orchestrator.read_state().get("scene") == level:
+        intermediate = "LONE ORB" if level == "BARREN EXPANSE" else "BARREN EXPANSE"
+        ensure_sandbox(orchestrator=orchestrator, timeout=timeout, level=intermediate)
+    ensure_sandbox(orchestrator=orchestrator, timeout=timeout, level=level)
+
+
 def quit_game(*, orchestrator: BesiegeOrchestrator, timeout: float, poll_interval: float = 0.25) -> str:
     """Ask the running game to quit; force-kill if Application.Quit hangs."""
     pids_before = find_besiege_pids()

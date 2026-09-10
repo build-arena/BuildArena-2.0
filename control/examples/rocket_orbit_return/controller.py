@@ -1,7 +1,7 @@
 """Reusable Heavy Launcher: unattended orbit-and-return mission control.
 
 Public Controller SDK example. Rebuild
-``control/examples/Reusable_Heavy_Launcher.json``, then fly it on LONE ORB.
+``control/examples/rocket_orbit_return/machine.json``, then fly it on LONE ORB.
 
 The rebuilt machine gets fresh GUIDs each time, so this controller discovers
 the Starting Block, four Boosters, and two Reaction Steering Blocks from the
@@ -27,7 +27,7 @@ Mission sequencer (one closed-loop episode):
 
 Usage:
     uv run python -m besiege_cli run --bsg <machine.bsg> \\
-        --controller control/examples/reusable_heavy_launcher_orbit.py \\
+        --controller control/examples/rocket_orbit_return/controller.py \\
         --sandbox "LONE ORB" --experiment launcher_demo \\
         --telemetry-hz 10 --telemetry-profile full
 """

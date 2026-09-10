@@ -24,29 +24,95 @@ cd control
 uv run python -m besiege_cli --help
 ```
 
-## Example machine
+## Three complete machine examples
 
-[`examples/Reusable_Heavy_Launcher.json`](./examples/Reusable_Heavy_Launcher.json)
-is the repository example build-history. Rebuild it, then fly the closed-loop
-orbit mission on LONE ORB:
+Each directory below contains one `machine.json` MCP operation history and
+Python code only. Run from the repository root:
 
 ```powershell
-uv run python ..\scripts\rebuild_from_record.py `
-  --record-json examples\Reusable_Heavy_Launcher.json `
-  --machine-name Reusable_Heavy_Launcher `
-  --replace
-
-uv run python -m besiege_cli run `
-  --bsg "$env:SAVED_MACHINE_DIR\Reusable_Heavy_Launcher\Reusable_Heavy_Launcher.bsg" `
-  --controller examples\reusable_heavy_launcher_orbit.py `
-  --sandbox "LONE ORB" `
-  --telemetry-hz 10 `
-  --telemetry-profile full
+uv run python control/examples/rocket_orbit_return/run.py
+uv run python control/examples/transforming_car_aerobatics/run.py
+uv run python control/examples/shuttle_booster_recovery/run.py
 ```
 
-One-command setup runs this rebuild-and-orbit loop as its last in-game demo.
+The tasks are rocket orbit-and-return, transforming-car aerial aerobatics, and
+shuttle flight with twin-booster recovery. The common implementation is
+[`run_example.py`](./run_example.py); setup invokes its rocket preparation and
+launch functions as well. Existing experimental folders and old recording
+packages remain available separately.
+
+Append `--edit-before-start --camera-bsg MyCameraMachine` to preload and wait for
+camera placement. Save As `MyCameraMachine`, then type `yes`. On later runs,
+use only `--camera-bsg MyCameraMachine`. A history rebuild uses stable GUIDs,
+so camera saves remain reusable for the same history. Start with a new camera
+save for these reorganized examples; older frozen-package saves use other GUIDs.
+
+Rebuilding shows a tqdm progress bar. There is no countdown or recording reminder;
+the default tail time is 20 simulation seconds. `--prepare-only` rebuilds without touching the game;
+`--run-dir PATH` selects a new/empty output folder within Git-ignored datacache. The normal output location is
+`datacache/manual_cases/`, which retains this workstation's D-drive junction.
+No BSG, runtime JSON, telemetry, report, or video is generated in example folders.
+No CLI screen recording or camera follow is enabled.
+
+The shuttle's geometry comes entirely from its MCP history. Its final native
+hinge limits and blade flips are applied during preparation; hardware roles and
+measured servo calibration are rebound by Build ID to the rebuilt GUIDs. The
+calibration constants live in Python code, not additional source JSON files.
 
 ## Run a controller
+
+### Add cameras before starting physics
+
+Use `run --edit-before-start --camera-bsg MyCameraMachine` to load the source
+machine in build mode and wait for terminal confirmation. Add Camera Blocks in
+Besiege, **Save As** `MyCameraMachine`, return to the same terminal, and type
+`yes`. A bare name resolves to `Besiege_Data/SavedMachines/MyCameraMachine.bsg`;
+an explicit BSG path is also accepted. If that variant already exists, it is
+preloaded for incremental camera edits; save it again before confirming.
+
+The runner snapshots the saved BSG, prepares fresh run IDs and bindings, then
+loads that prepared camera variant and starts normally. It does not reload the
+camera-free original. No controller timeout or physics hold runs during the
+editing wait. `cancel`, EOF, or Ctrl+C cancels the wait without starting physics.
+Missing, unchanged, incomplete, or invalid saves keep the prompt open.
+
+To reuse cameras without another editing pause, pass only `--camera-bsg`:
+
+```powershell
+uv run python -m besiege_cli run --bsg machine.bsg --controller controller.py --edit-before-start --camera-bsg MyCameraMachine
+uv run python -m besiege_cli run --bsg machine.bsg --controller controller.py --camera-bsg MyCameraMachine
+```
+
+Keep original block GUIDs, order, transforms and existing saved settings intact;
+append only Camera Blocks (id 58). Source files are never written by the CLI.
+All numeric saved fields allow absolute differences strictly below `1e-3`
+in their respective units, with no relative tolerance. Equivalent rotations
+and connector recentering are also recognized; identity, order and nonnumeric
+settings remain checked.
+Euler endpoint rotations are converted to normalized quaternion components
+and compared with that same tolerance (including equivalent q/-q), avoiding
+false changes from Unity's float32 Euler conversion near gimbal lock.
+Live telemetry defaults to the original GUIDs so camera targets cannot bias
+controllers that average all samples; explicit `--track-*` selections still take
+precedence. Offline telemetry remains full-machine. `camera_edit.json` and
+`input_manifest.json` record the baseline, camera source hashes and added GUIDs.
+Camera Blocks (id 58) have no SDK KeyList bindings: their runtime key channels
+are ignored after GUID/local-index validation, leaving camera operation to the
+game's own controls. All other blocks retain strict channel validation. The CLI
+does not activate camera keys. Screen recording remains opt-in.
+For camera variants, the controller's `BUILDARENA_MACHINE_BSG` points to
+`controller_machine.bsg`, a hardware description excluding Camera Blocks.
+The game still loads the full prepared BSG including cameras. This preserves
+strict hardware-list assertions in frozen controllers; both paths and hashes
+are recorded in the camera receipt and input manifest.
+The managed SDK view subtracts the fixed manual-camera count from
+`alive_block_count` to match that hardware description; raw BAT4 and offline
+telemetry are unchanged. Original block loss still trips count guards; camera
+loss conservatively trips them as well. The offset is recorded in the receipt.
+Before publishing the subscription and starting simulation, the CLI waits for
+the orchestrator's active `run_id` to acknowledge the newly written manifest.
+The installed ToolKit polls manifests periodically; writing the file alone is
+not an acknowledgement. Missing acknowledgement stops startup on timeout.
 
 Live Python controller (orbit mission):
 

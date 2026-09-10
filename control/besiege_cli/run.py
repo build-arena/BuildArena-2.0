@@ -60,11 +60,12 @@ from .manifest import (
 from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .compat import verify_compatibility
 from .control_bindings import build_control_bindings
+from .camera_edit import camera_path, select_camera_source, write_controller_machine
 from .paths import datacache_dir, mod_data_dir, resolve_besiege_data, resolve_channel_catalog
 from .preflight import PreflightError, expand_run_telemetry, reject_legacy_bsg
 from .recorder import is_recording, recording_state_path, start_recording, stop_recording
 from .run_status import RunStatus
-from .session import ensure_game, ensure_sandbox
+from .session import ensure_game, ensure_sandbox, ensure_fresh_sandbox
 from .timeline import (
     installed_timeline_payload,
     read_timeline_json,
@@ -131,6 +132,22 @@ def _raise_on_run_error(state: dict) -> None:
             f"Controller mod reported run_error={run_error!r} "
             f"(machine_run_id={state.get('machine_run_id')!r}, manifest run_id={state.get('run_id')!r})."
         )
+
+
+def _wait_manifest_active(orchestrator, *, run_id: str, timeout: float) -> None:
+    """Wait for the mod's periodically polled manifest before starting physics."""
+    deadline = time.monotonic() + timeout
+    state = {}
+    while time.monotonic() < deadline:
+        state = orchestrator.read_state()
+        if state.get("run_id") == run_id:
+            _raise_on_run_error(state)
+            return
+        time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
+    raise RunFailedError(
+        f"ToolKit did not acknowledge run manifest {run_id!r} within {timeout}s "
+        f"(active run_id={state.get('run_id')!r}); simulation was not started."
+    )
 
 
 def _wait_playback_finished(
@@ -371,11 +388,13 @@ def _run_python_controller(
     recorder_enabled: bool,
     recording: bool,
     start_simulation: Callable[[], None] | None = None,
+    manual_camera_count: int = 0,
 ) -> None:
     environment = dict(os.environ)
     environment[ENV_RUN_ID] = run_id
     environment[ENV_MOD_DATA_DIR] = str(data_dir.resolve())
     environment[ENV_MACHINE_BSG] = str(prepared_bsg.resolve())
+    environment["BUILDARENA_MANUAL_CAMERA_COUNT"] = str(manual_camera_count)
     environment[ENV_CHANNEL_CATALOG] = str(Path(catalog_path).resolve())
     environment[ENV_RUN_DIR] = str(run_dir.resolve())
     environment[ENV_CONTROL_BINDINGS] = str((run_dir / BINDINGS_FILE).resolve())
@@ -537,6 +556,31 @@ def cmd_run(args: argparse.Namespace) -> int:
     log.write(f"Controller recognized: {controller_path.name} -> kind={controller_kind}")
 
     status.set_phase("prepared")
+    camera_info = None
+    camera_original_guids: list[str] = []
+    edit_before_start = bool(getattr(args, "edit_before_start", False))
+    reload_sandbox = bool(getattr(args, "reload_sandbox", False))
+    if edit_before_start or getattr(args, "camera_bsg", None):
+        try:
+            saved_camera = camera_path(getattr(args, "camera_bsg", None), source=bsg_path, besiege_data=besiege_data)
+            if edit_before_start:
+                ensure_game(orchestrator=orchestrator, besiege_data=besiege_data, timeout=args.launch_timeout)
+                if orchestrator.read_state().get("simulating"):
+                    raise PreflightError("Stop the current simulation before editing cameras.")
+                (ensure_fresh_sandbox if reload_sandbox else ensure_sandbox)(
+                    orchestrator=orchestrator, timeout=args.timeout, level=args.sandbox)
+                reload_sandbox = False
+                clear_run_state(data_dir)
+            bsg_path, camera_original_guids, camera_info = select_camera_source(
+                source=bsg_path, saved=saved_camera, edit=edit_before_start, run_dir=run_dir,
+                run_id=run_id, orchestrator=orchestrator, timeout=args.timeout, log=log, status=status,
+            )
+            reject_legacy_bsg(bsg_path)
+        except (Exception, KeyboardInterrupt) as exc:
+            status.set_phase("failed", result="failed", error=str(exc))
+            log.write(f"Camera preparation stopped: {exc}")
+            log.close()
+            return 1
     selection = expand_run_telemetry(args)
     prepared_bsg = run_dir / f"{bsg_path.stem}_prepared.bsg"
     prepare_machine_bsg(
@@ -564,6 +608,17 @@ def cmd_run(args: argparse.Namespace) -> int:
         machine_sha256=machine_sha256,
         args=args,
     )
+    if camera_info is not None:
+        controller_bsg = write_controller_machine(prepared_bsg, run_dir / "controller_machine.bsg")
+        camera_info["controller_machine_bsg"] = str(controller_bsg.resolve())
+        camera_info["controller_machine_sha256"] = file_sha256(controller_bsg)
+        camera_info["controller_alive_count_camera_offset"] = len(parse_bsg(prepared_bsg, catalog_path=None)[1]) - len(parse_bsg(controller_bsg, catalog_path=None)[1])
+        camera_info["controller_machine_note"] = "Camera Blocks omitted from controller hardware description; game loads full prepared BSG."
+        atomic_write_json(run_dir / "camera_edit.json", camera_info)
+        input_manifest["camera_edit"] = camera_info
+        atomic_write_json(run_dir / "input_manifest.json", input_manifest)
+    else:
+        controller_bsg = prepared_bsg
     _copy_controller_snapshot(run_dir, controller_path, controller_kind)
     log.write(f"Run id: {run_id}")
     log.write(f"Prepared BSG (original untouched): {prepared_bsg}")
@@ -601,13 +656,17 @@ def cmd_run(args: argparse.Namespace) -> int:
         "After the window appears, ToolKit heartbeat and sandbox load can still take a minute."
     )
     ensure_game(orchestrator=orchestrator, besiege_data=besiege_data, timeout=args.launch_timeout)
-    ensure_sandbox(orchestrator=orchestrator, timeout=args.timeout, level=args.sandbox)
+    (ensure_fresh_sandbox if reload_sandbox else ensure_sandbox)(
+        orchestrator=orchestrator, timeout=args.timeout, level=args.sandbox)
     log.write(f"Sandbox ready: {args.sandbox!r}")
 
     removed = clear_run_state(data_dir)
     if removed:
         log.write(f"Removed stale run state: {_format_cleanup_counts(removed)}")
     tracked_guids = list(normalize_telemetry_target_guids(args.track_guids))
+    if camera_info is not None and not tracked_guids and not args.track_blocks:
+        tracked_guids = camera_original_guids
+        log.write("Camera variant: live control telemetry stays on original machine GUIDs.")
     if args.track_blocks:
         from .machine import guids_for_block_indices
 
@@ -645,6 +704,8 @@ def cmd_run(args: argparse.Namespace) -> int:
         timeline_file=TIMELINE_FILE if controller_kind == CONTROLLER_KIND_TIMELINE else None,
     )
     log.write("Run manifest written; mod will bind to this run id.")
+    _wait_manifest_active(orchestrator, run_id=run_id, timeout=args.timeout)
+    log.write("ToolKit acknowledged this run manifest; preparing subscription before simulation.")
     camera_follow = getattr(args, "camera_follow", None)
     if camera_follow:
         distance = getattr(args, "camera_distance", None)
@@ -756,7 +817,8 @@ def cmd_run(args: argparse.Namespace) -> int:
                 controller_path=controller_path,
                 run_id=run_id,
                 data_dir=data_dir,
-                prepared_bsg=prepared_bsg,
+                prepared_bsg=controller_bsg,
+                manual_camera_count=camera_info["controller_alive_count_camera_offset"] if camera_info is not None else 0,
                 catalog_path=catalog_path,
                 run_dir=run_dir,
                 timeout=args.controller_timeout,
@@ -908,6 +970,10 @@ def add_run_parser(subparsers: argparse._SubParsersAction, common_args) -> None:
     )
     common_args(parser)
     parser.add_argument("--bsg", required=True, help="Path to the source .bsg machine file (never modified).")
+    parser.add_argument("--edit-before-start", action="store_true",
+                        help="Load in build mode, wait for a fresh Save As and terminal 'yes', then prepare and run the saved camera BSG.")
+    parser.add_argument("--camera-bsg", default=None,
+                        help="Camera variant to save/reuse. Bare name resolves in Besiege_Data/SavedMachines; a path is also accepted. Only added Camera Blocks are allowed.")
     parser.add_argument(
         "--controller",
         required=True,
@@ -919,6 +985,8 @@ def add_run_parser(subparsers: argparse._SubParsersAction, common_args) -> None:
         default="BARREN EXPANSE",
         help="Sandbox level scene name to run in (default: 'BARREN EXPANSE').",
     )
+    parser.add_argument("--reload-sandbox", action="store_true",
+                        help="Unload and re-enter the sandbox before machine load or camera editing.")
     parser.add_argument("--catalog", default=None, help="Override the ToolKit-data-dir block_channel_catalog.json path.")
     parser.add_argument(
         "--run-dir",

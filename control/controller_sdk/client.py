@@ -6,7 +6,7 @@ import math
 import os
 import time
 import warnings
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -312,10 +312,14 @@ class ControllerClient:
                 f"{ENV_MOD_DATA_DIR} / {ENV_RUN_ID} are not set. Use a managed run "
                 "or construct ControllerClient(data_dir=...) directly."
             )
-        return cls(
+        client = cls(
             Path(data_dir), poll_interval=poll_interval, run_id=run_id, durable=durable,
             bindings_path=os.environ.get(ENV_CONTROL_BINDINGS) or None,
         )
+        client._manual_camera_count = int(os.environ.get("BUILDARENA_MANUAL_CAMERA_COUNT", "0"))
+        if client._manual_camera_count < 0:
+            raise ValueError("Manual camera count cannot be negative.")
+        return client
 
     @staticmethod
     def _field_selection(fields: Iterable[str], *, label: str) -> tuple[int, tuple[str, ...]]:
@@ -829,6 +833,13 @@ class ControllerClient:
             self._last_received_commit = commit
             self._last_received_at = time.monotonic()
         self.gc_acked_actions(int(frame.sequence_applied))
+        camera_count = getattr(self, "_manual_camera_count", 0)
+        if camera_count and frame.machine.alive_block_count is not None:
+            # The managed camera run gives the controller a camera-free BSG.
+            # Match its hardware count conservatively: never mask original
+            # block loss. Camera loss also lowers this count and trips guards.
+            frame = replace(frame, machine=replace(frame.machine,
+                alive_block_count=max(0, frame.machine.alive_block_count - camera_count)))
         return frame
 
     @property
