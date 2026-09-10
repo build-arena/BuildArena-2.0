@@ -43,7 +43,17 @@ def assemble_channel_catalog(*, behaviour_path: Path, dest: Path) -> dict[str, A
             expected = set(semantics.keylist_indices.values()) | {
                 int(name[8:]) for name in ignored if name.startswith("channel_")
             }
-            if expected != set(range(len(native_keys))):
+            observed_slots = set(range(len(native_keys)))
+            # The Starting Block exposes an inert KeyList entry only after a
+            # live machine is loaded.  A prefab-only Inspector pass cannot
+            # observe that slot, but its explicit ignored declaration remains
+            # necessary so runtime binding rejects it safely.
+            unobserved_ignored_slots = {
+                int(name[8:]) for name in ignored if name.startswith("channel_")
+            }
+            if expected != observed_slots and not (
+                not native_keys and expected == unobserved_ignored_slots
+            ):
                 raise InspectorError(
                     f"Block {block_id} KeyList slots {list(range(len(native_keys)))} "
                     f"do not match declared slots {sorted(expected)}. "
