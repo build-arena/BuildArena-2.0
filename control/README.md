@@ -168,7 +168,7 @@ and KeyList bindings. `--out` exports a channel map, not the text report.
 Positions and directions reuse the builder's `Vector.coordinates`,
 `Orientation.caption`, block descriptors and spin descriptions: East/West,
 North/South, Up/Down and compass angles. No quaternion decoding is needed to
-read a block's orientation. See [presentation examples](../docs/tool-text-presentation.md).
+read a block's orientation.
 
 Channel names are the catalog semantic names
 (`ThrustKey`, `LeftKey`) used by `send_channels`. Slider names are the
@@ -253,12 +253,6 @@ frame. This age measures local freshness, not game-to-controller latency.
 `close()` sends an empty action snapshot, waits for acknowledgement through
 transient contention, and always disarms in `finally`. A failed acknowledgement
 still raises after disarming; it must not be reported as confirmed game release.
-
-Run the protocol and binding regression tests from the repository root:
-
-```powershell
-.venv/Scripts/python.exe -m unittest discover -s control/tests -v
-```
 
 One-command setup is `scripts/setup.ps1`. It requires the published Workshop
 item [BuildArena ToolKit](https://steamcommunity.com/sharedfiles/filedetails/?id=3795335349).
