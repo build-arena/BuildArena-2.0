@@ -39,9 +39,6 @@ CONTROL_SEMANTICS = {
         "LeftKey": "Fires the left control nozzle.",
         "RightKey": "Fires the right control nozzle.",
     }},
-    97: {"descriptions": {
-        "deployKey": "Deploys the parachute."
-    }},
     102: {"descriptions": {
         "FireKey": "Fires the fuel cannon."
     }},

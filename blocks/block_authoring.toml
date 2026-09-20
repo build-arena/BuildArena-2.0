@@ -600,7 +600,6 @@ block_name = "Parachute"
 summary = "Compact deployable parachute pack."
 description = "A 1x1x0.5 parachute pack with mass 0.2. When triggered, it deploys into a hemispherical parachute with radius about 1.5, providing drag while descending."
 descriptor = ""
-control_descriptor = "weapons"
 
 [by_id.98]
 block_name = "Fuel Coupler"

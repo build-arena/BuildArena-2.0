@@ -1422,7 +1422,7 @@ block_points = 1
 tooltip_title = "FUEL HOSE"
 
 [runtime_defs.97]
-enabled = true
+enabled = false
 category = ["space-flight"]
 weight = 0.2
 type = "basic"

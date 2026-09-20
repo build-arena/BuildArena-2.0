@@ -8,6 +8,7 @@ import platform
 import shutil
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -19,6 +20,7 @@ from controller_sdk.protocol import (
     TOOLKIT_MOD_NAME,
     atomic_write_json,
 )
+from blocks.control_descriptors.keylist_bindings import KEYLIST_BINDINGS
 
 from .compat import CompatibilityError, verify_compatibility
 from .channel_catalog import assemble_channel_catalog
@@ -40,7 +42,13 @@ from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .paths import datacache_dir, mod_data_dir
 from .preflight import PreflightError
 from .run import RunFailedError, cmd_run
-from .session import DEFAULT_SANDBOX_LEVEL, ensure_game, ensure_sandbox, quit_game
+from .session import (
+    DEFAULT_SANDBOX_LEVEL,
+    ensure_fresh_sandbox,
+    ensure_game,
+    ensure_sandbox,
+    quit_game,
+)
 from .steam import (
     detect_besiege_data,
     dlc_manifest_status,
@@ -417,6 +425,171 @@ def _validate_launcher_demo_outputs(
     }
 
 
+KEYLIST_CACHE_NAME = "block_live_keylist_cache.tsv"
+PRIME_SIM_HOLD_SECONDS = 4.0
+
+
+def _keylist_cache_rows(cache_path: Path) -> dict[int, list[str]]:
+    """Parse ``block_live_keylist_cache.tsv`` into {block_id: [channel, ...]}.
+
+    Each non-empty line is ``<block_id>\\t<behaviour>\\t<channel,channel,...>``,
+    or just ``<block_id>\\t<behaviour>`` when the block exposes zero channels.
+    Malformed lines are skipped; a missing file yields an empty mapping.
+    """
+    rows: dict[int, list[str]] = {}
+    if not cache_path.is_file():
+        return rows
+    for raw in cache_path.read_text(encoding="utf-8-sig", errors="replace").splitlines():
+        # Strip only to test for a blank line. Splitting the unstripped line
+        # preserves a trailing tab, which marks a third (empty) field and so a
+        # real empty KeyList slot, distinct from the two-column zero-channel form.
+        if not raw.strip():
+            continue
+        parts = raw.split("\t")
+        try:
+            block_id = int(parts[0])
+        except (ValueError, IndexError):
+            continue
+        channels: list[str] = []
+        # Preserve every field, including empty strings: an empty KeyList
+        # value is still a real slot (assemble_channel_catalog keeps these
+        # entries for exactly this reason), so `key0,,key2` must stay three
+        # slots rather than being compressed to two. Zero channels are
+        # expressed by the two-column form (no third field).
+        if len(parts) >= 3:
+            channels = [item.strip() for item in parts[2].split(",")]
+        rows[block_id] = channels
+    return rows
+
+
+# Connector blocks placed via connect_blocks() in build_validation_machine,
+# which appear in the loaded machine but are not in inspect_registry's
+# render_blocks (type=connection entries are excluded there). Keeping the
+# prime requirement in sync with the builder avoids demanding coverage for a
+# connection the machine never wires up.
+_PRIME_CONNECTED_BLOCK_IDS = {7, 9, 45, 75, 96}  # Brace, Spring, Rope Winch, Rope Measure, Fuel Line
+
+
+def _keylist_cache_needed_blocks() -> dict[int, tuple[list[int], set[int]]]:
+    """For every block the validation machine loads and whose catalog slots
+    the assembly validates, return ``(bound_slots, ignored_channel_indices)``.
+
+    Mirrors ``assemble_channel_catalog``: a block needs live KeyList coverage
+    when it declares real binding slots, or declares ``channel_N`` ignored
+    entries that a prefab-only pass cannot observe. Blocks with neither
+    require nothing from the cache.
+
+    The candidate set is exactly what ``build_validation_machine`` places:
+    ``inspect_registry().render_blocks`` (which already excludes disabled,
+    EXCLUDE_IDS, unplaceable, and un-``connect``ed connection blocks) plus the
+    connectors wired via ``connect_blocks`` plus the Starting Block pads. This
+    keeps the requirement aligned with what is actually loaded and run, so a
+    block the builder cannot capture is never demanded here.
+    """
+    from buildarena.control_descriptor_loader import load_control_semantics
+    from buildarena.validation_machine import inspect_registry
+
+    placed = {inspection.block_id for inspection in inspect_registry().render_blocks}
+    placed |= _PRIME_CONNECTED_BLOCK_IDS
+    placed.add(0)  # Starting Block pads
+
+    needed: dict[int, tuple[list[int], set[int]]] = {}
+    for block_id in placed:
+        if block_id not in KEYLIST_BINDINGS:
+            continue
+        semantics = load_control_semantics(block_id=block_id)
+        if semantics is None:
+            continue
+        bound = sorted(semantics.keylist_indices.values())
+        ignored = {
+            int(name[8:]) for name in semantics.ignored if name.startswith("channel_")
+        }
+        if bound or ignored:
+            needed[block_id] = (bound, ignored)
+    return needed
+
+
+def _keylist_uncovered_block_ids(
+    *, rows: dict[int, list[str]], needed: dict[int, tuple[list[int], set[int]]]
+) -> list[int]:
+    """Block IDs whose observed KeyList slots do not match their declared slots.
+
+    Mirrors ``assemble_channel_catalog`` exactly: a block is covered when its
+    observed slot set (``range(len(cached))``) equals the set of declared
+    binding slots plus ignored ``channel_N`` indices, or when an empty cache
+    matches an ignored-only declaration (the Starting Block's inert KeyList).
+    This is stricter than a minimum-count check: an extra native slot is a
+    mismatch that would fail catalog assembly, so it must not count as covered.
+    """
+    gaps: list[int] = []
+    for block_id, (bound, ignored) in needed.items():
+        cached = rows.get(block_id, ())
+        expected = set(bound) | ignored
+        observed = set(range(len(cached)))
+        if expected != observed and not (not cached and expected == ignored):
+            gaps.append(block_id)
+    return gaps
+
+
+def keylist_cache_complete(*, cache_path: Path) -> dict[int, list[str]]:
+    """Return the parsed cache when every validated block is covered, else ``{}``.
+
+    Coverage uses the same exact-slot condition as ``assemble_channel_catalog``,
+    so a cache accepted here cannot later fail catalog assembly.
+    """
+    rows = _keylist_cache_rows(cache_path)
+    needed = _keylist_cache_needed_blocks()
+    if _keylist_uncovered_block_ids(rows=rows, needed=needed):
+        return {}
+    return rows
+
+
+def _prime_keylist_cache(
+    *,
+    orchestrator: BesiegeOrchestrator,
+    saved_dir: Path,
+    timeout: float,
+) -> dict[str, Any]:
+    """Load the assembled validation machine, run it briefly, and stop, so the
+    ToolKit populates its live KeyList cache for every supported block."""
+    from buildarena.validation_machine import build_validation_machine, inspect_registry
+
+    inspection = inspect_registry()
+    machine = build_validation_machine(output_dir=saved_dir, inspection=inspection)
+    # ensure_fresh_sandbox, not ensure_sandbox(force=True): re-sending
+    # enter_sandbox for a scene already loaded returns immediately on the
+    # stale heartbeat, so load_machine right after could race the reload.
+    ensure_fresh_sandbox(orchestrator=orchestrator, timeout=timeout)
+    installed_name = orchestrator.install_machine(
+        source_bsg=machine.bsg_path, name="assembled_validation.bsg"
+    )
+    load_seq = orchestrator.send_command("load_machine", path=installed_name)
+    orchestrator.wait_for_command_result(load_seq, timeout=timeout)
+    start_requested = False
+    try:
+        start_seq = orchestrator.send_command("start_sim")
+        # The game may start even if its acknowledgement is delayed or lost.
+        # Arrange cleanup as soon as the command has been sent, before waiting.
+        start_requested = True
+        orchestrator.wait_for_command_result(start_seq, timeout=timeout)
+        orchestrator.wait_for_simulating(True, timeout=timeout)
+        end = time.monotonic() + PRIME_SIM_HOLD_SECONDS
+        while time.monotonic() < end:
+            time.sleep(0.25)
+    finally:
+        # Always stop the simulation so a timed-out prime does not leave
+        # Besiege simulating and affect the next setup/run.
+        if start_requested:
+            stop_seq = orchestrator.send_command("stop_sim")
+            orchestrator.wait_for_command_result(stop_seq, timeout=timeout)
+            orchestrator.wait_for_simulating(False, timeout=timeout)
+    return {
+        "bsg": str(machine.bsg_path),
+        "saved_machine_dir": str(saved_dir),
+        "hold_seconds": PRIME_SIM_HOLD_SECONDS,
+    }
+
+
 def run_bootstrap(
     *,
     repo_root: Path,
@@ -562,7 +735,10 @@ def run_bootstrap(
         dlc_block_ids = inspect_dlc_block_ids()
         dump_report = existing_collider_dump(data_dir=data_dir)
         complete = False
-        if skip_inspector_request_if_complete and inspector_dump_reusable(report=dump_report):
+        if (
+            skip_inspector_request_if_complete
+            and inspector_dump_reusable(report=dump_report)
+        ):
             if dump_report is None:
                 raise BootstrapError("Inspector dump was marked reusable but no report was loaded.")
             missing = _missing_dlc_categories(
@@ -640,6 +816,80 @@ def run_bootstrap(
                 detail={"expected": {key: list(value) for key, value in dlc_block_ids.items()}},
             )
         )
+
+        # KeyList priming runs here, after the Inspector has copied the collider
+        # dump: inspecting the registry (to build the validation machine) reads
+        # COLLIDER_DUMP_PATH, so it cannot run before this point on a clean
+        # checkout. The cache is only consumed later, at catalog assembly.
+        cache_path = data_dir / KEYLIST_CACHE_NAME
+        cached = keylist_cache_complete(cache_path=cache_path)
+        if cached:
+            print(
+                "KeyList cache is complete; skipping the load-and-run prime. "
+                f"({len(cached)} block(s) covered)",
+                flush=True,
+            )
+            report.add(
+                Stage(
+                    name="prime_keylist",
+                    status=STAGE_PASSED,
+                    message="complete",
+                    detail={"mode": "cache_complete", "block_count": len(cached)},
+                )
+            )
+        else:
+            print(
+                "KeyList cache is missing blocks. Loading the assembled validation "
+                "machine and running it briefly to populate the ToolKit keylist cache.",
+                flush=True,
+            )
+            prime_detail = _prime_keylist_cache(
+                orchestrator=orchestrator,
+                saved_dir=saved_dir,
+                timeout=launch_timeout,
+            )
+            refreshed = keylist_cache_complete(cache_path=cache_path)
+            if not refreshed:
+                missing_detail = _keylist_uncovered_block_ids(
+                    rows=_keylist_cache_rows(cache_path),
+                    needed=_keylist_cache_needed_blocks(),
+                )
+                raise BootstrapError(
+                    "KeyList cache is still incomplete after loading and running the "
+                    f"validation machine; missing block IDs {sorted(set(missing_detail))}. "
+                    "This may indicate a game-version or DLC-authorization difference. "
+                    "Manually load the assembled_validation machine in Besiege, run it, "
+                    "and re-run setup."
+                )
+            # The cache was empty during the first Inspector scan, so that
+            # behaviour_types has stale (empty) key_list_channels. Re-scan now
+            # that the cache is populated and refresh the file the catalog uses.
+            request_id = write_inspector_request(data_dir=data_dir)
+            ensure_fresh_sandbox(orchestrator=orchestrator, timeout=launch_timeout)
+            payload = wait_for_inspector_report(
+                data_dir=data_dir, request_id=request_id, timeout=inspector_timeout
+            )
+            inspector_report = collect_inspector_artifacts(
+                data_dir=data_dir, request_id=request_id, payload=payload
+            )
+            copied = copy_inspector_artifacts(
+                report=inspector_report,
+                collider_dest=collider_dest,
+                behaviour_dest=behaviour_dest,
+                catalog_dest=catalog_dest,
+            )
+            report.add(
+                Stage(
+                    name="prime_keylist",
+                    status=STAGE_PASSED,
+                    message="primed",
+                    detail={
+                        "mode": "primed",
+                        "rebuilt_bsg": prime_detail.get("bsg"),
+                        "rescan_request_id": inspector_report.request_id,
+                    },
+                )
+            )
 
         if not behaviour_dest.is_file():
             raise BootstrapError(
