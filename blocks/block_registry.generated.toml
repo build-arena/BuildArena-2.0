@@ -297,6 +297,10 @@ enabled = true
 [blocks.FuelCannon]
 enabled = true
 
+[blocks.FuelPump]
+enabled = true
+project_obj_file = "assets/fuel_pump_proxy.obj"
+
 [connectors.Brace]
 enabled = true
 
@@ -1498,3 +1502,14 @@ tooltip_title = "BLASTER"
 buoyancy_state = "down"
 buoyancy_density = 3.0
 buoyancy_original_mass_density = 0.5
+
+[runtime_defs.103]
+enabled = true
+category = ["space-flight"]
+type = "basic"
+spin = false
+locomotion = false
+mesh_key = "FuelPump"
+data = "<StringArray key=\"pump\"><String>Y</String></StringArray><Single key=\"flow-speed\">20</Single><Boolean key=\"toggle-mode\">False</Boolean>"
+description = ""
+tooltip_title = "FUEL PUMP"

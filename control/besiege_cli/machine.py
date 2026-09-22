@@ -577,7 +577,7 @@ def prepare_machine_bsg(
     The prepared copy gets: a guid for any block missing one, the
     BuildArenaToolKit requiredMods declaration, ``controller.run_id``, and
     (unless recorder_enabled is false) TelemetryRecorder keys bound to
-    this run. Recorder targets default to every machine block (``*``);
+    this run. Recorder targets default to every machine block by explicit GUID;
     access width is the declared profile (default ``full``). The source
     file is never touched.
     """
@@ -600,10 +600,18 @@ def prepare_machine_bsg(
     _set_data_value(data, "String", RUN_ID_MACHINE_DATA_KEY, run_id)
     source_sha256 = hashlib.sha256(Path(source_bsg).read_bytes()).hexdigest()
     if recorder_enabled:
+        target_guids = [
+            block.attrib["guid"] for block in root.findall("./Blocks/Block")
+        ]
         _set_data_value(data, "Boolean", TELEMETRY_ENABLED_KEY, "True")
         _set_data_value(data, "Boolean", TELEMETRY_MANAGED_KEY, "True")
         _set_data_value(data, "Single", TELEMETRY_SAMPLE_RATE_KEY, str(frequency))
-        _set_data_value(data, "String", TELEMETRY_TARGET_GUIDS_KEY, TELEMETRY_ALL_TARGETS_TOKEN)
+        _set_data_value(
+            data,
+            "String",
+            TELEMETRY_TARGET_GUIDS_KEY,
+            ";".join(target_guids),
+        )
         _set_data_value(data, "String", TELEMETRY_OUTPUT_BASENAME_KEY, Path(source_bsg).stem)
         _set_data_value(data, "String", TELEMETRY_PROFILE_KEY, DEFAULT_TELEMETRY_PROFILE)
         _set_data_value(data, "String", TELEMETRY_SOURCE_SHA256_KEY, source_sha256)
@@ -630,7 +638,7 @@ def configure_telemetry_bsg(
     recording needs no MCP build history, only block guids. Writes the four
     ``telemetry.*`` machine-data keys (rate fixed at the protocol's 25 Hz,
     profile default ``full``) plus the ToolKit requiredMods entry.
-    An empty ``target_guids`` writes ``*`` (every simulation block).
+    An empty ``target_guids`` writes every simulation block's explicit GUID.
     In-place (the default) writes a ``<name>.bsg.bak`` backup first;
     ``output_bsg`` writes elsewhere and leaves the source untouched.
 
@@ -670,9 +678,10 @@ def configure_telemetry_bsg(
     _append_required_mod(data, TOOLKIT_MOD_ENTRY)
     _set_data_value(data, "Boolean", TELEMETRY_ENABLED_KEY, "True")
     _set_data_value(data, "Single", TELEMETRY_SAMPLE_RATE_KEY, str(TELEMETRY_SAMPLE_RATE_HZ))
-    written_targets = (
-        TELEMETRY_ALL_TARGETS_TOKEN if not selected else ";".join(selected)
+    all_guids = tuple(
+        block.attrib["guid"] for block in root.findall("./Blocks/Block")
     )
+    written_targets = ";".join(selected or all_guids)
     _set_data_value(data, "String", TELEMETRY_TARGET_GUIDS_KEY, written_targets)
     _set_data_value(data, "String", TELEMETRY_OUTPUT_BASENAME_KEY, output_basename)
     _set_data_value(data, "String", TELEMETRY_PROFILE_KEY, DEFAULT_TELEMETRY_PROFILE)

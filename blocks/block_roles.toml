@@ -306,3 +306,6 @@ type = "basic"
 [roles.102]
 type = "pointer"
 pointer_axis = [0, 0, 1]
+
+[roles.103]
+type = "basic"

@@ -634,3 +634,10 @@ summary = "Fuel-consuming repeating fireball cannon."
 description = "A weapon that consumes fuel as ammunition and can fire powerful fireballs repeatedly. Its lower body is a 1x1x1 fuel tank that stores 10 units of fuel by volume when full. Each shot consumes 3 units of fuel by volume. A slender cannon barrel extends 2.3 units from the tank with radius about 0.2. The centers of two opposite side faces on the tank are fuel-flow-capable attachable faces."
 descriptor = "fuel_cannon"
 control_descriptor = "weapons"
+
+[by_id.103]
+block_name = "Fuel Pump"
+summary = "Controllable fuel-transfer pump."
+description = "A powered fuel-network block introduced in Besiege 1.91. It transfers fuel while its pump control is active. The flow speed is configurable from 0.1 to 25, defaults to 20, and the pump control can operate in hold or toggle mode."
+descriptor = ""
+control_descriptor = "fuel"

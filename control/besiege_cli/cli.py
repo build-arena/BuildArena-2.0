@@ -244,7 +244,7 @@ def cmd_configure_telemetry(args: argparse.Namespace) -> int:
     """Write the ToolKit telemetry-recorder configuration into any .bsg,
     hand-built machines included (telemetry needs no MCP build history).
     Without a target flag this only lists the machine's blocks.
-    ``--all-targets`` writes every simulation block (``*``)."""
+    ``--all-targets`` writes every simulation block's explicit GUID."""
     bsg_path = Path(args.bsg).resolve()
     target_flags = sum(
         bool(flag) for flag in (args.target_guids, args.target_blocks, args.all_targets)
@@ -423,7 +423,7 @@ def build_parser() -> argparse.ArgumentParser:
     telemetry_parser.add_argument(
         "--all-targets",
         action="store_true",
-        help="Record every simulation block (writes telemetry.target_guids=*).",
+        help="Record every simulation block by explicit GUID.",
     )
     telemetry_parser.add_argument(
         "--target-guids",

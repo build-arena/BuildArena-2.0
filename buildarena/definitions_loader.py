@@ -271,6 +271,12 @@ def load_runtime_blocks(
         raise ValueError("Expected [runtime_defs] in block_registry.generated.toml")
     roles = _load_block_roles(roles_path=roles_path)
     authoring = load_block_authoring()
+    # A newly released block can be authored before the local Inspector dump
+    # is refreshed. Its numeric ID is still exact; only the dump join label is
+    # temporarily absent. Do not extend this fallback to unauthored IDs.
+    name_by_id = dict(name_by_id)
+    for authored_id in authoring:
+        name_by_id.setdefault(authored_id, str(authored_id))
 
     result: dict[str, dict[str, Any]] = {}
     for raw_key, raw_def in defs.items():

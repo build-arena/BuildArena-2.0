@@ -47,10 +47,18 @@ def load_block_mesh(
         If the block's skin directory or OBJ file cannot be found.
     """
     resolved_registry_path = get_block_registry_path(registry_path=registry_path)
-    resolved_data_path = get_besiege_data_path(data_path=data_path)
+    registry = load_registry(registry_path=resolved_registry_path)
+    block_info = registry.get("blocks", {}).get(mesh_key, {})
+    project_obj_file = block_info.get("project_obj_file")
+    if project_obj_file is not None:
+        obj_path = (resolved_registry_path.parent / str(project_obj_file)).resolve()
+        cache_source = obj_path
+    else:
+        resolved_data_path = get_besiege_data_path(data_path=data_path)
+        cache_source = resolved_data_path.resolve()
     cache_key = "::".join(
         [
-            str(resolved_data_path.resolve()),
+            str(cache_source),
             str(resolved_registry_path.resolve()),
             mesh_key,
         ]
@@ -58,25 +66,27 @@ def load_block_mesh(
     if cache_key in _mesh_cache:
         return _mesh_cache[cache_key].copy()
 
-    registry = load_registry(registry_path=resolved_registry_path)
-    block_info = registry.get("blocks", {}).get(mesh_key, {})
     if not block_info.get("enabled", True):
         raise FileNotFoundError(
             f"Block '{mesh_key}' is disabled in the registry"
         )
 
-    skin_set = registry.get("skin_set", "Template")
-    skin_dir = get_skin_dir(
-        mesh_key=mesh_key,
-        skin_set=skin_set,
-        data_path=resolved_data_path,
-    )
+    if project_obj_file is None:
+        skin_set = registry.get("skin_set", "Template")
+        skin_dir = get_skin_dir(
+            mesh_key=mesh_key,
+            skin_set=skin_set,
+            data_path=resolved_data_path,
+        )
 
-    obj_file = block_info.get("obj_file")
-    if obj_file is not None:
-        obj_path = skin_dir / obj_file
-    else:
-        obj_path = _discover_obj_file(skin_dir=skin_dir, mesh_key=mesh_key)
+        obj_file = block_info.get("obj_file")
+        if obj_file is not None:
+            obj_path = skin_dir / obj_file
+        else:
+            obj_path = _discover_obj_file(skin_dir=skin_dir, mesh_key=mesh_key)
+
+    if not obj_path.is_file():
+        raise FileNotFoundError(f"OBJ file not found for '{mesh_key}': {obj_path}")
 
     mesh = trimesh.load(file_obj=str(obj_path), force="mesh")
     mesh = _attach_real_skin_if_needed(mesh=mesh, mesh_dir=obj_path.parent)
