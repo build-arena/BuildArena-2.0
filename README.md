@@ -203,6 +203,10 @@ Inspector initialization and in-game validation still use the setup script.
 
    Create the `SavedMachines\BuildArena` folder if needed. Relative paths resolve
    from the repository root; the collider dump is generated in the next step.
+   A block can be placed without a `Skins/Template/<BlockName>` OBJ. Fuel Pump
+   (id 103) is one case: the game update has collider data but no exported skin.
+   Attachable faces and the build description still come from the collider dump,
+   and the outline mesh is that solid collider until the OBJ directory exists.
 4. **Enable ToolKit in Besiege's mod loader**, then run
    `uv run python scripts/setup.py` to initialize Inspector, collect artifacts,
    and validate the control stack. Do not use the retired block-clicking or

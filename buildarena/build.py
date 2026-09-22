@@ -484,11 +484,22 @@ class Block:
                 )
             self.collider = real_collider
 
-            aligned_mesh = load_aligned_game_mesh(
-                mesh_key=self.mesh_key,
-                visual_transform=visual_transform,
-                registry_path=registry_path,
-            )
+            try:
+                aligned_mesh = load_aligned_game_mesh(
+                    mesh_key=self.mesh_key,
+                    visual_transform=visual_transform,
+                    registry_path=registry_path,
+                )
+            except FileNotFoundError as exc:
+                missing_skin = (
+                    "Skin directory not found" in str(exc)
+                    or "No .obj file found" in str(exc)
+                )
+                if not missing_skin:
+                    raise
+                # Missing Skins/Template OBJ. Outline falls back to the solid
+                # collider; documented in README, not warned on each placement.
+                aligned_mesh = real_collider.copy()
             self.outline = aligned_mesh
         else:
             self.collider = None

@@ -175,6 +175,9 @@ Inspector 初始化与游戏内验收仍由配置脚本完成。
 
    如有需要，请创建 `SavedMachines\BuildArena` 文件夹。相对路径
    以仓库根目录解析；碰撞数据会在下一步生成。
+   方块没有 `Skins/Template/<方块名>` OBJ 时仍可放置。Fuel Pump（103）就是这种情况：
+   游戏更新有碰撞体，但没有导出皮肤。可贴面和建造描述仍来自碰撞体 dump，
+   外形网格用该实心碰撞体，直到对应 OBJ 目录出现。
 4. **在 Besiege 的 mod loader 中启用 ToolKit**，然后运行
    `uv run python scripts/setup.py` 以初始化 Inspector、采集产物，
    并验收控制链路。不要再使用已退役的点击方块流程或

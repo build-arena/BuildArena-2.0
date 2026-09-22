@@ -297,6 +297,9 @@ enabled = true
 [blocks.FuelCannon]
 enabled = true
 
+[blocks.FuelPump]
+enabled = true
+
 [connectors.Brace]
 enabled = true
 
@@ -1498,3 +1501,12 @@ tooltip_title = "BLASTER"
 buoyancy_state = "down"
 buoyancy_density = 3.0
 buoyancy_original_mass_density = 0.5
+
+[runtime_defs.103]
+enabled = true
+category = ["space-flight"]
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+tooltip_title = "FUEL PUMP"

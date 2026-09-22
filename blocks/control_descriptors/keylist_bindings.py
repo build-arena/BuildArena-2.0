@@ -62,4 +62,5 @@ KEYLIST_BINDINGS = {
     100: {"ForwardKey": 0, "BackwardKey": 1},
     101: {"LeftKey": 0, "RightKey": 1},
     102: {"FireKey": 0},
+    103: {"PumpKey": 0},
 }

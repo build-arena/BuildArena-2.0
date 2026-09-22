@@ -35,7 +35,7 @@ EXPECTED_CATEGORY_COUNTS = {
     "flight": 9,
     "automation": 10,
     "water": 8,
-    "space-flight": 12,
+    "space-flight": 13,
 }
 
 EXCLUDE_IDS: dict[int, str] = {
