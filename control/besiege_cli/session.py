@@ -67,9 +67,13 @@ def ensure_game(*, orchestrator: BesiegeOrchestrator, besiege_data: Path, timeou
             pass
         new_pids = set(find_besiege_pids()) - existing
         if new_pids:
+            from .modding import resolve_output_log
+
+            log_path = resolve_output_log(besiege_data=besiege_data)
+            log_hint = str(log_path) if log_path is not None else "the platform player log"
             raise OrchestratorTimeoutError(
                 f"Besiege PIDs {sorted(new_pids)} started but no mod heartbeat within {timeout}s "
-                "(mod failed to load? check output_log.txt)."
+                f"(mod failed to load? check {log_hint})."
             )
         print("Steam launch produced no process; launching the game binary directly...")
     else:

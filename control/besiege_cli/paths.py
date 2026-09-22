@@ -113,6 +113,37 @@ def mod_data_dir(besiege_data: Path) -> Path:
     return besiege_data / "Mods" / "Data" / TOOLKIT_DATA_DIR_NAME
 
 
+OUTPUT_LOG_NAME = "output_log.txt"
+
+
+def output_log_candidates(
+    *,
+    besiege_data: Path,
+    system: str | None = None,
+    home: Path | None = None,
+) -> tuple[Path, ...]:
+    """Player-log files to read for the current Besiege layout, in preference order.
+
+    Windows and Linux write ``output_log.txt`` next to Config.xml in the data
+    root. macOS Unity 5.4 writes ``~/Library/Logs/Unity/Player.log`` (the same
+    ``~/Library`` tree as ``mac_display.unity_prefs_path``). The data-root
+    ``output_log.txt`` is still listed second on Darwin in case a launch used
+    the Contents directory as cwd and wrote the Windows-style name there.
+    """
+    resolved = platform.system() if system is None else system
+    data_log = besiege_data / OUTPUT_LOG_NAME
+    if resolved == "Darwin":
+        from .mac_display import unity_player_log_path
+
+        return (unity_player_log_path(home=home), data_log)
+    if resolved in BESIEGE_EXE_BY_SYSTEM:
+        return (data_log,)
+    raise RuntimeError(
+        f"No player-log location is known for platform {resolved!r}. "
+        f"Supported: {', '.join(sorted(BESIEGE_EXE_BY_SYSTEM))}."
+    )
+
+
 def saved_machines_dir(besiege_data: Path) -> Path:
     """Besiege's native saved-machine directory.
 

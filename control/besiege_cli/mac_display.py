@@ -13,6 +13,8 @@ import re
 from pathlib import Path
 
 UNITY_PREFS_NAME = "unity.Spiderling Games.Besiege.plist"
+# Unity 5.4 player log. Same ~/Library layout as unity_prefs_path.
+UNITY_PLAYER_LOG = Path("Library") / "Logs" / "Unity" / "Player.log"
 _WIDTH_KEY = "Screenmanager Resolution Width"
 _HEIGHT_KEY = "Screenmanager Resolution Height"
 _FULLSCREEN_KEY = "Screenmanager Is Fullscreen mode"
@@ -141,8 +143,19 @@ def write_unity_window(prefs_path: Path, *, width: int, height: int) -> None:
         plistlib.dump(payload, handle, fmt=plistlib.FMT_BINARY)
 
 
-def unity_prefs_path() -> Path:
-    return Path.home() / "Library" / "Preferences" / UNITY_PREFS_NAME
+def unity_prefs_path(*, home: Path | None = None) -> Path:
+    root = Path.home() if home is None else home
+    return root / "Library" / "Preferences" / UNITY_PREFS_NAME
+
+
+def unity_player_log_path(*, home: Path | None = None) -> Path:
+    """Unity 5.4 standalone player log on macOS.
+
+    Confirmed by the Unity 5.4 log-file table: ``~/Library/Logs/Unity/Player.log``.
+    This is the Mac equivalent of Windows/Linux ``Besiege_Data/output_log.txt``.
+    """
+    root = Path.home() if home is None else home
+    return root / UNITY_PLAYER_LOG
 
 
 def apply_windowed_resolution(

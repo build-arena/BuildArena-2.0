@@ -37,7 +37,11 @@ from .inspector import (
     write_inspector_request,
 )
 from .machine import parse_bsg
-from .modding import ModdingConfigError, enable_toolkit_mod
+from .modding import (
+    ModdingConfigError,
+    ensure_toolkit_ready,
+    recover_toolkit_after_failed_launch,
+)
 from .orchestrator import BesiegeOrchestrator, OrchestratorTimeoutError
 from .paths import datacache_dir, mod_data_dir
 from .preflight import PreflightError
@@ -689,21 +693,33 @@ def run_bootstrap(
             )
         )
 
-        enable = enable_toolkit_mod(besiege_data=besiege_data)
+        ready = ensure_toolkit_ready(besiege_data=besiege_data)
+        enable = ready.enabled
+        enable_message = (
+            f"{TOOLKIT_MOD_NAME} already enabled."
+            if enable.already_enabled
+            else f"Removed {TOOLKIT_MOD_ID} from disabled-mods."
+        )
+        if ready.config_changed and ready.acknowledged_version is not None:
+            enable_message = (
+                f"{enable_message} Acknowledged game version "
+                f"{ready.previous_last_version} -> {ready.acknowledged_version} "
+                "so ModLoader will not disable ToolKit on launch."
+            )
         report.add(
             Stage(
                 name="enable_mod",
                 status=STAGE_PASSED,
-                message=(
-                    f"{TOOLKIT_MOD_NAME} already enabled."
-                    if enable.already_enabled
-                    else f"Removed {TOOLKIT_MOD_ID} from disabled-mods."
-                ),
+                message=enable_message,
                 detail={
                     "path": str(enable.path),
                     "backup": str(enable.backup_path) if enable.backup_path else None,
                     "changed": enable.changed,
                     "already_enabled": enable.already_enabled,
+                    "acknowledged_version": ready.acknowledged_version,
+                    "previous_last_version": ready.previous_last_version,
+                    "config_changed": ready.config_changed,
+                    "last_game_version_changed": ready.last_game_version_changed,
                 },
             )
         )
@@ -721,20 +737,51 @@ def run_bootstrap(
 
         data_dir = mod_data_dir(besiege_data)
         orchestrator = BesiegeOrchestrator(data_dir)
-        session = ensure_game(
-            orchestrator=orchestrator, besiege_data=besiege_data, timeout=launch_timeout
-        )
+        version_change_recovery = None
+        try:
+            session = ensure_game(
+                orchestrator=orchestrator, besiege_data=besiege_data, timeout=launch_timeout
+            )
+        except OrchestratorTimeoutError:
+            recovered = recover_toolkit_after_failed_launch(besiege_data=besiege_data)
+            if recovered is None:
+                raise
+            print(
+                f"Besiege turned off {TOOLKIT_MOD_NAME} after updating to "
+                f"{recovered.acknowledged_version} (was {recovered.previous_last_version}). "
+                "Acknowledged the new version, re-enabled ToolKit, and relaunching once.",
+                flush=True,
+            )
+            version_change_recovery = {
+                "acknowledged_version": recovered.acknowledged_version,
+                "previous_last_version": recovered.previous_last_version,
+                "killed_pids": list(recovered.killed_pids),
+                "config_changed": recovered.config_changed,
+                "last_game_version_changed": recovered.last_game_version_changed,
+                "toolkit_enabled": TOOLKIT_MOD_ID not in recovered.enabled.disabled_after,
+                "output_log": str(recovered.output_log),
+            }
+            session = ensure_game(
+                orchestrator=orchestrator, besiege_data=besiege_data, timeout=launch_timeout
+            )
         report.game_ownership = {
             "already_running": session.already_running,
             "launched_by_setup": session.launched,
             "quit_after": None,
         }
+        launch_detail = dict(report.game_ownership)
+        if version_change_recovery is not None:
+            launch_detail["version_change_recovery"] = version_change_recovery
         report.add(
             Stage(
                 name="launch",
                 status=STAGE_PASSED,
-                message="already running" if session.already_running else "launched by setup",
-                detail=report.game_ownership,
+                message=(
+                    "relaunched after acknowledging a game version change"
+                    if version_change_recovery is not None
+                    else ("already running" if session.already_running else "launched by setup")
+                ),
+                detail=launch_detail,
             )
         )
 
