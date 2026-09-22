@@ -634,3 +634,10 @@ summary = "Fuel-consuming repeating fireball cannon."
 description = "A weapon that consumes fuel as ammunition and can fire powerful fireballs repeatedly. Its lower body is a 1x1x1 fuel tank that stores 10 units of fuel by volume when full. Each shot consumes 3 units of fuel by volume. A slender cannon barrel extends 2.3 units from the tank with radius about 0.2. The centers of two opposite side faces on the tank are fuel-flow-capable attachable faces."
 descriptor = "fuel_cannon"
 control_descriptor = "weapons"
+
+[by_id.103]
+block_name = "Fuel Pump"
+summary = "Space-flight fuel pump."
+description = "A fuel pump whose body is a 1x1x1 box along its build axis. One end face is the installation face. After mounting, three attachable faces remain: the centers of two opposite side faces, and the free end face. It pumps fuel from the fuel system it is mounted on and from fuel systems connected on the two side faces into the fuel system connected on the free end face. Pump Key pumps fuel while held."
+descriptor = "fuel_pump"
+control_descriptor = "fuel"

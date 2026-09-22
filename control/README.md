@@ -14,19 +14,34 @@ recording `status=passed`; `uv sync` alone does not prepare the game.
 
 - Python 3.12+ and `uv`
 - Besiege with the verified BuildArena ToolKit 2.0.9 Release enabled
-- `BESIEGE_DATA_PATH` set to the game's `Besiege_Data` directory
-- A channel catalog produced or verified by `scripts/setup.ps1`, placed at
+- `BESIEGE_DATA_PATH` set to `Besiege_Data` on Windows and Linux, or to
+  `Besiege.app/Contents` on macOS
+- A channel catalog produced or verified by `scripts/setup.ps1` (Windows) or
+  `scripts/setup.sh` (macOS and Linux), placed at
   `blocks/block_channel_catalog.json` or passed with `--catalog`
 
-Install dependencies from the repository root:
+Install dependencies from the repository root. Windows PowerShell:
 
 ```powershell
 uv sync
 ```
 
-Run commands from this directory:
+macOS and Linux:
+
+```bash
+uv sync
+```
+
+Run commands from this directory. Windows PowerShell:
 
 ```powershell
+cd control
+uv run python -m besiege_cli --help
+```
+
+macOS and Linux:
+
+```bash
 cd control
 uv run python -m besiege_cli --help
 ```
@@ -35,7 +50,8 @@ uv run python -m besiege_cli --help
 
 Each directory below contains one `machine.json` MCP operation history and
 Python code only. After setup passes, run from the repository root, one example
-at a time:
+at a time. The PowerShell block is the Windows form; macOS and Linux run the
+same commands in a terminal:
 
 ```powershell
 uv run python control/examples/rocket_orbit_return/run.py

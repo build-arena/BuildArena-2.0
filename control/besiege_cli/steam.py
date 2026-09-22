@@ -142,7 +142,7 @@ def steam_roots_from_registry() -> list[Path]:
 
 # Default Steam install locations per platform. The Linux entries cover both
 # the modern XDG path and the two legacy ~/.steam symlinks; steamcmd installs
-# land under the same tree.
+# land under the same tree. macOS uses the per-user Application Support path.
 DEFAULT_STEAM_ROOTS_BY_SYSTEM = {
     "Windows": (
         Path(r"C:\Program Files (x86)\Steam"),
@@ -153,6 +153,9 @@ DEFAULT_STEAM_ROOTS_BY_SYSTEM = {
         Path.home() / ".steam" / "steam",
         Path.home() / ".steam" / "root",
         Path.home() / "Steam",
+    ),
+    "Darwin": (
+        Path.home() / "Library" / "Application Support" / "Steam",
     ),
 }
 
@@ -199,13 +202,27 @@ def is_besiege_data(*, path: Path) -> bool:
     return path.is_dir() and (path / "Skins").is_dir()
 
 
+def besiege_data_candidates(library: Path) -> tuple[Path, ...]:
+    """Data roots to probe under one Steam library, in preference order.
+
+    ``Besiege_Data`` is the Windows and Linux layout and is always tried
+    first. The macOS app bundle keeps Skins, Mods, and SavedMachines in
+    ``Besiege.app/Contents`` and has no ``Besiege_Data`` directory.
+    """
+    install = library / "steamapps" / "common" / "Besiege"
+    return (
+        install / "Besiege_Data",
+        install / "Besiege.app" / "Contents",
+    )
+
+
 def detect_besiege_data(*, steam_roots: list[Path] | None = None) -> Path | None:
     roots = candidate_steam_roots() if steam_roots is None else steam_roots
     for steam_root in roots:
         for library in library_paths_from_steam_root(steam_root=steam_root):
-            besiege_data = library / "steamapps" / "common" / "Besiege" / "Besiege_Data"
-            if is_besiege_data(path=besiege_data):
-                return besiege_data
+            for besiege_data in besiege_data_candidates(library):
+                if is_besiege_data(path=besiege_data):
+                    return besiege_data
     return None
 
 
@@ -216,8 +233,16 @@ def normalize_besiege_data(*, raw: str | Path) -> Path:
     nested = candidate / "Besiege_Data"
     if is_besiege_data(path=nested):
         return nested
+    mac_contents = candidate / "Besiege.app" / "Contents"
+    if is_besiege_data(path=mac_contents):
+        return mac_contents
+    if candidate.name == "Besiege.app":
+        app_contents = candidate / "Contents"
+        if is_besiege_data(path=app_contents):
+            return app_contents
     raise FileNotFoundError(
-        f"Not a valid Besiege_Data folder (no Skins directory inside): {candidate}"
+        "Not a Besiege data folder (no Skins directory). Pass Besiege_Data on "
+        f"Windows or Linux, or Besiege.app/Contents on macOS: {candidate}"
     )
 
 
@@ -362,8 +387,11 @@ def open_workshop_page(*, item_id: str | None = None) -> str:
     if resolved == "":
         return url
     steam_uri = f"steam://url/CommunityFilePage/{resolved}"
-    if platform.system() == "Windows":
+    system = platform.system()
+    if system == "Windows":
         argv = ["cmd", "/c", "start", "", steam_uri]
+    elif system == "Darwin":
+        argv = ["/usr/bin/open", steam_uri]
     else:
         from shutil import which
 

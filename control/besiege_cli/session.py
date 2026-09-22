@@ -7,6 +7,7 @@ or enter the sandbox.
 
 from __future__ import annotations
 
+import platform
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -44,6 +45,14 @@ def ensure_game(*, orchestrator: BesiegeOrchestrator, besiege_data: Path, timeou
         return GameSession(already_running=True, launched=False)
     before = orchestrator.state_mtime()
     existing = set(find_besiege_pids())
+    if platform.system() == "Darwin":
+        from .mac_display import prepare_mac_launch_window
+
+        width, height = prepare_mac_launch_window(besiege_data)
+        print(
+            f"macOS launch will use a {width}x{height} window matching the main display.",
+            flush=True,
+        )
     if steam_launch_available():
         print(
             "Launching Besiege via Steam. After the window appears, ToolKit still "
@@ -58,9 +67,13 @@ def ensure_game(*, orchestrator: BesiegeOrchestrator, besiege_data: Path, timeou
             pass
         new_pids = set(find_besiege_pids()) - existing
         if new_pids:
+            from .modding import resolve_output_log
+
+            log_path = resolve_output_log(besiege_data=besiege_data)
+            log_hint = str(log_path) if log_path is not None else "the platform player log"
             raise OrchestratorTimeoutError(
                 f"Besiege PIDs {sorted(new_pids)} started but no mod heartbeat within {timeout}s "
-                "(mod failed to load? check output_log.txt)."
+                f"(mod failed to load? check {log_hint})."
             )
         print("Steam launch produced no process; launching the game binary directly...")
     else:

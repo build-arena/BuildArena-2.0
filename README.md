@@ -38,7 +38,7 @@ or installing Python dependencies alone is not enough to reproduce them.
 
 “Prerequisites complete” means **all** of the following are ready:
 
-1. Use **Windows 10 or 11**, with Steam installed and signed in.
+1. Use **Windows 10 or 11**, **Linux**, or **macOS**, with Steam installed and signed in.
 2. Own a **licensed Steam copy** of [Besiege](https://store.steampowered.com/app/346010/_/)
    and **both DLC**: [The Splintered Sea](https://store.steampowered.com/app/2165710/Besiege_The_Splintered_Sea/)
    and [The Broken Beyond](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/).
@@ -58,7 +58,7 @@ and validation; it does not purchase or install Besiege/DLC or subscribe on your
 ## One-command setup
 
 **Only after completing the prerequisites above**, run this from the repository
-root in PowerShell on Windows 10 or 11:
+root. On Windows 10 or 11, use PowerShell:
 
 ```powershell
 uv run python scripts/setup.py
@@ -71,6 +71,18 @@ and launches the same setup script:
 powershell -ExecutionPolicy ByPass -File scripts\setup.ps1
 ```
 
+On macOS or Linux, from the repository root:
+
+```bash
+uv run python scripts/setup.py
+```
+
+The Unix wrapper installs `uv` when it is missing, then runs the same script:
+
+```bash
+bash scripts/setup.sh
+```
+
 Setup configures local paths, enables ToolKit, collects/verifies block data,
 generates the control catalog, and runs two in-game tests: an all-block telemetry
 smoke test and the rocket orbit-and-return mission. It then writes `mcp.json`.
@@ -80,15 +92,29 @@ smoke test and the rocket orbit-and-return mission. It then writes `mcp.json`.
 
 ### Non-default game location
 
-Provide the game-data path if setup cannot find your Besiege installation:
+Provide the game-data path if setup cannot find your Besiege installation.
+On Windows and Linux that directory is **`Besiege_Data`**:
 
 ```powershell
 uv run python scripts/setup.py --besiege-data "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"
 ```
 
-With the wrapper, use `-BesiegeData "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"`.
-Point to **`Besiege_Data`**, not the installation root. To locate it, use
-**Steam → Besiege → Manage → Browse local files**.
+With the Windows wrapper, use `-BesiegeData "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"`.
+On Linux:
+
+```bash
+uv run python scripts/setup.py --besiege-data "$HOME/.local/share/Steam/steamapps/common/Besiege/Besiege_Data"
+bash scripts/setup.sh --besiege-data "$HOME/.local/share/Steam/steamapps/common/Besiege/Besiege_Data"
+```
+
+On macOS the data root is **`Besiege.app/Contents`** (it contains `Skins`; there is no `Besiege_Data` folder):
+
+```bash
+uv run python scripts/setup.py --besiege-data "$HOME/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents"
+bash scripts/setup.sh --besiege-data "$HOME/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents"
+```
+
+To locate the install, use **Steam → Besiege → Manage → Browse local files**.
 
 Rerun setup after resolving a missing prerequisite. It checks actual artifacts
 before continuing.
@@ -98,6 +124,8 @@ before continuing.
 **Run these only after [one-command setup](#one-command-setup) passes**
 (`.local/setup-report.json`: `status=passed`). From the repository root, run
 **one example at a time** and wait for it to finish before starting the next.
+The PowerShell blocks below are the Windows form; macOS and Linux run the same
+`uv run python ...` commands in a terminal.
 Each command rebuilds its final machine from **one MCP tool-history JSON**, then
 launches the game and runs the complete controller:
 
@@ -152,7 +180,7 @@ records `status=passed`.
 Use these steps if you need to configure paths or troubleshoot individual stages.
 Inspector initialization and in-game validation still use the setup script.
 
-1. **Prepare Windows and Steam.** Install the game, both DLC, and the ToolKit
+1. **Prepare the host and Steam.** On Windows 10 or 11, Linux, or macOS, install the game, both DLC, and the ToolKit
    Workshop item listed above. Remove or disable retired Controller, Block
    Tracker, Collider Dumper, and Block Inspector mods so only the current ToolKit
    is active.
@@ -175,6 +203,10 @@ Inspector initialization and in-game validation still use the setup script.
 
    Create the `SavedMachines\BuildArena` folder if needed. Relative paths resolve
    from the repository root; the collider dump is generated in the next step.
+   A block can be placed without a `Skins/Template/<BlockName>` OBJ. Fuel Pump
+   (id 103) is one case: the game update has collider data but no exported skin.
+   Attachable faces and the build description still come from the collider dump,
+   and the outline mesh is that solid collider until the OBJ directory exists.
 4. **Enable ToolKit in Besiege's mod loader**, then run
    `uv run python scripts/setup.py` to initialize Inspector, collect artifacts,
    and validate the control stack. Do not use the retired block-clicking or
