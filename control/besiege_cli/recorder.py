@@ -1,10 +1,11 @@
 """Screen recording of the Besiege window via the bundled imageio-ffmpeg binary.
 
-Capture pipeline: gdigrab grabs the Besiege window on Windows (x11grab grabs
-the X display named by DISPLAY on Linux), ffmpeg scales/pads to the target
-resolution and encodes H.264 at a capped bitrate. The recording is written to
-a .part.mkv first (Matroska stays playable after a hard process kill, unlike a
-non-finalized mp4) and remuxed to the final .mp4 on stop.
+Capture pipeline: gdigrab grabs the Besiege window on Windows, x11grab grabs
+the X display named by DISPLAY on Linux, and avfoundation grabs the main
+display on macOS. ffmpeg scales/pads to the target resolution and encodes
+H.264 at a capped bitrate. The recording is written to a .part.mkv first
+(Matroska stays playable after a hard process kill, unlike a non-finalized
+mp4) and remuxed to the final .mp4 on stop.
 
 The recorder is split across processes: start_recording() may be called by
 one CLI invocation (start-sim) and stop_recording() by another (stop-sim),
@@ -17,6 +18,8 @@ from __future__ import annotations
 import ctypes
 import json
 import os
+import platform
+import re
 import signal
 import subprocess
 import time
@@ -77,6 +80,42 @@ def restore_capture_window(window_title: str, *, timeout: float = 3.0) -> bool:
     )
 
 
+def _require_avfoundation(ffmpeg: str) -> None:
+    """Raise unless the bundled ffmpeg can demux avfoundation."""
+    listed = subprocess.run(
+        [ffmpeg, "-hide_banner", "-demuxers"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if "avfoundation" not in listed.stdout:
+        raise RuntimeError(
+            "The bundled ffmpeg has no avfoundation demuxer, so macOS screen "
+            "capture cannot start."
+        )
+
+
+def _avfoundation_screen_index(ffmpeg: str) -> str:
+    """Index of the main display in avfoundation's video device list.
+
+    ffmpeg prints the list on stderr and exits non-zero; that exit is the
+    listing itself, not a missing demuxer.
+    """
+    listed = subprocess.run(
+        [ffmpeg, "-hide_banner", "-f", "avfoundation", "-list_devices", "true", "-i", ""],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    match = re.search(r"\[(\d+)\]\s+Capture screen 0\b", listed.stderr)
+    if match is None:
+        tail = listed.stderr[-2000:]
+        raise RuntimeError(
+            "avfoundation did not list a main display named 'Capture screen 0'.\n" + tail
+        )
+    return match.group(1)
+
+
 def _capture_input_args(fps: int, window_title: str) -> list[str]:
     """ffmpeg input for the current platform.
 
@@ -84,10 +123,25 @@ def _capture_input_args(fps: int, window_title: str) -> list[str]:
     screen (root window) named by DISPLAY; in a headless X server sized to the
     game resolution that is exactly the game window, a larger screen only adds
     borders. A missing DISPLAY is an explicit error rather than a silent black
-    recording.
+    recording. macOS: avfoundation of the main display. A missing avfoundation
+    demuxer is an explicit error; this path never falls through to x11grab.
     """
     if os.name == "nt":
         return ["-f", "gdigrab", "-framerate", str(fps), "-draw_mouse", "0", "-i", f"title={window_title}"]
+    if platform.system() == "Darwin":
+        ffmpeg = get_ffmpeg_exe()
+        _require_avfoundation(ffmpeg)
+        screen = _avfoundation_screen_index(ffmpeg)
+        return [
+            "-f",
+            "avfoundation",
+            "-framerate",
+            str(fps),
+            "-capture_cursor",
+            "0",
+            "-i",
+            f"{screen}:none",
+        ]
     display = os.environ.get("DISPLAY", "")
     if not display:
         raise RuntimeError("DISPLAY is not set; x11grab needs the X display the game window is on.")
@@ -160,10 +214,13 @@ def start_recording(
     time.sleep(1.5)
     if process.poll() is not None:
         log_tail = log_file.read_text(encoding="utf-8", errors="replace")[-2000:]
+        if platform.system() == "Darwin":
+            source = "avfoundation main display"
+        else:
+            source = f"window {window_title!r} / DISPLAY {os.environ.get('DISPLAY', '')!r}"
         raise RuntimeError(
             f"ffmpeg exited immediately (code {process.returncode}); capture source "
-            f"(window {window_title!r} / DISPLAY {os.environ.get('DISPLAY', '')!r}) probably "
-            f"not found.\n--- ffmpeg log tail ---\n{log_tail}"
+            f"({source}) probably not found.\n--- ffmpeg log tail ---\n{log_tail}"
         )
 
     state_path.write_text(
@@ -202,11 +259,26 @@ def _pid_alive(pid: int) -> bool:
     return True
 
 
+def _is_darwin_capture_process(pid: int, part_file: Path) -> bool:
+    """True when ``ps`` shows this pid is our avfoundation ffmpeg capture."""
+    result = subprocess.run(
+        ["ps", "-p", str(pid), "-o", "command="],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    command = result.stdout
+    return "ffmpeg" in command and "avfoundation" in command and str(part_file) in command
+
+
 def _is_capture_process(pid: int, part_file: Path) -> bool:
     """Guard against pid reuse after a crash and against zombies left by a
     non-reaping parent: only signal a process whose command line still is our
-    ffmpeg x11grab capture writing ``part_file`` (a zombie has an empty command
-    line). Linux reads /proc; other POSIX hosts skip the check."""
+    ffmpeg capture writing ``part_file`` (a zombie has an empty command line).
+    Linux reads /proc and requires x11grab. macOS reads ``ps`` and requires
+    avfoundation. Other POSIX hosts skip the check."""
+    if platform.system() == "Darwin":
+        return _is_darwin_capture_process(pid, part_file)
     cmdline = Path("/proc") / str(pid) / "cmdline"
     try:
         argv = cmdline.read_bytes().split(b"\0")

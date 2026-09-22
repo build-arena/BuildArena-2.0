@@ -62,10 +62,18 @@ LAUNCHER_EXAMPLE_JSON = Path("control") / "examples" / "rocket_orbit_return" / "
 LAUNCHER_EVIDENCE_NAME = "mission_summary.json"
 LAUNCHER_SANDBOX = "LONE ORB"
 SMOKE_HOLD_SECONDS = 15.0
+# Wall-clock budget for that simulation hold. Windows and Linux finish the
+# all-block machine inside 60s. The macOS binary is x86_64; under Rosetta on
+# Apple silicon the same 15s of simulation needs a longer wall-clock budget.
+SMOKE_CONTROLLER_TIMEOUT_BY_SYSTEM = {
+    "Windows": 60.0,
+    "Linux": 60.0,
+    "Darwin": 300.0,
+}
 
 # Platforms the one-command setup runs on. Windows is the reference desktop
-# install; Linux is the headless server target.
-SUPPORTED_SYSTEMS = ("Windows", "Linux")
+# install; Linux is the headless server target; Darwin is the macOS desktop.
+SUPPORTED_SYSTEMS = ("Windows", "Linux", "Darwin")
 
 STAGE_PENDING = "pending"
 STAGE_RUNNING = "running"
@@ -957,7 +965,7 @@ def run_bootstrap(
                 besiege_data=besiege_data,
                 launch_timeout=launch_timeout,
                 timeout=90.0,
-                controller_timeout=60.0,
+                controller_timeout=SMOKE_CONTROLLER_TIMEOUT_BY_SYSTEM[system],
             )
         )
         if exit_code != 0:

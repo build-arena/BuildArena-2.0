@@ -7,6 +7,7 @@ or enter the sandbox.
 
 from __future__ import annotations
 
+import platform
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -44,6 +45,14 @@ def ensure_game(*, orchestrator: BesiegeOrchestrator, besiege_data: Path, timeou
         return GameSession(already_running=True, launched=False)
     before = orchestrator.state_mtime()
     existing = set(find_besiege_pids())
+    if platform.system() == "Darwin":
+        from .mac_display import prepare_mac_launch_window
+
+        width, height = prepare_mac_launch_window(besiege_data)
+        print(
+            f"macOS launch will use a {width}x{height} window matching the main display.",
+            flush=True,
+        )
     if steam_launch_available():
         print(
             "Launching Besiege via Steam. After the window appears, ToolKit still "

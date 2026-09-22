@@ -45,6 +45,10 @@ def steam_launch_available() -> bool:
         from shutil import which
 
         return which("steam") is not None or which("xdg-open") is not None
+    if system == "Darwin":
+        from shutil import which
+
+        return which("open") is not None
     return False
 
 
@@ -81,6 +85,21 @@ def launch_via_steam() -> None:
             start_new_session=True,
         )
         return
+    if system == "Darwin":
+        from shutil import which
+
+        opener = which("open")
+        if opener is None:
+            raise UnsupportedPlatformError(
+                "open is not available; launch the game binary directly."
+            )
+        subprocess.Popen(
+            [opener, uri],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
+        return
     raise UnsupportedPlatformError(f"Steam launch is not implemented for {system}.")
 
 
@@ -102,14 +121,30 @@ def launch_via_exe(besiege_root: Path) -> None:
         )
         return
 
-    exe = besiege_root / besiege_exe_name()
+    if platform.system() == "Darwin":
+        from .mac_display import prepare_mac_launch_window
+
+        exe = besiege_root / "MacOS" / besiege_exe_name()
+        width, height = prepare_mac_launch_window(besiege_root)
+        argv = [
+            str(exe),
+            "-screen-fullscreen",
+            "0",
+            "-screen-width",
+            str(width),
+            "-screen-height",
+            str(height),
+        ]
+    else:
+        exe = besiege_root / besiege_exe_name()
+        argv = [str(exe)]
     if not exe.is_file():
         raise FileNotFoundError(f"{exe.name} not found: {exe}")
     if platform.system() == "Windows":
-        subprocess.Popen([str(exe)], cwd=str(besiege_root))
+        subprocess.Popen(argv, cwd=str(besiege_root))
         return
     subprocess.Popen(
-        [str(exe)],
+        argv,
         cwd=str(besiege_root),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -174,12 +209,41 @@ def _find_pids_linux() -> list[int]:
     return sorted(pids)
 
 
+def _find_pids_darwin() -> list[int]:
+    """Return PIDs of this user's Besiege processes via pgrep.
+
+    ``-x`` matches the executable name exactly. Only this user's processes
+    count, matching the Linux lookup.
+    """
+    name = besiege_exe_name("Darwin")
+    result = subprocess.run(
+        ["pgrep", "-u", str(os.getuid()), "-x", name],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    # pgrep exits 1 when nothing matches. Any other non-zero status is a
+    # failed lookup, not an empty process list.
+    if result.returncode not in (0, 1):
+        detail = result.stderr.strip() or result.stdout.strip() or "no stderr"
+        raise RuntimeError(f"pgrep failed with status {result.returncode}: {detail}")
+    pids: list[int] = []
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        pids.append(int(line))
+    return pids
+
+
 def find_besiege_pids() -> list[int]:
     system = platform.system()
     if system == "Windows":
         return _find_pids_windows()
     if system == "Linux":
         return _find_pids_linux()
+    if system == "Darwin":
+        return _find_pids_darwin()
     raise UnsupportedPlatformError(f"Process lookup is not implemented for {system}.")
 
 
@@ -188,7 +252,7 @@ def force_kill(pid: int) -> None:
     if system == "Windows":
         subprocess.run(["taskkill", "/PID", str(pid), "/F"], check=True)
         return
-    if system == "Linux":
+    if system in {"Linux", "Darwin"}:
         import signal
 
         try:

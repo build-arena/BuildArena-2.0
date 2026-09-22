@@ -34,7 +34,7 @@ DLC 内容和 ToolKit 来建造、运行机器。仓库不包含游戏、DLC 或
 
 “配置的前置准备工作完成”是指以下条件**全部满足**：
 
-1. 使用 **Windows 10 或 11**，安装 Steam 并登录。
+1. 使用 **Windows 10 或 11**、**Linux** 或 **macOS**，安装 Steam 并登录。
 2. **拥有 Steam 正版 [Besiege](https://store.steampowered.com/app/346010/_/) 及两个 DLC**：
    [The Splintered Sea](https://store.steampowered.com/app/2165710/Besiege_The_Splintered_Sea/)
    和 [The Broken Beyond](https://store.steampowered.com/app/3639470/Besiege_The_Broken_Beyond/)。
@@ -50,7 +50,7 @@ DLC 内容和 ToolKit 来建造、运行机器。仓库不包含游戏、DLC 或
 
 ## 一键配置
 
-**只有完成上面的前置准备后**，才能在 Windows 10 或 11 上，于仓库根目录用 PowerShell 运行：
+**只有完成上面的前置准备后**，才能在仓库根目录运行配置。Windows 10 或 11 使用 PowerShell：
 
 ```powershell
 uv run python scripts/setup.py
@@ -63,6 +63,18 @@ uv run python scripts/setup.py
 powershell -ExecutionPolicy ByPass -File scripts\setup.ps1
 ```
 
+macOS 或 Linux 在仓库根目录运行：
+
+```bash
+uv run python scripts/setup.py
+```
+
+Unix 包装脚本会在缺少 `uv` 时安装它，然后运行同一套配置：
+
+```bash
+bash scripts/setup.sh
+```
+
 脚本会配置本机路径、启用 ToolKit、采集或校验方块数据、生成控制通道目录，
 并在游戏中运行全块遥测冒烟测试和火箭入轨返回任务，最后生成 `mcp.json`。
 **只有命令成功退出，且 `.local/setup-report.json` 中记录 `status=passed`，
@@ -71,22 +83,37 @@ powershell -ExecutionPolicy ByPass -File scripts\setup.ps1
 
 ### 非默认游戏安装位置
 
-若配置脚本找不到 Besiege，请提供游戏数据目录：
+若配置脚本找不到 Besiege，请提供游戏数据目录。Windows 和 Linux 上该目录是 **`Besiege_Data`**：
 
 ```powershell
 uv run python scripts/setup.py --besiege-data "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"
 ```
 
-使用包装脚本时，传入 `-BesiegeData "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"`。
-请指向 **`Besiege_Data`**，而不是安装根目录。定位方法：
-**Steam → Besiege → Manage → Browse local files**。
+Windows 包装脚本传入 `-BesiegeData "D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data"`。
+Linux：
+
+```bash
+uv run python scripts/setup.py --besiege-data "$HOME/.local/share/Steam/steamapps/common/Besiege/Besiege_Data"
+bash scripts/setup.sh --besiege-data "$HOME/.local/share/Steam/steamapps/common/Besiege/Besiege_Data"
+```
+
+macOS 的数据根目录是 **`Besiege.app/Contents`**（其中有 `Skins`，没有 `Besiege_Data`）：
+
+```bash
+uv run python scripts/setup.py --besiege-data "$HOME/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents"
+bash scripts/setup.sh --besiege-data "$HOME/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents"
+```
+
+定位方法：**Steam → Besiege → Manage → Browse local files**。
 
 补齐缺失前提后重新运行配置。脚本会在继续前检查真实产物。
 
 ## 三种自动控制案例
 
 **只有[一键配置](#一键配置)通过验收后**（`.local/setup-report.json` 中
-`status=passed`），才能在仓库根目录运行以下案例。**每次只运行一个，结束后再运行下一个**：
+`status=passed`），才能在仓库根目录运行以下案例。**每次只运行一个，结束后再运行下一个**。
+下面的 PowerShell 是 Windows 写法；macOS 和 Linux 在终端里运行同样的
+`uv run python ...` 命令。
 
 ```powershell
 # 重型火箭入轨、绕行一圈并返回着陆
@@ -125,7 +152,7 @@ uv run python -m buildarena.paths
 需要自行配置路径或排查某一阶段时，使用以下步骤。
 Inspector 初始化与游戏内验收仍由配置脚本完成。
 
-1. **准备 Windows 与 Steam。** 安装上文列出的游戏、两个 DLC 以及 ToolKit
+1. **准备本机与 Steam。** 在 Windows 10 或 11、Linux 或 macOS 上安装上文列出的游戏、两个 DLC 以及 ToolKit
    Workshop 条目。移除或关闭已退役的 Controller、Block
    Tracker、Collider Dumper 和 Block Inspector 模组，确保仅当前 ToolKit
    处于启用状态。

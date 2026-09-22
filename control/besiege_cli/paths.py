@@ -35,9 +35,11 @@ def resolve_besiege_data(besiege_data: str | Path | None) -> Path:
         env_value = os.environ.get("BESIEGE_DATA_PATH")
         if not env_value:
             raise ValueError(
-                "Besiege_Data path not provided: pass --besiege-data <path> or set the "
-                "BESIEGE_DATA_PATH environment variable (e.g. "
-                r"'C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data')."
+                "Besiege data path not provided: pass --besiege-data <path> or set the "
+                "BESIEGE_DATA_PATH environment variable. Windows and Linux use Besiege_Data "
+                r"(e.g. 'C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data'). "
+                "macOS uses Besiege.app/Contents "
+                "(e.g. '~/Library/Application Support/Steam/steamapps/common/Besiege/Besiege.app/Contents')."
             )
         path = Path(env_value)
     if not path.is_dir():
@@ -47,9 +49,12 @@ def resolve_besiege_data(besiege_data: str | Path | None) -> Path:
 
 # Besiege ships a native binary per platform. Windows is the reference
 # install; Linux is the headless target and uses the Unity standalone name.
+# macOS ships an app bundle: the binary is Contents/MacOS/Besiege, and the
+# data root (Skins, Mods, SavedMachines) is the Contents directory itself.
 BESIEGE_EXE_BY_SYSTEM = {
     "Windows": "Besiege.exe",
     "Linux": "Besiege.x86_64",
+    "Darwin": "Besiege",
 }
 
 
@@ -65,6 +70,15 @@ def besiege_exe_name(system: str | None = None) -> str:
 
 
 def besiege_install_root(besiege_data: Path) -> Path:
+    """Directory used as the process working directory when launching the binary.
+
+    Windows and Linux: the folder that contains both ``Besiege_Data`` and the
+    executable. macOS: the data root (``Besiege.app/Contents``); the binary
+    lives in ``Contents/MacOS``.
+    """
+    if platform.system() == "Darwin":
+        besiege_exe(besiege_data)
+        return besiege_data
     root = besiege_data.parent
     exe = root / besiege_exe_name()
     if not exe.is_file():
@@ -73,6 +87,11 @@ def besiege_install_root(besiege_data: Path) -> Path:
 
 
 def besiege_exe(besiege_data: Path) -> Path:
+    if platform.system() == "Darwin":
+        exe = besiege_data / "MacOS" / besiege_exe_name()
+        if not exe.is_file():
+            raise FileNotFoundError(f"{exe.name} not found in the macOS app bundle: {exe}")
+        return exe
     return besiege_install_root(besiege_data) / besiege_exe_name()
 
 
