@@ -13,7 +13,7 @@ uv run python control/examples/shuttle_booster_recovery/run.py
 
 This command rebuilds the machine from `machine.json`, launches Besiege, and runs the complete automatic controller. Generated machines, logs, and telemetry are saved under `datacache/manual_cases/`.
 
-Append `--edit-before-start` to place cameras before the mission, or `--prepare-only` to rebuild without starting the simulation. See the [root README](../../../README.md#run-three-automatic-machine-examples) for camera and recording instructions.
+Append `--edit-before-start` to place cameras before the mission, or `--prepare-only` to rebuild without starting the simulation. See the [root README](../../../README.md#run-four-automatic-machine-examples) for camera and recording instructions.
 
 ## Overview
 

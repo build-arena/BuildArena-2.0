@@ -46,7 +46,7 @@ cd control
 uv run python -m besiege_cli --help
 ```
 
-## Three complete machine examples
+## Four complete machine examples
 
 Each directory below contains one `machine.json` MCP operation history and
 Python code only. After setup passes, run from the repository root, one example
@@ -57,10 +57,12 @@ same commands in a terminal:
 uv run python control/examples/rocket_orbit_return/run.py
 uv run python control/examples/transforming_car_aerobatics/run.py
 uv run python control/examples/shuttle_booster_recovery/run.py
+uv run python control/examples/starship_flight14/run.py
 ```
 
-The tasks are rocket orbit-and-return, transforming-car aerial aerobatics, and
-shuttle flight with twin-booster recovery. The common implementation is
+The tasks are rocket orbit-and-return, transforming-car aerial aerobatics,
+shuttle flight with twin-booster recovery, and a Starship Flight 14 replica
+(hot staging, booster return, orbit, payload deploy, and ship recovery). The common implementation is
 [`run_example.py`](./run_example.py); setup invokes its rocket preparation and
 launch functions as well. Existing experimental folders and old recording
 packages remain available separately.

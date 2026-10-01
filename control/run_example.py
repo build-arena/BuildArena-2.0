@@ -23,6 +23,7 @@ EXAMPLES = {
     "rocket_orbit_return": ("LONE ORB", 10, 0.0, 1800),
     "transforming_car_aerobatics": ("BARREN EXPANSE", 25, 3.0, 600),
     "shuttle_booster_recovery": ("LONE ORB", 25, 0.0, 1700),
+    "starship_flight14": ("LONE ORB", 25, 0.0, 2400),
 }
 
 
