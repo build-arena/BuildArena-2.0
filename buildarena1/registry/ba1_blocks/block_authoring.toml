@@ -1,0 +1,54 @@
+# Manual authoring source of truth per block id.
+# [by_id.<id>].block_name is the unique public name for MCP, inspect-machine,
+# and controllers. No aliases. Required fields: summary, description,
+# descriptor. Blocks with catalog control channels also require
+# control_descriptor, naming a module under blocks/control_descriptors/.
+# Slider names in that module are the unique send_sliders keys (exact
+# MSlider.Key, no aliases).
+
+[by_id.0]
+block_name = "Starting Block"
+summary = "The default required base block to begin construction."
+description = "A cubic block with six attachable faces."
+descriptor = ""
+control_descriptor = "mechanical"
+
+[by_id.2]
+block_name = "Wheel"
+summary = "Powered wooden wheel."
+description = "Radius 1, thickness 2: a wooden wheel with active power output, a fixed maximum speed, and very high acceleration torque. Default spin direction can be flipped as needed. One attachable face on the axis at the wheel hub. Not fireproof."
+descriptor = ""
+control_descriptor = "mechanical"
+
+[by_id.7]
+block_name = "Brace"
+summary = "Steel brace (connector)."
+description = "A high-strength brace for rigid connections between two faces. Its mass does not change with span length. It has no physical collider volume, so it can pass through geometry without causing overlap-based collisions."
+descriptor = ""
+
+[by_id.15]
+block_name = "Single Wooden Block"
+summary = "Single wooden cube."
+description = "A 1x1x1 wooden cube with six attachable faces (one per side). Not fireproof."
+descriptor = ""
+
+[by_id.45]
+block_name = "Rope Winch"
+summary = "Connector rope winch: inextensible line between two anchors."
+description = "Connection block: an inextensible rope runs between its two attach points. When triggered, the winch can take up slack or pay out rope along that span."
+descriptor = ""
+control_descriptor = "mechanical"
+
+[by_id.47]
+block_name = "Torch"
+summary = "Pointer torch; spherical heating zone ahead of the flame nozzle."
+description = "Pointer-type block: a short horizontal support about 0.5 units long and a vertical shaft about 1 unit long, with the flame at the end of the shaft (per block layout). It heats a sphere of radius 0.3 centered at the body position plus the outward orientation vector—the same center reported by the torch descriptor. Flammable blocks, structures, and entities in that region can catch fire; water cannons and steam can extinguish or interfere, and other burning blocks can reignite. Common use is preheating water cannons for steam. No attachable faces for further chaining beyond the mount."
+descriptor = "torch"
+
+[by_id.56]
+block_name = "Water Cannon"
+summary = "Pointer water cannon with fixed spray direction."
+description = "A pointer block that sprays water in a fixed direction determined by mount orientation. It produces stable recoil while firing and can be bound to hold-to-fire controls. If heated, it switches to steam mode with much stronger recoil output. Body layout matches the config shape (about 1.75 long, 1 wide, 1 high) with inlet and outlet at opposite ends; the runtime descriptor reports inlet/outlet coordinates and spray direction."
+descriptor = "water_cannon"
+control_descriptor = "weapons"
+

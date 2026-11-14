@@ -1,0 +1,405 @@
+skin_set = "Template"
+
+# Auto-generated from collider_dump.toml (fresh mode)
+# [blocks] keeps mesh keys discoverable; obj_file is intentionally omitted.
+
+[blocks.StartingBlock]
+enabled = true
+
+[blocks.DoubleWoodenBlock]
+enabled = true
+
+[blocks.Wheel]
+enabled = true
+
+[blocks.MetalBlade]
+enabled = true
+
+[blocks.Decoupler]
+enabled = true
+
+[blocks.Hinge]
+enabled = true
+
+[blocks.MetalBall]
+enabled = true
+
+[blocks.Brace]
+enabled = true
+
+[blocks.Spring]
+enabled = true
+
+[blocks.WoodenPanel]
+enabled = true
+
+[blocks.Cannon]
+enabled = true
+
+[blocks.ScalingBlock]
+enabled = true
+
+[blocks.SteeringBlock]
+enabled = true
+
+[blocks.FlyingBlock]
+enabled = true
+
+[blocks.SingleWoodenBlock]
+enabled = true
+
+[blocks.Suspension]
+enabled = true
+
+[blocks.CircularSaw]
+enabled = true
+
+[blocks.Piston]
+enabled = true
+
+[blocks.Swivel]
+enabled = true
+
+[blocks.Spike]
+enabled = true
+
+[blocks.Flamethrower]
+enabled = true
+
+[blocks.SpinningBlock]
+enabled = true
+
+[blocks.Bomb]
+enabled = true
+
+[blocks.ArmorPlateSmall]
+enabled = true
+
+[blocks.Wing]
+enabled = true
+
+[blocks.Propeller]
+enabled = true
+
+[blocks.Grabber]
+enabled = true
+
+[blocks.SteeringHinge]
+enabled = true
+
+[blocks.ArmorPlateRound]
+enabled = true
+
+[blocks.BombHolder]
+enabled = true
+
+[blocks.FlameBall]
+enabled = true
+
+[blocks.ArmorPlateLarge]
+enabled = true
+
+[blocks.Plow]
+enabled = true
+
+[blocks.WingPanel]
+enabled = true
+
+[blocks.Ballast]
+enabled = true
+
+[blocks.Boulder]
+enabled = true
+
+[blocks.HalfPipe]
+enabled = true
+
+[blocks.CogMediumUnpowered]
+enabled = true
+
+[blocks.CogMediumPowered]
+enabled = true
+
+[blocks.WheelUnpowered]
+enabled = true
+
+[blocks.WoodenPole]
+enabled = true
+
+[blocks.Slider]
+enabled = true
+
+[blocks.Balloon]
+enabled = true
+
+[blocks.BallJoint]
+enabled = true
+
+[blocks.RopeWinch]
+enabled = true
+
+[blocks.LargeWheel]
+enabled = true
+
+[blocks.Torch]
+enabled = true
+
+[blocks.Drill]
+enabled = true
+
+[blocks.GripPad]
+enabled = true
+
+[blocks.SmallWheel]
+enabled = true
+
+[blocks.CogLargeUnpowered]
+enabled = true
+
+[blocks.ShrapnelCannon]
+enabled = true
+
+[blocks.Grenade]
+enabled = true
+
+[blocks.SmallPropeller]
+enabled = true
+
+[blocks.WaterCannon]
+enabled = true
+
+[blocks.Pin]
+enabled = true
+
+[blocks.CameraBlock]
+enabled = true
+
+[blocks.Rocket]
+enabled = true
+
+[blocks.LargeWheelUnpowered]
+enabled = true
+
+[blocks.Crossbow]
+enabled = true
+
+[blocks.Vacuum]
+enabled = true
+
+[blocks.Log]
+enabled = true
+
+[blocks.Magnet]
+enabled = true
+
+[blocks.Sensor]
+enabled = true
+
+[blocks.Timer]
+enabled = true
+
+[blocks.Altimeter]
+enabled = true
+
+[blocks.LogicGate]
+enabled = true
+
+[blocks.Anglometer]
+enabled = true
+
+[blocks.Speedometer]
+enabled = true
+
+[blocks.SqrBalloon]
+enabled = true
+
+[blocks.RopeMeasure]
+enabled = true
+
+[blocks.Axle]
+enabled = true
+
+[blocks.MetalJaw]
+enabled = true
+
+[blocks.Sail]
+enabled = true
+
+[blocks.Rudder]
+enabled = true
+
+[blocks.NauticalScrew]
+enabled = true
+
+[blocks.Paddle]
+enabled = true
+
+[blocks.Buoyancy]
+enabled = true
+
+[blocks.BigBarrel]
+enabled = true
+
+[blocks.Harpoon]
+enabled = true
+
+[blocks.CornerWoodenBlock]
+enabled = true
+
+[blocks.SkateWheel]
+enabled = true
+
+[blocks.BouncyPad]
+enabled = true
+
+[blocks.FlyWheel]
+enabled = true
+
+[blocks.DragBlock]
+enabled = true
+
+[blocks.Booster]
+enabled = true
+
+[blocks.SteeringThruster]
+enabled = true
+
+[blocks.FuelBarrel]
+enabled = true
+
+[blocks.FuelGauge]
+enabled = true
+
+[blocks.GridFin]
+enabled = true
+
+[blocks.SteeringFin]
+enabled = true
+
+[blocks.FuelLine]
+enabled = true
+
+[blocks.Parachute]
+enabled = false
+
+[blocks.FuelCoupler]
+enabled = true
+
+[blocks.FuelBarrelBig]
+enabled = true
+
+[blocks.SpaceWheel]
+enabled = true
+
+[blocks.ReactionSteeringBlock]
+enabled = true
+
+[blocks.FuelCannon]
+enabled = true
+
+[blocks.FuelPump]
+enabled = true
+
+[connectors.Brace]
+enabled = true
+
+[connectors.FuelLine]
+enabled = true
+
+[connectors.RopeMeasure]
+enabled = true
+
+[connectors.RopeWinch]
+enabled = true
+
+[connectors.Spring]
+enabled = true
+
+[runtime_defaults]
+collider_mode = "obb"
+collider_shrink = 0.85
+mesh_fit_mode = "shape_extents"
+
+[runtime_defs.0]
+enabled = true
+category = ["basic"]
+weight = 0.25
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 6
+tooltip_title = "BLOCK"
+
+[runtime_defs.2]
+enabled = true
+category = ["basic", "locomotion"]
+weight = 1.0
+type = "basic"
+spin = { axis = [0.0, 0.0, 1.0], handedness = "left" }
+locomotion = false
+data = "<Boolean key=\"flipped\">{flipped}</Boolean>"
+description = ""
+block_points = 1
+tooltip_title = "WHEEL"
+
+[runtime_defs.7]
+enabled = true
+category = ["basic"]
+weight = 0.5
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 2
+tooltip_title = "BRACE"
+
+[runtime_defs.15]
+enabled = true
+category = ["basic"]
+weight = 0.3
+type = "basic"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "BLOCK"
+
+[runtime_defs.45]
+enabled = true
+category = ["mechanical"]
+weight = 0.5
+type = "connection"
+spin = false
+locomotion = false
+description = ""
+block_points = 1
+tooltip_title = "WINCH"
+
+[runtime_defs.47]
+enabled = true
+category = ["armour"]
+weight = 1.0
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, 1.0, 0.0]
+block_points = 12
+tooltip_title = "TORCH"
+
+[runtime_defs.56]
+enabled = true
+category = ["weaponry"]
+weight = 1.5
+type = "pointer"
+spin = false
+locomotion = false
+description = ""
+pointer_axis = [0.0, -1.0, 0.0]
+block_points = 3
+tooltip_title = "CANNON"
+buoyancy_state = "down"
+buoyancy_density = 3.95853
+buoyancy_original_mass_density = 1.5
+

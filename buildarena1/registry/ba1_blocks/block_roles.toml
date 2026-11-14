@@ -1,0 +1,311 @@
+# Role / attach type only. The unique public name is
+# [by_id.<id>].block_name in blocks/block_authoring.toml. This file must not
+# define block_name or any other name alias.
+
+[roles.0]
+type = "basic"
+
+[roles.1]
+type = "basic"
+
+[roles.2]
+type = "basic"
+
+[roles.3]
+type = "basic"
+
+[roles.4]
+type = "basic"
+
+[roles.5]
+type = "basic"
+
+[roles.6]
+type = "basic"
+
+[roles.7]
+type = "connection"
+
+[roles.9]
+type = "connection"
+
+[roles.10]
+type = "basic"
+
+[roles.11]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.12]
+type = "basic"
+
+[roles.13]
+type = "basic"
+
+[roles.14]
+type = "basic"
+
+[roles.15]
+type = "basic"
+
+[roles.16]
+type = "basic"
+
+[roles.17]
+type = "basic"
+
+[roles.18]
+type = "basic"
+
+[roles.19]
+type = "basic"
+
+[roles.20]
+type = "basic"
+
+[roles.21]
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.22]
+type = "basic"
+
+[roles.23]
+type = "basic"
+
+[roles.24]
+type = "basic"
+
+[roles.25]
+type = "basic"
+
+[roles.26]
+type = "basic"
+
+[roles.27]
+type = "basic"
+
+[roles.28]
+type = "basic"
+
+[roles.29]
+type = "basic"
+
+[roles.30]
+type = "basic"
+
+[roles.31]
+type = "basic"
+
+[roles.32]
+type = "basic"
+
+[roles.33]
+type = "basic"
+
+[roles.34]
+type = "basic"
+
+[roles.35]
+type = "basic"
+
+[roles.36]
+type = "basic"
+
+[roles.37]
+type = "basic"
+
+[roles.38]
+type = "basic"
+
+[roles.39]
+type = "basic"
+
+[roles.40]
+type = "basic"
+
+[roles.41]
+type = "basic"
+
+[roles.42]
+type = "basic"
+
+[roles.43]
+type = "basic"
+
+[roles.44]
+type = "basic"
+
+[roles.45]
+type = "connection"
+
+[roles.46]
+type = "basic"
+
+[roles.47]
+type = "pointer"
+pointer_axis = [0, 1, 0]
+
+[roles.48]
+type = "basic"
+
+[roles.49]
+type = "basic"
+
+[roles.50]
+type = "basic"
+
+[roles.51]
+type = "basic"
+
+[roles.53]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.54]
+type = "basic"
+
+[roles.55]
+type = "basic"
+
+[roles.56]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.57]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.58]
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.59]
+type = "pointer"
+pointer_axis = [0, 1, 0]
+
+[roles.60]
+type = "basic"
+
+[roles.61]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.62]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.63]
+type = "basic"
+
+[roles.65]
+type = "basic"
+
+[roles.66]
+type = "basic"
+
+[roles.67]
+type = "basic"
+
+[roles.68]
+type = "basic"
+
+[roles.69]
+type = "basic"
+
+[roles.70]
+type = "basic"
+
+[roles.74]
+type = "basic"
+
+[roles.75]
+type = "connection"
+
+[roles.76]
+type = "basic"
+
+[roles.77]
+type = "basic"
+
+[roles.78]
+type = "basic"
+
+[roles.79]
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.80]
+type = "basic"
+
+[roles.81]
+type = "basic"
+
+[roles.82]
+type = "basic"
+
+[roles.83]
+type = "basic"
+
+[roles.84]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.85]
+type = "basic"
+
+[roles.86]
+type = "basic"
+
+[roles.87]
+type = "basic"
+
+[roles.88]
+type = "basic"
+
+[roles.89]
+type = "basic"
+
+[roles.90]
+type = "basic"
+
+[roles.91]
+type = "basic"
+
+[roles.92]
+type = "basic"
+
+[roles.93]
+type = "basic"
+
+[roles.94]
+type = "basic"
+
+[roles.95]
+type = "pointer"
+pointer_axis = [0, -1, 0]
+
+[roles.96]
+type = "connection"
+
+[roles.97]
+type = "basic"
+
+[roles.98]
+type = "basic"
+
+[roles.99]
+type = "basic"
+
+[roles.100]
+type = "basic"
+
+[roles.101]
+type = "basic"
+
+[roles.102]
+type = "pointer"
+pointer_axis = [0, 0, 1]
+
+[roles.103]
+type = "basic"
