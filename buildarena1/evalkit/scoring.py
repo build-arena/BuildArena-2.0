@@ -6,13 +6,14 @@ a 2.0 telemetry.csv, plus the 1.0 block-id table. The pandas calls mirror the
 1.0 ones one for one, because the judges' results depend on pandas' parsing of
 mixed-width rows and on its sort order among rows printed at the same 0.1 s.
 Output keys are the 1.0 result keys. 1.0 side effects (writing clean CSVs and
-result JSONs under datacache/) are left out.
+result JSONs under datacache/) are left out. Lift Lv.2/Lv.3 default to the
+height-only success rule; success_rule="ba1" keeps the original criterion.
 """
 
 from __future__ import annotations
 
 import io
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 import pandas as pd
@@ -424,8 +425,9 @@ def water_cannon_counts(block_data: dict[str, str], text: str) -> dict[str, int]
     return {"active": active, "inactive": len(cannons) - active, "total": len(cannons)}
 
 
-def judge_lift(text: str, block_data: dict[str, str], ident: dict[str, Any]) -> dict[str, Any]:
-    """sim_lift.py:23-137 (analyze_simulation_lift)."""
+def judge_lift(text: str, block_data: dict[str, str], ident: dict[str, Any], *,
+               success_rule: Literal["height", "ba1"] = "height") -> dict[str, Any]:
+    """sim_lift.py:23-137 (analyze_simulation_lift), with a switch for Lv.2/Lv.3 success."""
     mass = total_mass(block_data)
     cannons = water_cannon_counts(block_data, text)
     force = cannons["active"] * L_ACTIVE_THRUST + cannons["inactive"] * L_INACTIVE_THRUST
@@ -436,7 +438,8 @@ def judge_lift(text: str, block_data: dict[str, str], ident: dict[str, Any]) -> 
         passed = effective > 1.0
     else:
         passed = motion["max_height"] > L_HEIGHT_THRESHOLD
-        passed = passed and motion["elevation_change"] > L_ELEVATION_CHANGE_THRESHOLD
+        if success_rule == "ba1":
+            passed = passed and motion["elevation_change"] > L_ELEVATION_CHANGE_THRESHOLD
     return {
         "pass": passed, **identity_fields(ident, block_data),
         "total_propulsion_force": force, "effective_propulsion_force": effective,

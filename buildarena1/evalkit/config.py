@@ -1,9 +1,9 @@
 """Switches of the evaluation.
 
 Each field is a choice where 1.0 could not be followed exactly, or where a
-check in the game could overturn the default. The defaults are the settings
-the evaluation ran with; buildarena1/README.md section 5 lists the ones that
-differ from 1.0.
+check in the game could overturn the default. Except for lift_success_rule,
+the defaults are the settings the evaluation ran with; buildarena1/README.md
+section 5 lists the ones that differ from 1.0.
 """
 
 from __future__ import annotations
@@ -52,6 +52,10 @@ class EvalConfig:
     # "random4" = 1.0's random.sample of 4 with a fixed seed.
     lift_tracking: Literal["all", "random4"] = "all"
     lift_random4_seed: int = 0
+    # Lift Lv.2/Lv.3 success: "height" needs only max_height > 30;
+    # "ba1" also needs the 7-12 s peak to exceed the 2-7 s peak by > 5.
+    # elevation_change is reported under either rule. Lv.1 is unchanged.
+    lift_success_rule: Literal["height", "ba1"] = "height"
     # Drop telemetry rows after the 1.0 duration of the cell.
     truncate_at_duration: bool = True
     # Labels of the trajectory text sent back to the control agent. "1.0"

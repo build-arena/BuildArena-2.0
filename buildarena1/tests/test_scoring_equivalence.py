@@ -3,7 +3,8 @@
 Each case writes one synthetic trajectory twice: as a 2.0 telemetry.csv for
 evalkit, and as 1.0 Lua log text run through 1.0's own save_to_csv /
 clean_simulation_csv and analyze_simulation_<category>. Every result field
-except paths and names must be equal (floats bit for bit).
+except paths and names must be equal (floats bit for bit), with
+lift_success_rule="ba1" selecting the original lift criterion.
 
 With BA1_ROOT set (a BuildArena 1.0 clone at c3005b9, plus matplotlib, see
 requirements-v1.txt) the 1.0 side runs live, and ``FixtureAgreesWithLiveV1``
@@ -275,7 +276,8 @@ class ScoringEquivalence(unittest.TestCase):
         """
         key = key or run_key(case, quantize, order)
         sc = CASES[case] if isinstance(case, str) else case
-        cfg = ours_cfg or replace(EvalConfig(), quantize_like_lua=quantize, log_line_order=order)
+        cfg = ours_cfg or replace(EvalConfig(lift_success_rule="ba1"),
+                                   quantize_like_lua=quantize, log_line_order=order)
         work = Path(tempfile.mkdtemp(prefix="case_", dir=self.tmp))
         ticks = trajgen.write(sc, work / "telemetry.csv")
         blocks = sc.blocks()
@@ -388,18 +390,18 @@ class NegativeControl(ScoringEquivalence):
             v1_harness.lua_log = real
 
     def test_precision_mismatch_is_detected(self):
-        wrong = replace(EvalConfig(), quantize_like_lua=False)
+        wrong = replace(EvalConfig(lift_success_rule="ba1"), quantize_like_lua=False)
         differing, _, _ = self.compare("transport_soft_distance_10_04", True, "print", ours_cfg=wrong)
         self.assertIn("pass", differing)
         self.assertIn("max_transport_distance", differing)
 
     def test_line_order_mismatch_is_detected(self):
-        wrong = replace(EvalConfig(), log_line_order="reversed")
+        wrong = replace(EvalConfig(lift_success_rule="ba1"), log_line_order="reversed")
         differing, _, _ = self.compare("support_breaks_at_9s", True, "print", ours_cfg=wrong)
         self.assertIn("ballast_max_weight_at_threshold", differing)
 
     def test_tracking_mismatch_is_detected(self):
-        wrong = replace(EvalConfig(), heated_field="steam")
+        wrong = replace(EvalConfig(lift_success_rule="ba1"), heated_field="steam")
         differing, _, _ = self.compare("lift_soft_two_heated", True, "print", ours_cfg=wrong)
         self.assertIn("water_cannon_active", differing)
 

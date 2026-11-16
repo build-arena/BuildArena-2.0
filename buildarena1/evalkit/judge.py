@@ -132,7 +132,8 @@ def score_trial(telemetry_csv: Path, blocks: list[dict], category: str, level: s
     """
     rows = legacy_rows(telemetry_csv, blocks, category, level, cfg, controller_trace=controller_trace,
                        cargo_clock=cargo_clock)
+    options = {"success_rule": cfg.lift_success_rule} if category == "lift" else {}
     result = JUDGES[category](rows_to_csv_text(rows), v1_block_data(blocks), {**ident, "category": category,
-                                                                               "level": level})
+                                                                               "level": level}, **options)
     result["v2"] = v2_extras(telemetry_csv)
     return result, rows
