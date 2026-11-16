@@ -2,8 +2,9 @@
 
 Each case writes one synthetic trajectory twice: as a 2.0 telemetry.csv for
 evalkit, and as 1.0 Lua log text run through 1.0's own save_to_csv /
-clean_simulation_csv and analyze_simulation_<category>. Every result field
-except paths and names must be equal (floats bit for bit), with
+clean_simulation_csv and analyze_simulation_<category>. Every 1.0 result field
+except paths and names/identity must be equal (2.0-only v2 is excluded;
+floats use exact equality, with two NaNs equal), with
 lift_success_rule="ba1" selecting the original lift criterion.
 
 With BA1_ROOT set (a BuildArena 1.0 clone at c3005b9, plus matplotlib, see

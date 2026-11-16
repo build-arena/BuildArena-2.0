@@ -26,7 +26,7 @@ from typing import Any, Callable, Protocol
 from .config import EvalConfig, Paths
 from . import legacy as L
 from .control import ControlError, channel_schedule, write_lift_timeline, write_python_controller
-from .judge import mass_ramp, score_trial
+from .judge import mass_ramp, rule_results, score_trial
 from .legacy_log import rows_to_csv_text, trajectory_feedback
 from .prompts import ControllerPrompts, controller_turn, parse_controller_reply, plan_sections, task_content
 from .rebuild import MachineMismatch, RebuildError, check_final, prepare, use_v2
@@ -617,11 +617,15 @@ def control_round_record(system: str, messages: list[dict], attempts: list[dict]
 
 
 # ---------------------------------------------------------------- whole sample
-def _summary_of(trial: dict, metric: str) -> dict:
+def _summary_of(trial: dict, metric: str, lift_success_rule: str = "ba1") -> dict:
     out = {k: v for k, v in trial.items() if k not in ("score", "rows", "traceback")}
     if trial["status"] == "scored":
-        out.update({"pass": bool(trial["score"]["pass"]), "metric": trial["score"][metric],
-                    "hacked": bool(trial["score"].get("hacked", False))})
+        score = trial["score"]
+        rule = score.get("v2", {}).get("lift_success_rule", lift_success_rule)
+        out.update({"pass": bool(score["pass"]), "metric": score[metric],
+                    "hacked": bool(score.get("hacked", False)), **rule_results(score, rule)})
+        if "elevation_change" in score:
+            out["elevation_change"] = score["elevation_change"]
     return out
 
 
@@ -629,7 +633,7 @@ def _counts(trial: dict) -> bool:
     return bool(trial["score"]["pass"]) and not bool(trial["score"].get("hacked", False))
 
 
-def combine(info: SampleInfo, trials: list[dict]) -> dict:
+def combine(info: SampleInfo, trials: list[dict], *, cfg: EvalConfig | None = None) -> dict:
     """How trials make a sample (1.0 has no code for it; README section 5).
 
     A trial counts when it passes and is not flagged hacked. The sample succeeds
@@ -647,7 +651,7 @@ def combine(info: SampleInfo, trials: list[dict]) -> dict:
             "metric": {"name": metric, "value": max(values(counted), default=None)},
             "metric_unsuccessful_best": {"name": metric,
                                          "value": None if success else max(values(scored), default=None)},
-            "trials": [_summary_of(t, metric) for t in trials],
+            "trials": [_summary_of(t, metric, cfg.lift_success_rule if cfg else "ba1") for t in trials],
             "hacked_any": any(bool(t["score"].get("hacked", False)) for t in scored),
             "hacked_pass_any": any(bool(t["score"]["pass"]) and bool(t["score"].get("hacked", False))
                                    for t in scored)}
@@ -721,7 +725,7 @@ def _evaluate(info, out, result, runner, paths, cfg, agent, prompts) -> str:
         trials = support_fixed_trials(ctx)
     else:
         trials = [run_trial(ctx, 1, fixed_controller(ctx))]
-    result.update(combine(info, trials))
+    result.update(combine(info, trials, cfg=cfg))
     if any(t["status"] == "scored" for t in trials):
         return "scored"
     return trials[0]["status"] if trials else "no_trial"

@@ -14,6 +14,8 @@ its counted trials; a failed sample's best metric over its scored trials is
 listed apart and kept out of the success mean; samples with a passing but
 hacked trial are counted on their own. The outcome is recomputed here from the
 per-trial records in result.json ("status", "pass", "hacked", "metric").
+The separate 1.0 columns use pass_ba1/hacked_ba1. A missing rule in an old
+result means ba1; it is labeled as such and never grouped with height runs.
 
 Samples evaluated despite a flag (a build session that ended without
 close_machine_lifespan, which is evaluated on its last saved machine as in 1.0, a final reply without its two sections,
@@ -37,6 +39,7 @@ import sys
 from pathlib import Path
 
 from . import legacy as L
+from .config import validate_lift_success_rule
 
 USAGE_FIELDS = ("input_tokens", "output_tokens", "requests")
 SCOPE_NOTE = ("Simplified protocol: one session per sample with BuildArena-2.0 code and a few samples per cell; "
@@ -60,10 +63,14 @@ def latest_results(root: Path, batch: str | None = None) -> list[dict]:
             continue
         attempts = sorted(p for p in (sample / "eval").glob("*") if p.is_dir())
         if attempts and (attempts[-1] / "result.json").is_file():
-            out.append(_read(attempts[-1] / "result.json"))
+            result = _read(attempts[-1] / "result.json")
+            _restore_verdicts(result, attempts[-1])
+            out.append(result)
             continue
         rounds = [_read(p) for p in sorted(attempts[-1].glob("trial_*/control_round.json"))] if attempts else []
+        state = _read(attempts[-1] / "state.json") if attempts else None
         out.append({**_identity(sample), "attempt": attempts[-1].name if attempts else None,
+                    "config": ((state or {}).get("result") or {}).get("config", {}),
                     "status": "incomplete" if attempts else "not_evaluated",
                     "metric": {"name": None, "value": None}, "trials": [],
                     "build_usage": _read(sample / "usage.json"),
@@ -79,19 +86,64 @@ def _round_usages(record: dict) -> list:
     return [record.get("usage")]
 
 
+def _trial_rule(result: dict, trial: dict | None = None) -> str:
+    rule = (result.get("config") or {}).get("lift_success_rule", "ba1")
+    validate_lift_success_rule(rule)
+    rule = (trial or {}).get("lift_success_rule", rule)
+    validate_lift_success_rule(rule)
+    return rule
+
+
+def _rules(result: dict) -> str:
+    return "+".join(sorted({_trial_rule(result, t) for t in result.get("trials") or []}
+                           or {_trial_rule(result)}))
+
+
+def _legacy_rule(result: dict) -> bool:
+    return "lift_success_rule" not in (result.get("config") or {}) and (
+        not result.get("trials") or any("lift_success_rule" not in t for t in result["trials"]))
+
+
+def _restore_verdicts(result: dict, attempt: Path) -> None:
+    """Recover pre-dual-verdict height summaries from their full scores, in memory."""
+    if result["cell"] not in ("lift_medium", "lift_hard"):
+        return
+    for t in result.get("trials") or []:
+        if (t.get("status") == "scored" and _trial_rule(result, t) == "height"
+                and not {"pass_ba1", "hacked_ba1"} <= t.keys()):
+            score = _read(attempt / f"trial_{t['trial']}" / "score.json")
+            if score is not None:
+                from .judge import rule_results
+                t.update(rule_results(score, "height"))
+                t["elevation_change"] = score["elevation_change"]
+
+
+def _v1_verdict(result: dict, trial: dict) -> tuple[bool, bool]:
+    rule = _trial_rule(result, trial)
+    if {"pass_ba1", "hacked_ba1"} <= trial.keys():
+        return bool(trial["pass_ba1"]), bool(trial["hacked_ba1"])
+    if rule == "ba1" or result["cell"] not in ("lift_medium", "lift_hard"):
+        return bool(trial.get("pass")), bool(trial.get("hacked"))
+    raise ValueError(f"{result.get('sample', '?')} trial {trial.get('trial', '?')}: height result lacks "
+                     "pass_ba1/hacked_ba1; restore its score.json or re-score the saved telemetry.")
+
+
 def outcome(result: dict) -> dict:
     """The sample rule for one sample, from its trial records."""
     scored = [t for t in result.get("trials") or [] if t.get("status") == "scored"]
     counted = [t for t in scored if t.get("pass") and not t.get("hacked")]
     metrics = lambda ts: [t["metric"] for t in ts if t.get("metric") is not None]
     success = bool(counted)
+    v1 = [_v1_verdict(result, t) for t in scored]
     return {"success": success,
             "success_metric": max(metrics(counted), default=None) if success else None,
             "failed_best": None if success else max(metrics(scored), default=None),
             "hacked_pass": any(t.get("pass") and t.get("hacked") for t in scored),
+            "configured_pass": any(t.get("pass") for t in scored),
+            "v1_hacked_pass": any(passed and hacked for passed, hacked in v1),
             # 1.0's own sample result (sim_support.py:82, sim_common): any passing trial counts,
             # hacked or not; the metric is the trial's raw metric (0 for a trial that did not pass)
-            "v1_pass": any(t.get("pass") for t in scored),
+            "v1_pass": any(passed for passed, _ in v1),
             "v1_metric": max(metrics(scored), default=0.0)}
 
 
@@ -130,31 +182,38 @@ def _cell_order(cell: str) -> tuple[int, int]:
 
 def summarize(results: list[dict]) -> list[dict]:
     # samples of one cell evaluated under different run conditions are not merged
-    # a sample with no recorded condition (not run, or run before fingerprints) joins its
-    # cell's only condition; a cell with two or more recorded conditions is split
-    recorded: dict[tuple[str, str, str], set] = {}
+    # A missing fingerprint can join only a unique condition with the SAME rule.
+    # Pre-switch results without a recorded rule mean ba1, not the new default.
+    recorded: dict[tuple[str, str, str, str], set] = {}
     for r in results:
         if condition(r) is not None:
-            recorded.setdefault((r["batch"], r["model"], r["cell"]), set()).add(condition(r))
-    groups: dict[tuple[str, str, str, str], list[dict]] = {}
+            recorded.setdefault((r["batch"], r["model"], r["cell"], _rules(r)), set()).add(condition(r))
+    groups: dict[tuple[str, str, str, str, str], list[dict]] = {}
     for r in results:
-        key = (r["batch"], r["model"], r["cell"])
+        key = (r["batch"], r["model"], r["cell"], _rules(r))
         conds = recorded.get(key, set())
         cond = condition(r) or (next(iter(conds)) if len(conds) == 1 else "unrecorded" if conds else "-")
         groups.setdefault((*key, cond), []).append(r)
-    split = {key: conds for key, conds in recorded.items()}
+    split: dict[tuple[str, str, str], set] = {}
+    for batch, model, cell, rule, cond in groups:
+        split.setdefault((batch, model, cell), set()).add((rule, cond))
     rows = []
-    for (batch, model, cell, cond), items in sorted(groups.items(),
-                                                     key=lambda kv: (kv[0][0], kv[0][1], _cell_order(kv[0][2]), kv[0][3])):
+    for (batch, model, cell, rule, cond), items in sorted(groups.items(),
+                                                     key=lambda kv: (kv[0][0], kv[0][1], _cell_order(kv[0][2]), kv[0][3:])):
         items = sorted(items, key=lambda r: r["sample"])
         usages = [_usage_total(r) for r in items]
         outs = [outcome(r) for r in items]
         wins = [o["success_metric"] for o in outs if o["success"]]
         rows.append({
-            "batch": batch, "model": model, "cell": cell, "condition": cond,
+            "batch": batch, "model": model, "cell": cell, "condition": cond, "lift_success_rule": rule,
+            "legacy_lift_rule_samples": [r["sample"] for r in items if _legacy_rule(r)],
             "cell_split_by_condition": len(split.get((batch, model, cell), ())) > 1, "samples": len(items),
             "v1_passes": sum(1 for o in outs if o["v1_pass"]),
+            "configured_passes": sum(1 for o in outs if o["configured_pass"]),
             "successes": sum(1 for o in outs if o["success"]),
+            "v1_hacked_pass_samples": sum(1 for o in outs if o["v1_hacked_pass"]),
+            "configured_hacked_pass_samples": sum(1 for o in outs if o["hacked_pass"]),
+            # Compatibility alias, always the configured rule's count.
             "hacked_pass_samples": sum(1 for o in outs if o["hacked_pass"]),
             "incomplete_samples": sum(1 for r in items if r["status"] in ("incomplete", "not_evaluated")),
             "metric": next((r["metric"]["name"] for r in items if r["metric"]["name"]), None),
@@ -199,19 +258,23 @@ def _tok(row: dict, field: str) -> str:
 
 def markdown(rows: list[dict]) -> str:
     lines = [SCOPE_NOTE, "",
-             "Success: at least one trial passed without being marked hacked. Success metric: largest such trial. "
+             "Success: at least one trial passed the configured rule without being marked hacked. Success metric: largest such trial. "
              "Failed best: best scored trial of a failed sample, kept out of the success mean.", "",
-             "1.0 pass: samples with a passing trial by 1.0's judge, hacked included. Condition: the run "
+             "Configured pass and 1.0 pass: samples with a passing trial under the respective rule, hacked included. "
+             "The two hacked pass columns count passing trials marked hacked under each rule, once per sample. "
+             "1.0 uses pass_ba1/hacked_ba1 (the recorded verdicts for legacy ba1 results). Condition: the run "
              "fingerprint id (eval_fingerprint.json of the batch). Tokens and requests are those of each sample's "
              "scored attempt (its latest), build session plus control calls.", "",
-             "| batch | model | cell | condition | success | 1.0 pass | hacked pass | metric | success metric (mean) | "
+             "| batch | model | cell | condition | lift rule | success | configured pass | 1.0 pass | configured hacked pass | 1.0 hacked pass | metric | success metric (mean) | "
              "success metric per sample | failed best per sample | status | blocks | in tok (scored attempt) | "
              "out tok (scored attempt) | requests (scored attempt) |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         lines.append(f"| {r['batch']} | {r['model']} | {r['cell']} | {r.get('condition', '-')} | "
-                     f"{r['successes']}/{r['samples']} | {r.get('v1_passes', '-')}/{r['samples']} | "
-                     f"{r['hacked_pass_samples']} | {r['metric'] or '-'} | {_fmt(r['success_metric_mean'])} | "
+                     f"{r['lift_success_rule']} | {r['successes']}/{r['samples']} | "
+                     f"{r['configured_passes']}/{r['samples']} | {r['v1_passes']}/{r['samples']} | "
+                     f"{r['configured_hacked_pass_samples']} | {r['v1_hacked_pass_samples']} | "
+                     f"{r['metric'] or '-'} | {_fmt(r['success_metric_mean'])} | "
                      f"{', '.join(_fmt(v) for v in r['success_metric_per_sample'])} | "
                      f"{', '.join(_fmt(v) for v in r['failed_best_per_sample'])} | "
                      f"{', '.join(r['status_per_sample'])} | "
@@ -240,9 +303,14 @@ def markdown(rows: list[dict]) -> str:
         lines += ["", "Cells split because their samples ran under different conditions (game, 2.0 code, plugin, "
                   "evalkit code or judging config; compare the batches' eval_fingerprint.json and each trial's "
                   "run_fingerprint): " + "; ".join(
-                      f"{b}/{m}/{c}: " + ", ".join(f"{r['condition']} ({r['samples']})" for r in rows
+                      f"{b}/{m}/{c}: " + ", ".join(f"{r['condition']}/{r['lift_success_rule']} ({r['samples']})" for r in rows
                                                     if (r["batch"], r["model"], r["cell"]) == (b, m, c))
                       for b, m, c in splits)]
+    legacy = [f"{r['model']}/{r['cell']}: {', '.join(r['legacy_lift_rule_samples'])}" for r in rows
+              if r["legacy_lift_rule_samples"]]
+    if legacy:
+        lines += ["", "Legacy results missing lift_success_rule are interpreted as ba1 (BuildArena 1.0): "
+                  + "; ".join(legacy)]
     flagged = [f"{r['model']}/{r['cell']}/{f['sample']}: {', '.join(f['flags'])}"
                f" (build session {f['build_session_status'] or 'unknown'})" for r in rows for f in r["flagged_samples"]]
     if flagged:

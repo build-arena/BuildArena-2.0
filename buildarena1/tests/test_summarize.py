@@ -76,8 +76,8 @@ class Summary(unittest.TestCase):
     def test_markdown(self):
         text = summarize.markdown([self.row])
         self.assertTrue(text.startswith(summarize.SCOPE_NOTE))
-        self.assertIn("| b | m | transport_soft | - | 1/5 | ", text)          # no recorded run condition here
-        self.assertIn("| 1 | max_transport_distance | 11.00 |", text)
+        self.assertIn("| b | m | transport_soft | - | ba1 | 1/5 | 2/5 | 2/5 | ", text)
+        self.assertIn("| 1 | 1 | max_transport_distance | 11.00 |", text)
         self.assertIn("incomplete, scored, scored, scored, not_evaluated", text)
         self.assertIn("result.json success differs from the rule above for: m/transport_soft: s03", text)
 

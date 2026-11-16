@@ -117,7 +117,7 @@ def command_name(step: str) -> str:
 def _config(path: str | None) -> EvalConfig:
     if not path:
         return EvalConfig()
-    return EvalConfig(**json.loads(Path(path).read_text(encoding="utf-8")))
+    return EvalConfig.from_json(json.loads(Path(path).read_text(encoding="utf-8")), source=path)
 
 
 def _read_text(path: str) -> str:

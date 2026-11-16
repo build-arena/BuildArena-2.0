@@ -38,7 +38,8 @@ class LiftSuccessRule(unittest.TestCase):
         results, rows = [], []
         for cfg in (EvalConfig(), EvalConfig(lift_success_rule="ba1")):
             score, kept = score_trial(telemetry, scenario.blocks(), "lift", level, IDENT, cfg)
-            results.append(score)
+            self.assertEqual(score["v2"]["lift_success_rule"], cfg.lift_success_rule)
+            results.append({k: v for k, v in score.items() if k != "v2"})
             rows.append(kept)
         self.assertEqual(rows[0], rows[1])
         return results
@@ -72,6 +73,14 @@ class LiftSuccessRule(unittest.TestCase):
                 self.assertFalse(height["pass"])
                 self.assertEqual(height["max_height"], 30.0)
                 self.assertEqual(height, ba1)
+
+    def test_elevation_change_exactly_five_fails_only_ba1(self):
+        for level in ("medium", "hard"):
+            with self.subTest(level=level):
+                height, ba1 = self.score_both(level, [1.0, 1.0, 30.0, 40.0, 40.0, 45.0, 45.0, 45.0, 1.0])
+                self.assertEqual(height["elevation_change"], 5.0)
+                self.assertTrue(height["pass"])
+                self.assertFalse(ba1["pass"])
 
     def test_pass_with_insufficient_thrust_is_still_hacked(self):
         for level in ("medium", "hard"):

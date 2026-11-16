@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 from . import legacy as L
-from .config import EvalConfig, Paths
+from .config import EvalConfig, Paths, LEGACY_LIFT_RULE_NOTE
 from .control import ControlError, channel_schedule, write_python_controller
 from .judge import mass_ramp
 from .legacy_log import trajectory_feedback
@@ -79,7 +79,9 @@ def _load_state(out: Path) -> dict:
     path = out / "state.json"
     if not path.is_file():
         raise StepError(f"{out} has no state.json; run prepare first.")
-    return json.loads(path.read_text(encoding="utf-8"))
+    state = json.loads(path.read_text(encoding="utf-8"))
+    _cfg(state)  # validate and annotate legacy config even when only finalizing
+    return state
 
 
 def _save_state(out: Path, state: dict) -> None:
@@ -88,7 +90,11 @@ def _save_state(out: Path, state: dict) -> None:
 
 def _cfg(state: dict) -> EvalConfig:
     raw = dict(state["result"]["config"])
-    return EvalConfig(**raw)
+    cfg = EvalConfig.from_json(raw, source="state.json config")
+    if "lift_success_rule" not in raw:
+        state["result"].setdefault("config_notes", []).append(LEGACY_LIFT_RULE_NOTE)
+    state["result"]["config"] = cfg.to_json()
+    return cfg
 
 
 def _finish_early(out: Path, state: dict, status: str) -> dict:
@@ -391,7 +397,7 @@ def finalize(sample_dir: Path, attempt: str, *, reason: str | None = None, usage
     result = state["result"]
     trials = _trials(out)
     result["trials"] = []
-    result.update(combine(info, trials))
+    result.update(combine(info, trials, cfg=_cfg(state)))
     result["runtime"] = _runtime(trials)
     if any(t["status"] == "scored" for t in trials):
         result["status"] = "scored"

@@ -11,6 +11,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Literal
+import warnings
+
+
+LEGACY_LIFT_RULE_NOTE = "lift_success_rule is missing; using 'ba1' (BuildArena 1.0) for this legacy configuration."
+
+
+def validate_lift_success_rule(value: str) -> None:
+    if not isinstance(value, str) or value not in ("height", "ba1"):
+        raise ValueError(f"lift_success_rule must be 'height' or 'ba1', got {value!r}")
 
 
 # 1.0 BSG parameters the 2.0 exporter does not write. Keyed by 2.0 block
@@ -52,10 +61,6 @@ class EvalConfig:
     # "random4" = 1.0's random.sample of 4 with a fixed seed.
     lift_tracking: Literal["all", "random4"] = "all"
     lift_random4_seed: int = 0
-    # Lift Lv.2/Lv.3 success: "height" needs only max_height > 30;
-    # "ba1" also needs the 7-12 s peak to exceed the 2-7 s peak by > 5.
-    # elevation_change is reported under either rule. Lv.1 is unchanged.
-    lift_success_rule: Literal["height", "ba1"] = "height"
     # Drop telemetry rows after the 1.0 duration of the cell.
     truncate_at_duration: bool = True
     # Labels of the trajectory text sent back to the control agent. "1.0"
@@ -132,6 +137,23 @@ class EvalConfig:
     sandbox: str = "BARREN EXPANSE"   # 1.0 only says "the last sandbox on the right"
     telemetry_hz: int = 25
     recorder_hz: int = 25
+
+    # Appended to preserve the positional arguments of the pre-switch config.
+    # Lift Lv.2/Lv.3: "height" needs max_height > 30; "ba1" also needs
+    # elevation_change > 5. Lv.1 is unchanged. New runs default to height;
+    # persisted configurations without this field predate the switch.
+    lift_success_rule: Literal["height", "ba1"] = "height"
+
+    def __post_init__(self) -> None:
+        validate_lift_success_rule(self.lift_success_rule)
+
+    @classmethod
+    def from_json(cls, raw: dict, *, source: str) -> "EvalConfig":
+        values = dict(raw)
+        if "lift_success_rule" not in values:
+            warnings.warn(f"{source}: {LEGACY_LIFT_RULE_NOTE}", UserWarning, stacklevel=2)
+            values["lift_success_rule"] = "ba1"
+        return cls(**values)
 
     def to_json(self) -> dict:
         return asdict(self)

@@ -8,10 +8,10 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
-from .config import EvalConfig
+from .config import EvalConfig, validate_lift_success_rule
 from . import legacy as L
 from .legacy_log import TrackedBlock, clean_like_v1, lua_lines, read_mass_trace, read_ticks, rows_to_csv_text
-from .scoring import JUDGES
+from .scoring import JUDGES, lift_verdict
 
 
 def mass_ramp(category: str, level: str, cfg: EvalConfig) -> L.MassRamp | None:
@@ -120,11 +120,25 @@ def v2_extras(telemetry_csv: Path) -> dict[str, Any]:
             "alive_block_count_last": last[1] if last else None}
 
 
+def rule_results(score: dict, lift_success_rule: str) -> dict:
+    """Portable verdicts; kept in v2 so the 1.0 result fields stay unchanged."""
+    validate_lift_success_rule(lift_success_rule)
+    out = {"lift_success_rule": lift_success_rule}
+    for rule in ("height", "ba1"):
+        if score.get("category") == "lift":
+            verdict = lift_verdict(score["level"], score["max_height"], score["elevation_change"],
+                                   score["effective_propulsion_force"], success_rule=rule)
+        else:   # the lift switch does not affect transport or support
+            verdict = {"pass": score["pass"], "hacked": score.get("hacked", False)}
+        out.update({f"{key}_{rule}": bool(value) for key, value in verdict.items()})
+    return out
+
+
 def score_trial(telemetry_csv: Path, blocks: list[dict], category: str, level: str,
                 ident: dict[str, Any], cfg: EvalConfig, *,
                 controller_trace: Path | None = None,
                 cargo_clock: dict | None = None) -> tuple[dict[str, Any], list[list[str]]]:
-    """1.0 result for one trial, plus the 1.0-style rows it was judged on.
+    """Configured result plus both verdicts in v2, and the 1.0-style input rows.
 
     Raises scoring.NoValidRows where 1.0 itself raised (a transport run whose
     tracked blocks printed nothing, a lift run with Water Cannons but no rows);
@@ -135,5 +149,5 @@ def score_trial(telemetry_csv: Path, blocks: list[dict], category: str, level: s
     options = {"success_rule": cfg.lift_success_rule} if category == "lift" else {}
     result = JUDGES[category](rows_to_csv_text(rows), v1_block_data(blocks), {**ident, "category": category,
                                                                                "level": level}, **options)
-    result["v2"] = v2_extras(telemetry_csv)
+    result["v2"] = {**v2_extras(telemetry_csv), **rule_results(result, cfg.lift_success_rule)}
     return result, rows

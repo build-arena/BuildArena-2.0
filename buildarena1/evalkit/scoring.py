@@ -6,8 +6,8 @@ a 2.0 telemetry.csv, plus the 1.0 block-id table. The pandas calls mirror the
 1.0 ones one for one, because the judges' results depend on pandas' parsing of
 mixed-width rows and on its sort order among rows printed at the same 0.1 s.
 Output keys are the 1.0 result keys. 1.0 side effects (writing clean CSVs and
-result JSONs under datacache/) are left out. Lift Lv.2/Lv.3 default to the
-height-only success rule; success_rule="ba1" keeps the original criterion.
+result JSONs under datacache/) are left out. Direct judge calls default to
+1.0's criterion; EvalConfig selects the height-only rule for new evaluations.
 """
 
 from __future__ import annotations
@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 
 from .legacy import V1_MASS
+from .config import validate_lift_success_rule
 
 
 class NoValidRows(ValueError):
@@ -425,30 +426,39 @@ def water_cannon_counts(block_data: dict[str, str], text: str) -> dict[str, int]
     return {"active": active, "inactive": len(cannons) - active, "total": len(cannons)}
 
 
+def lift_verdict(level: str, max_height: float, elevation_change: float, effective: float, *,
+                 success_rule: Literal["height", "ba1"]) -> dict[str, bool]:
+    """Apply either success criterion to the same measured lift metrics."""
+    validate_lift_success_rule(success_rule)
+    if level == "soft":
+        passed = effective > 1.0
+    else:
+        passed = max_height > L_HEIGHT_THRESHOLD
+        if success_rule == "ba1":
+            passed = passed and elevation_change > L_ELEVATION_CHANGE_THRESHOLD
+    return {"pass": passed, "hacked": bool(passed and effective < 1.0)}
+
+
 def judge_lift(text: str, block_data: dict[str, str], ident: dict[str, Any], *,
-               success_rule: Literal["height", "ba1"] = "height") -> dict[str, Any]:
+               success_rule: Literal["height", "ba1"] = "ba1") -> dict[str, Any]:
     """sim_lift.py:23-137 (analyze_simulation_lift), with a switch for Lv.2/Lv.3 success."""
+    validate_lift_success_rule(success_rule)
     mass = total_mass(block_data)
     cannons = water_cannon_counts(block_data, text)
     force = cannons["active"] * L_ACTIVE_THRUST + cannons["inactive"] * L_INACTIVE_THRUST
     effective = force / mass
     motion = motion_metrics(text, L_START_TIME_SPEED)
     traj = com_trajectory_quality(text, L_START, L_TARGET, L_START_TIME_TRAJECTORY)
-    if ident["level"] == "soft":
-        passed = effective > 1.0
-    else:
-        passed = motion["max_height"] > L_HEIGHT_THRESHOLD
-        if success_rule == "ba1":
-            passed = passed and motion["elevation_change"] > L_ELEVATION_CHANGE_THRESHOLD
+    verdict = lift_verdict(ident["level"], motion["max_height"], motion["elevation_change"], effective,
+                           success_rule=success_rule)
     return {
-        "pass": passed, **identity_fields(ident, block_data),
+        **verdict, **identity_fields(ident, block_data),
         "total_propulsion_force": force, "effective_propulsion_force": effective,
         "water_cannon_active": cannons["active"], "water_cannon_inactive": cannons["inactive"],
         "max_height": motion["max_height"], "elevation_change": motion["elevation_change"],
         "initial_max_height": motion["initial_max_height"], "max_speed": motion["max_speed"],
         **{k: traj[k] for k in ("max_progress_ratio", "direction_consistency", "backtrack_penalty",
                                 "lateral_deviation", "path_efficiency", "final_distance_ratio")},
-        "hacked": bool(passed and effective < 1.0),
         "hyperparameters": {"HEIGHT_THRESHOLD": L_HEIGHT_THRESHOLD, "START_TIME_SPEED": L_START_TIME_SPEED,
                             "START_TIME_TRAJECTORY": L_START_TIME_TRAJECTORY,
                             "START_POSITION": L_START.tolist(), "TARGET_POSITION": L_TARGET.tolist()},
