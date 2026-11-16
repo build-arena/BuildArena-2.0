@@ -14,8 +14,10 @@ its counted trials; a failed sample's best metric over its scored trials is
 listed apart and kept out of the success mean; samples with a passing but
 hacked trial are counted on their own. The outcome is recomputed here from the
 per-trial records in result.json ("status", "pass", "hacked", "metric").
-The separate 1.0 columns use pass_ba1/hacked_ba1. A missing rule in an old
-result means ba1; it is labeled as such and never grouped with height runs.
+The separate 1.0 columns use pass_ba1/hacked_ba1. For lift Lv.2/Lv.3, a missing
+rule in an old result means ba1; it is labeled as such and never grouped with
+height runs. Samples without a recorded config or any trials have an unknown
+rule; they join the cell's only result group when unambiguous.
 
 Samples evaluated despite a flag (a build session that ended without
 close_machine_lifespan, which is evaluated on its last saved machine as in 1.0, a final reply without its two sections,
@@ -42,6 +44,7 @@ from . import legacy as L
 from .config import validate_lift_success_rule
 
 USAGE_FIELDS = ("input_tokens", "output_tokens", "requests")
+LIFT_RULE_CELLS = ("lift_medium", "lift_hard")
 SCOPE_NOTE = ("Simplified protocol: one session per sample with BuildArena-2.0 code and a few samples per cell; "
               "not comparable one-to-one with the BuildArena 1.0 multi-agent results (64 samples per cell).")
 
@@ -69,8 +72,9 @@ def latest_results(root: Path, batch: str | None = None) -> list[dict]:
             continue
         rounds = [_read(p) for p in sorted(attempts[-1].glob("trial_*/control_round.json"))] if attempts else []
         state = _read(attempts[-1] / "state.json") if attempts else None
+        state_result = (state or {}).get("result") or {}
         out.append({**_identity(sample), "attempt": attempts[-1].name if attempts else None,
-                    "config": ((state or {}).get("result") or {}).get("config", {}),
+                    **({"config": state_result["config"]} if "config" in state_result else {}),
                     "status": "incomplete" if attempts else "not_evaluated",
                     "metric": {"name": None, "value": None}, "trials": [],
                     "build_usage": _read(sample / "usage.json"),
@@ -87,6 +91,8 @@ def _round_usages(record: dict) -> list:
 
 
 def _trial_rule(result: dict, trial: dict | None = None) -> str:
+    if result.get("config") is None and not result.get("trials") and trial is None:
+        return "unknown"
     rule = (result.get("config") or {}).get("lift_success_rule", "ba1")
     validate_lift_success_rule(rule)
     rule = (trial or {}).get("lift_success_rule", rule)
@@ -95,18 +101,22 @@ def _trial_rule(result: dict, trial: dict | None = None) -> str:
 
 
 def _rules(result: dict) -> str:
+    if result["cell"] not in LIFT_RULE_CELLS:
+        return "-"
     return "+".join(sorted({_trial_rule(result, t) for t in result.get("trials") or []}
                            or {_trial_rule(result)}))
 
 
 def _legacy_rule(result: dict) -> bool:
+    if result["cell"] not in LIFT_RULE_CELLS or _rules(result) == "unknown":
+        return False
     return "lift_success_rule" not in (result.get("config") or {}) and (
         not result.get("trials") or any("lift_success_rule" not in t for t in result["trials"]))
 
 
 def _restore_verdicts(result: dict, attempt: Path) -> None:
     """Recover pre-dual-verdict height summaries from their full scores, in memory."""
-    if result["cell"] not in ("lift_medium", "lift_hard"):
+    if result["cell"] not in LIFT_RULE_CELLS:
         return
     for t in result.get("trials") or []:
         if (t.get("status") == "scored" and _trial_rule(result, t) == "height"
@@ -122,7 +132,7 @@ def _v1_verdict(result: dict, trial: dict) -> tuple[bool, bool]:
     rule = _trial_rule(result, trial)
     if {"pass_ba1", "hacked_ba1"} <= trial.keys():
         return bool(trial["pass_ba1"]), bool(trial["hacked_ba1"])
-    if rule == "ba1" or result["cell"] not in ("lift_medium", "lift_hard"):
+    if rule == "ba1" or result["cell"] not in LIFT_RULE_CELLS:
         return bool(trial.get("pass")), bool(trial.get("hacked"))
     raise ValueError(f"{result.get('sample', '?')} trial {trial.get('trial', '?')}: height result lacks "
                      "pass_ba1/hacked_ba1; restore its score.json or re-score the saved telemetry.")
@@ -182,21 +192,31 @@ def _cell_order(cell: str) -> tuple[int, int]:
 
 def summarize(results: list[dict]) -> list[dict]:
     # samples of one cell evaluated under different run conditions are not merged
-    # A missing fingerprint can join only a unique condition with the SAME rule.
-    # Pre-switch results without a recorded rule mean ba1, not the new default.
+    # For lift Lv.2/Lv.3 a known rule must also match. A missing fingerprint can
+    # join a unique condition. Samples without config or trials are kept unknown
+    # and join only a unique group for the cell, without inventing a legacy rule.
     recorded: dict[tuple[str, str, str, str], set] = {}
     for r in results:
         if condition(r) is not None:
             recorded.setdefault((r["batch"], r["model"], r["cell"], _rules(r)), set()).add(condition(r))
     groups: dict[tuple[str, str, str, str, str], list[dict]] = {}
+    unknown = []
     for r in results:
         key = (r["batch"], r["model"], r["cell"], _rules(r))
+        if key[3] == "unknown":
+            unknown.append(r)
+            continue
         conds = recorded.get(key, set())
         cond = condition(r) or (next(iter(conds)) if len(conds) == 1 else "unrecorded" if conds else "-")
         groups.setdefault((*key, cond), []).append(r)
     split: dict[tuple[str, str, str], set] = {}
     for batch, model, cell, rule, cond in groups:
         split.setdefault((batch, model, cell), set()).add((rule, cond))
+    for r in unknown:
+        cell_key = (r["batch"], r["model"], r["cell"])
+        candidates = [key for key in groups if key[:3] == cell_key and key[3] != "unknown"]
+        key = candidates[0] if len(candidates) == 1 else (*cell_key, "unknown", "unrecorded" if candidates else "-")
+        groups.setdefault(key, []).append(r)
     rows = []
     for (batch, model, cell, rule, cond), items in sorted(groups.items(),
                                                      key=lambda kv: (kv[0][0], kv[0][1], _cell_order(kv[0][2]), kv[0][3:])):
@@ -207,6 +227,7 @@ def summarize(results: list[dict]) -> list[dict]:
         rows.append({
             "batch": batch, "model": model, "cell": cell, "condition": cond, "lift_success_rule": rule,
             "legacy_lift_rule_samples": [r["sample"] for r in items if _legacy_rule(r)],
+            "unknown_lift_rule_samples": [r["sample"] for r in items if _rules(r) == "unknown"],
             "cell_split_by_condition": len(split.get((batch, model, cell), ())) > 1, "samples": len(items),
             "v1_passes": sum(1 for o in outs if o["v1_pass"]),
             "configured_passes": sum(1 for o in outs if o["configured_pass"]),
@@ -304,13 +325,19 @@ def markdown(rows: list[dict]) -> str:
                   "evalkit code or judging config; compare the batches' eval_fingerprint.json and each trial's "
                   "run_fingerprint): " + "; ".join(
                       f"{b}/{m}/{c}: " + ", ".join(f"{r['condition']}/{r['lift_success_rule']} ({r['samples']})" for r in rows
-                                                    if (r["batch"], r["model"], r["cell"]) == (b, m, c))
+                                                    if (r["batch"], r["model"], r["cell"]) == (b, m, c)
+                                                    and r["lift_success_rule"] != "unknown")
                       for b, m, c in splits)]
     legacy = [f"{r['model']}/{r['cell']}: {', '.join(r['legacy_lift_rule_samples'])}" for r in rows
               if r["legacy_lift_rule_samples"]]
     if legacy:
         lines += ["", "Legacy results missing lift_success_rule are interpreted as ba1 (BuildArena 1.0): "
                   + "; ".join(legacy)]
+    unknown = [f"{r['model']}/{r['cell']}: {', '.join(r['unknown_lift_rule_samples'])}" for r in rows
+               if r["unknown_lift_rule_samples"]]
+    if unknown:
+        lines += ["", "Lift rule unknown (no recorded configuration or trials; included in the cell's only result "
+                  "group when unambiguous): " + "; ".join(unknown)]
     flagged = [f"{r['model']}/{r['cell']}/{f['sample']}: {', '.join(f['flags'])}"
                f" (build session {f['build_session_status'] or 'unknown'})" for r in rows for f in r["flagged_samples"]]
     if flagged:

@@ -141,7 +141,7 @@ class EvalConfig:
     # Appended to preserve the positional arguments of the pre-switch config.
     # Lift Lv.2/Lv.3: "height" needs max_height > 30; "ba1" also needs
     # elevation_change > 5. Lv.1 is unchanged. New runs default to height;
-    # persisted configurations without this field predate the switch.
+    # any JSON configuration without this field is read as ba1 for compatibility.
     lift_success_rule: Literal["height", "ba1"] = "height"
 
     def __post_init__(self) -> None:

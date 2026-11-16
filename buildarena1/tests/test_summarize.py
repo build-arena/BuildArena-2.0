@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import tempfile
 import unittest
@@ -76,10 +77,118 @@ class Summary(unittest.TestCase):
     def test_markdown(self):
         text = summarize.markdown([self.row])
         self.assertTrue(text.startswith(summarize.SCOPE_NOTE))
-        self.assertIn("| b | m | transport_soft | - | ba1 | 1/5 | 2/5 | 2/5 | ", text)
+        self.assertIn("| b | m | transport_soft | - | - | 1/5 | 2/5 | 2/5 | ", text)
         self.assertIn("| 1 | 1 | max_transport_distance | 11.00 |", text)
         self.assertIn("incomplete, scored, scored, scored, not_evaluated", text)
         self.assertIn("result.json success differs from the rule above for: m/transport_soft: s03", text)
+
+
+class LiftRuleGrouping(unittest.TestCase):
+    def setUp(self):
+        scratch = tempfile.TemporaryDirectory(prefix="summary_rules_")
+        self.addCleanup(scratch.cleanup)
+        self.root = Path(scratch.name)
+
+    @staticmethod
+    def record(name, cell, rule, fingerprint=None):
+        r = result(name, [trial(1, True, False, 40.0)], True)
+        r["cell"] = cell
+        if rule is not None:
+            r["config"] = {"lift_success_rule": rule}
+            r["trials"][0].update({"lift_success_rule": rule, "pass_ba1": True, "hacked_ba1": False})
+        if fingerprint is not None:
+            r["trials"][0]["run_fingerprint"] = {"id": fingerprint}
+        return r
+
+    def test_unevaluated_lift_sample_is_unknown_and_joins_the_only_group(self):
+        for cell in ("lift_medium", "lift_hard"):
+            for fingerprint in (None, "fp"):
+                with self.subTest(cell=cell, fingerprint=fingerprint):
+                    root = self.root / f"{cell}_{fingerprint}"
+                    pending = root / "b" / "m" / cell / "s01"
+                    pending.mkdir(parents=True)
+                    out = pending.parent / "s02" / "eval" / "a1"
+                    out.mkdir(parents=True)
+                    (out / "result.json").write_text(json.dumps(self.record("s02", cell, "height", fingerprint)))
+                    loaded = summarize.latest_results(root)
+                    self.assertEqual(loaded[0]["status"], "not_evaluated")
+                    self.assertNotIn("config", loaded[0])
+                    alone = summarize.summarize(loaded[:1])[0]
+                    self.assertEqual(alone["lift_success_rule"], "unknown")
+                    self.assertEqual(alone["legacy_lift_rule_samples"], [])
+                    self.assertFalse(alone["cell_split_by_condition"])
+                    rows = summarize.summarize(loaded)
+                    self.assertEqual(rows, summarize.summarize(list(reversed(loaded))))
+                    self.assertEqual(len(rows), 1)
+                    row = rows[0]
+                    self.assertEqual((row["lift_success_rule"], row["samples"], row["successes"]), ("height", 2, 1))
+                    self.assertEqual(row["incomplete_samples"], 1)
+                    self.assertEqual(row["unknown_lift_rule_samples"], ["s01"])
+                    self.assertEqual(row["legacy_lift_rule_samples"], [])
+                    self.assertFalse(row["cell_split_by_condition"])
+                    text = summarize.markdown(rows)
+                    self.assertNotIn("Legacy results", text)
+                    self.assertNotIn("Cells split", text)
+                    self.assertIn("Lift rule unknown", text)
+
+    def test_incomplete_attempt_uses_only_its_own_recorded_config(self):
+        sdir = self.root / "b" / "m" / "lift_medium" / "s01"
+        older, latest = (sdir / "eval" / name for name in ("a1", "a2"))
+        older.mkdir(parents=True)
+        latest.mkdir()
+        (older / "result.json").write_text(json.dumps(self.record("s01", "lift_medium", "ba1")))
+        loaded = summarize.latest_results(self.root)
+        self.assertEqual(loaded[0]["status"], "incomplete")
+        self.assertNotIn("config", loaded[0])
+        self.assertEqual(summarize.summarize(loaded)[0]["lift_success_rule"], "unknown")
+        for config, rule, legacy in (({}, "ba1", ["s01"]), ({"lift_success_rule": "height"}, "height", [])):
+            with self.subTest(config=config):
+                (latest / "state.json").write_text(json.dumps({"result": {"config": config}}))
+                row = summarize.summarize(summarize.latest_results(self.root))[0]
+                self.assertEqual(row["lift_success_rule"], rule)
+                self.assertEqual(row["legacy_lift_rule_samples"], legacy)
+                self.assertEqual(row["unknown_lift_rule_samples"], [])
+
+    def test_both_lift_cells_split_known_rules_and_keep_ambiguous_samples_unknown(self):
+        for cell in ("lift_medium", "lift_hard"):
+            with self.subTest(cell=cell):
+                old = self.record("s01", cell, None)
+                new = self.record("s02", cell, "height")
+                pending = self.record("s03", cell, None)
+                pending.update({"status": "not_evaluated", "trials": []})
+                rows = summarize.summarize([old, new, pending])
+                self.assertEqual([(r["lift_success_rule"], r["samples"]) for r in rows],
+                                 [("ba1", 1), ("height", 1), ("unknown", 1)])
+                self.assertEqual([r["legacy_lift_rule_samples"] for r in rows], [["s01"], [], []])
+                self.assertEqual(rows[2]["unknown_lift_rule_samples"], ["s03"])
+                self.assertTrue(all(r["cell_split_by_condition"] for r in rows))
+                split_note = next(line for line in summarize.markdown(rows).splitlines() if line.startswith("Cells split"))
+                self.assertNotIn("unknown", split_note)
+
+    def test_unaffected_cells_merge_rules_and_legacy_results_by_condition(self):
+        cells = ("lift_soft", "transport_soft", "transport_medium", "transport_hard",
+                 "support_soft", "support_medium", "support_hard")
+        for cell in cells:
+            for fingerprints in ((None, None), ("fp", "fp"), (None, "fp")):
+                with self.subTest(cell=cell, fingerprints=fingerprints):
+                    old = self.record("s01", cell, None, fingerprints[0])
+                    new = self.record("s02", cell, "height", fingerprints[1])
+                    ba1 = self.record("s03", cell, "ba1", fingerprints[1])
+                    rows = summarize.summarize([old, new, ba1])
+                    self.assertEqual(len(rows), 1)
+                    row = rows[0]
+                    self.assertEqual((row["lift_success_rule"], row["samples"], row["successes"]), ("-", 3, 3))
+                    self.assertEqual(row["legacy_lift_rule_samples"], [])
+                    self.assertFalse(row["cell_split_by_condition"])
+                    self.assertNotIn("Legacy results", summarize.markdown(rows))
+                    # Distinct conditions still split these cells, independent of the lift rule.
+                    different = copy.deepcopy(new)
+                    different["trials"][0]["run_fingerprint"] = {"id": "different"}
+                    same = copy.deepcopy(new)
+                    same["trials"][0]["run_fingerprint"] = {"id": "same"}
+                    split = summarize.summarize([same, different])
+                    self.assertEqual(len(split), 2)
+                    self.assertTrue(all(r["cell_split_by_condition"] for r in split))
 
 
 if __name__ == "__main__":

@@ -23,8 +23,9 @@ the system prompt and messages, the caller sends them to the model, and
 ``parse-reply`` takes the reply text back.
 
 HOST.json names the files on this host (keys of ``HostConfig``, README
-section 4). CFG.json holds ``EvalConfig`` fields to override; the full config
-lands in result.json.
+section 4). CFG.json holds ``EvalConfig`` fields to override; any file missing
+``lift_success_rule`` uses ``ba1``. Set it to ``height`` or omit ``--config``
+to use the new default. The full config lands in result.json.
 """
 
 from __future__ import annotations

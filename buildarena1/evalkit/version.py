@@ -5,7 +5,8 @@ buildarena1/evalkit/ that differ from it. A copy installed somewhere else may ca
 ``DEPLOYED.json`` at the repository root (keys: ``commit``, ``dirty``,
 ``deployed_at`` and ``files``, a map from a path under the root to its
 sha256); then the copied files are re-hashed, so a copy edited after it was
-made shows ``files_match: false`` with the files named. Either way
+made shows ``files_match: false`` with the files named. In all cases, including
+a plain copy without Git metadata or a deployment manifest,
 ``content_sha256`` is a digest of the current contents of every .py file
 under buildarena1/evalkit/, so two different uncommitted edits give two
 different values. run_meta.json, result.json and the batch fingerprint
@@ -54,6 +55,7 @@ def code_version(root: Path = ROOT) -> dict:
         dirty = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "--", CODE_DIR],
                                capture_output=True, text=True, check=True).stdout.splitlines()
     except (OSError, subprocess.CalledProcessError):
-        return {"source": "unknown", "commit": None, "files_match": None}
+        return {"source": "unknown", "commit": None, "files_match": None,
+                "content_sha256": content_sha256(root)}
     return {"source": "git", "commit": commit, "dirty_files": [l[3:] for l in dirty], "files_match": not dirty,
             "content_sha256": content_sha256(root)}

@@ -431,9 +431,17 @@ def check_fingerprint(ctx: "Ctx") -> dict:
         except FileExistsError:
             pass                    # another trial froze it first; compare with that
     frozen = json.loads(path.read_text(encoding="utf-8"))
-    diff = [f"{part}.{key}: frozen {frozen['fingerprint'].get(part, {}).get(key)!r}, now {value!r}"
-            for part in ("game", "evalkit", "config") for key, value in fp[part].items()
-            if frozen["fingerprint"].get(part, {}).get(key) != value]
+    diff = []
+    for part in sorted(frozen["fingerprint"].keys() | fp.keys()):
+        if part not in frozen["fingerprint"] or part not in fp:
+            diff.append(f"{part}: missing from {'frozen' if part not in frozen['fingerprint'] else 'current'} fingerprint")
+            continue
+        before, now = frozen["fingerprint"].get(part, {}), fp.get(part, {})
+        for key in sorted(before.keys() | now.keys()):
+            if key not in before or key not in now or before[key] != now[key]:
+                old_value = repr(before[key]) if key in before else "<missing>"
+                new_value = repr(now[key]) if key in now else "<missing>"
+                diff.append(f"{part}.{key}: frozen {old_value}, now {new_value}")
     if diff:
         raise FingerprintMismatch(f"{path} differs from this trial: " + "; ".join(diff))
     return {"id": frozen["id"]}
@@ -617,11 +625,13 @@ def control_round_record(system: str, messages: list[dict], attempts: list[dict]
 
 
 # ---------------------------------------------------------------- whole sample
-def _summary_of(trial: dict, metric: str, lift_success_rule: str = "ba1") -> dict:
+def _summary_of(trial: dict, metric: str, lift_success_rule: str | None = None) -> dict:
     out = {k: v for k, v in trial.items() if k not in ("score", "rows", "traceback")}
     if trial["status"] == "scored":
         score = trial["score"]
         rule = score.get("v2", {}).get("lift_success_rule", lift_success_rule)
+        if rule is None:
+            raise ValueError("Scored trial is missing v2.lift_success_rule; pass cfg to combine or restore the rule.")
         out.update({"pass": bool(score["pass"]), "metric": score[metric],
                     "hacked": bool(score.get("hacked", False)), **rule_results(score, rule)})
         if "elevation_change" in score:
@@ -640,7 +650,8 @@ def combine(info: SampleInfo, trials: list[dict], *, cfg: EvalConfig | None = No
     when at least one trial counts; its metric is the largest among counting
     trials. A failed sample has metric None, and its best scored value is kept
     apart in ``metric_unsuccessful_best``. A sample with a passing but hacked
-    trial is flagged ``hacked_pass_any``.
+    trial is flagged ``hacked_pass_any``. Without cfg, each scored trial must
+    record its lift_success_rule in score.v2; no legacy rule is inferred.
     """
     metric = headline_metric(info.category, info.level)
     scored = [t for t in trials if t["status"] == "scored"]
@@ -651,7 +662,7 @@ def combine(info: SampleInfo, trials: list[dict], *, cfg: EvalConfig | None = No
             "metric": {"name": metric, "value": max(values(counted), default=None)},
             "metric_unsuccessful_best": {"name": metric,
                                          "value": None if success else max(values(scored), default=None)},
-            "trials": [_summary_of(t, metric, cfg.lift_success_rule if cfg else "ba1") for t in trials],
+            "trials": [_summary_of(t, metric, cfg.lift_success_rule if cfg else None) for t in trials],
             "hacked_any": any(bool(t["score"].get("hacked", False)) for t in scored),
             "hacked_pass_any": any(bool(t["score"]["pass"]) and bool(t["score"].get("hacked", False))
                                    for t in scored)}
