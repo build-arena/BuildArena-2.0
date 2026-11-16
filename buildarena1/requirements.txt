@@ -1,0 +1,10 @@
+# Packages buildarena1/ needs on top of the repository's uv.lock. Use them with
+#   uv run --with-requirements buildarena1/requirements.txt python ...
+# Versions are the ones the evaluation and the tests ran with (Python 3.12).
+#
+# The 1.0 judges are pandas code; the 1.0 prompt and level files are YAML.
+pandas==2.3.3
+python-dateutil==4.0.0
+pytz==2026.6
+tzdata==2026.6
+pyyaml==6.0.3

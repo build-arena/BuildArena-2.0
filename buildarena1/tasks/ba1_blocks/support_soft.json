@@ -1,0 +1,117 @@
+{
+ "schema": "buildarena1.build_task.v1",
+ "cell": "support_soft",
+ "category": "support",
+ "level": "soft",
+ "level_label": "Lv.1",
+ "blockset": "ba1_blocks",
+ "status": "default",
+ "machine_name": "support_soft",
+ "final_reply_sections": [],
+ "ba1_commit": "c3005b90686ea6dae9a69a293e7f6395eae77c9c",
+ "system_prompt": "You build machines in a physics simulator (Besiege) through the BuildArena MCP tools. You work alone in this session: you design the machine, build it with the tools, and check it with the query tools.\n\nHow to use the tools\n- Call create_machine_lifespan(machine_name=\"support_soft\") exactly once, then call start() exactly once.\n- Build with attach_block_to and connect_blocks. Adjust with twist_block, shift_block and flip_spin. Inspect with get_machine_summary and get_block_details.\n- When the machine is finished, call close_machine_lifespan() with no arguments. The machine saved at that moment is the machine that will be tested.\n\nEnvironment\n- There will always be a default 1x1x1 shaped cubic stone starting block with weight of 0.25 units as the base of each individual building process.\n- This block can't be removed, used as new block or replaced, so make sure your plan includes the base block.\n\n- The global coordinates of the simulation environment in [x, y, z] format are defined as:\n    positive x points east,\n    positive y points north,\n    positive z points upward (sky).\n\n- The structures are mainly constructed by attaching a new block to the center of an un-occupied face of an existing block, so you should consider the relative position of the new block to the existing block.\n- The attachment itself already has a connection with certain strength, brace is not necessary for the attachment, its only used to enhance the connection between two blocks that are already connected together, or to assemble structures that are not connected.\n\nHere are the available building blocks you can use:\n<available_blocks>\n\n4 kinds of available blocks: \n<Powered Wheel> shape: [2, 2, 0.5], mass: 1.0\nDescription: A powered wooden wheel (diameter = 2, thickness = 0.5) rotates at a constant speed of 100 rpm, and automatically brakes when the wheel stops.  Each powered wheel can be individually controlled to rotate forward or backward by pressing and holding configurable control keys. The wheel's motion is governed by the following constraints: - The wheel's rotation axis is perpendicular to the attached face. - The rolling direction is always parallel to the attached face. - For example, if the attached face is a horizontal face, the wheel will also be horizontal; if the attached face is a vertical face, the wheel will also be vertical. - For example, if the wheel is attached to a side face, the wheel will be rotating parallel to the side face and the rolling direction is perpendicular to the side face. - For example, if the wheel is attached to a bottom face, the wheel will be rotating parallel to the bottom face and unable to roll effectively.\n\n<Small Wooden Block> shape: [1, 1, 1], mass: 0.3\nDescription: Small wooden cubic block with shape of 1x1x1\n<Torch> shape: [1.5, 0.5, 0.5], mass: 1\nDescription: The torch flame sets flammable blocks, structures, and entities on fire.  It can be extinguished by Water Cannons (and Steam Cannons!), and reignited by other burning blocks. Their most common use is in heating water cannons so they produce steam, particularly in vanilla builds  However, they can be extinguished by steam plumes, so care must be taken not to fly backwards.  The torch will generate a spherical heating area with a radius of 0.3 unit in front of its flame nozzle direction (that is, the position of the torch body plus the orientation vector).  All objects in this area will be heated or ignited by the flame. They can also be used for setting fire to things for destructive purposes. Torches have no attachable faces for further attachment or connection. The Torch is shaped as a short horizontal support (length of 0.5), and a vertical shaft (length of 1), the flame is at the end of the vertical shaft. For example, if the torch is attached to a vertical face (face center is [0.5, 0, 0]) and points upwards, the torch coordinates will be [1, 0, 0] since the horizontal support of the torch has a offset of 0.5 from the attached surface, and the heating area will be a sphere with radius 0.3 centered at [1, 0, 1] since the length of the vertical shaft is 1.\n\n<Water Cannon> shape: [1, 1.75, 1], mass: 1.5\nDescription: The Water Cannon sprays water in a fixed direction, which is determined by the attachment and orientation of the water cannon. Generates constant recoil force of 1.6 units of mass at normal gravity. The recoil force is not affected by speed or external conditions. Each water cannon can be individually controlled to fire by pressing and holding a configurable control key. Water Cannon has no attachable faces for further attachment or connection. Steam Mode: If any part of the water cannon is heated, it will fire steam instead of water and deliver 8.6 times the regular recoil force. Water Cannon has a peanut-shaped body (narrower in the middle than at the two ends, inlet and outlet are at the two ends) with length of 1.75, width of 1, and height of 1. The middle part of the water cannon is narrower, making it hard to be directly heated if the heat source is small. For example, if the water cannon is attached to a vertical face (face center is [0.5, 0, 0]) and points downwards, the water cannon center coordinates will be [1, 0, 0] since the connection part of the water cannon has a offset of 0.5 from the surface, and the water cannon inlet will be at [1, 0, 0.75] and the water cannon outlet will be at [1, 0, -1] with a shape of 1.75x1x1 cylinder (narrower in the middle than at the two ends).\n\n\n2 kinds of available connectors: \nImportant: Connectors can not be attached to other blocks, it can only be used to connect two blocks. Connectors does not have physical volume nor collider.\n<Brace> mass: 0.5\nDescription: The Brace is a block that can be used to connect two separated blocks with a solid hinge. It can be used to enhance two blocks that are already connected together, or to assemble structures that are separated in the space. The mass of this block is always the same regardless of the length. Brace must be connected between two attachable faces of existing blocks, it cannot be directly attached to a single block.\n\n<Winch> mass: 0.4\nDescription: The Simple Rope + Winch (simply as Winch or Rope) is a machine block composed of two winches at its end node which connects two blocks by a variable-length rope. Winch must be connected between two attachable faces of existing blocks, it cannot be directly attached to a single block.\n\n</available_blocks>\nIn the BuildArena tools, Small Wooden Block is named \"Single Wooden Block\", Powered Wheel is named \"Wheel\", and Winch is named \"Rope Winch\". No other blocks are available.",
+ "user_message": "**Constraints:**\n- Use only one sub-structure.\n\n**Goal:**\n- Build a bridge capable of spanning a gap between two flat terrains (5 units wide, 5 units high).\n- The bridge must be able to support a 2.5 × 2.5 × 1.5 cargo placed at its center.\n\n**Evaluation Protocol:**\n- The terrains are positioned with edges at (x=0, y=2.5, z=5) and (x=0, y=-2.5, z=5), forming a 5-unit-wide gap along the north–south axis with a vertical drop of 5 units.\n- The bridge will be initially placed at (x=0, y=0, z=7), slightly above the terrain tops, so it can gently fall into position.\n- There will be no fixed connection between the bridge and the terrain.\n- A cargo of size 2.5 × 2.5 × 1.5 will be dropped at (x=0, y=0, z=7), directly above the center of the gap.\n- The cargo will rest on the bridge without any fixed connection.\n- The cargo’s weight will gradually and linearly increase from zero (no initial impact).\n- The trajectory of the cargo will be tracked; the load at which the cargo sinks below the gap will be recorded as the bridge’s maximum supported load.\n- If the bridge fails to span the gap or misses the cargo at the start, the score is 0.\n\n**Scoring Metrics:**\n- *Maximum Load:* Maximum load supported before the cargo falls below the gap (higher is better).\n- *Cost:* Number of blocks used to build the bridge (fewer is better).\n",
+ "system_segments": [
+  {
+   "kind": "new",
+   "text": "You build machines in a physics simulator (Besiege) through the BuildArena MCP tools. You work alone in this session: you design the machine, build it with the tools, and check it with the query tools.\n\nHow to use the tools\n- Call create_machine_lifespan(machine_name=\"support_soft\") exactly once, then call start() exactly once.\n- Build with attach_block_to and connect_blocks. Adjust with twist_block, shift_block and flip_spin. Inspect with get_machine_summary and get_block_details.\n- When the machine is finished, call close_machine_lifespan() with no arguments. The machine saved at that moment is the machine that will be tested.\n"
+  },
+  {
+   "kind": "new",
+   "text": "\nEnvironment\n"
+  },
+  {
+   "kind": "ba1",
+   "source": {
+    "file": "prompt.yaml",
+    "lines": [
+     [
+      16,
+      22
+     ]
+    ],
+    "note": "planner.system_message: starting block and coordinate convention"
+   },
+   "edits": [
+    [
+     " as the base of each individual building process for each sub-structure.",
+     " as the base of each individual building process."
+    ],
+    [
+     "so make sure your plan for each sub-structure includes the base block.",
+     "so make sure your plan includes the base block."
+    ]
+   ],
+   "text": "- There will always be a default 1x1x1 shaped cubic stone starting block with weight of 0.25 units as the base of each individual building process.\n- This block can't be removed, used as new block or replaced, so make sure your plan includes the base block.\n\n- The global coordinates of the simulation environment in [x, y, z] format are defined as:\n    positive x points east,\n    positive y points north,\n    positive z points upward (sky).\n"
+  },
+  {
+   "kind": "new",
+   "text": "\n"
+  },
+  {
+   "kind": "ba1",
+   "source": {
+    "file": "prompt.yaml",
+    "lines": [
+     [
+      33,
+      34
+     ]
+    ],
+    "note": "planner.system_message: plan steps 7 and 8 (attachment rules)"
+   },
+   "edits": [
+    [
+     "7. The structures",
+     "- The structures"
+    ],
+    [
+     "8. The attachment",
+     "- The attachment"
+    ]
+   ],
+   "text": "- The structures are mainly constructed by attaching a new block to the center of an un-occupied face of an existing block, so you should consider the relative position of the new block to the existing block.\n- The attachment itself already has a connection with certain strength, brace is not necessary for the attachment, its only used to enhance the connection between two blocks that are already connected together, or to assemble structures that are not connected.\n"
+  },
+  {
+   "kind": "new",
+   "text": "\n"
+  },
+  {
+   "kind": "ba1",
+   "source": {
+    "file": "prompt.yaml",
+    "lines": [
+     [
+      11,
+      14
+     ]
+    ],
+    "note": "planner.system_message: block list; {available_blks} is replaced by 1.0's Blocks()() exactly as 1.0 spatial/agent.py:26-34 did"
+   },
+   "edits": [
+    [
+     "{available_blks}",
+     "<<1.0 Blocks()() output>>"
+    ]
+   ],
+   "text": "Here are the available building blocks you can use:\n<available_blocks>\n\n4 kinds of available blocks: \n<Powered Wheel> shape: [2, 2, 0.5], mass: 1.0\nDescription: A powered wooden wheel (diameter = 2, thickness = 0.5) rotates at a constant speed of 100 rpm, and automatically brakes when the wheel stops.  Each powered wheel can be individually controlled to rotate forward or backward by pressing and holding configurable control keys. The wheel's motion is governed by the following constraints: - The wheel's rotation axis is perpendicular to the attached face. - The rolling direction is always parallel to the attached face. - For example, if the attached face is a horizontal face, the wheel will also be horizontal; if the attached face is a vertical face, the wheel will also be vertical. - For example, if the wheel is attached to a side face, the wheel will be rotating parallel to the side face and the rolling direction is perpendicular to the side face. - For example, if the wheel is attached to a bottom face, the wheel will be rotating parallel to the bottom face and unable to roll effectively.\n\n<Small Wooden Block> shape: [1, 1, 1], mass: 0.3\nDescription: Small wooden cubic block with shape of 1x1x1\n<Torch> shape: [1.5, 0.5, 0.5], mass: 1\nDescription: The torch flame sets flammable blocks, structures, and entities on fire.  It can be extinguished by Water Cannons (and Steam Cannons!), and reignited by other burning blocks. Their most common use is in heating water cannons so they produce steam, particularly in vanilla builds  However, they can be extinguished by steam plumes, so care must be taken not to fly backwards.  The torch will generate a spherical heating area with a radius of 0.3 unit in front of its flame nozzle direction (that is, the position of the torch body plus the orientation vector).  All objects in this area will be heated or ignited by the flame. They can also be used for setting fire to things for destructive purposes. Torches have no attachable faces for further attachment or connection. The Torch is shaped as a short horizontal support (length of 0.5), and a vertical shaft (length of 1), the flame is at the end of the vertical shaft. For example, if the torch is attached to a vertical face (face center is [0.5, 0, 0]) and points upwards, the torch coordinates will be [1, 0, 0] since the horizontal support of the torch has a offset of 0.5 from the attached surface, and the heating area will be a sphere with radius 0.3 centered at [1, 0, 1] since the length of the vertical shaft is 1.\n\n<Water Cannon> shape: [1, 1.75, 1], mass: 1.5\nDescription: The Water Cannon sprays water in a fixed direction, which is determined by the attachment and orientation of the water cannon. Generates constant recoil force of 1.6 units of mass at normal gravity. The recoil force is not affected by speed or external conditions. Each water cannon can be individually controlled to fire by pressing and holding a configurable control key. Water Cannon has no attachable faces for further attachment or connection. Steam Mode: If any part of the water cannon is heated, it will fire steam instead of water and deliver 8.6 times the regular recoil force. Water Cannon has a peanut-shaped body (narrower in the middle than at the two ends, inlet and outlet are at the two ends) with length of 1.75, width of 1, and height of 1. The middle part of the water cannon is narrower, making it hard to be directly heated if the heat source is small. For example, if the water cannon is attached to a vertical face (face center is [0.5, 0, 0]) and points downwards, the water cannon center coordinates will be [1, 0, 0] since the connection part of the water cannon has a offset of 0.5 from the surface, and the water cannon inlet will be at [1, 0, 0.75] and the water cannon outlet will be at [1, 0, -1] with a shape of 1.75x1x1 cylinder (narrower in the middle than at the two ends).\n\n\n2 kinds of available connectors: \nImportant: Connectors can not be attached to other blocks, it can only be used to connect two blocks. Connectors does not have physical volume nor collider.\n<Brace> mass: 0.5\nDescription: The Brace is a block that can be used to connect two separated blocks with a solid hinge. It can be used to enhance two blocks that are already connected together, or to assemble structures that are separated in the space. The mass of this block is always the same regardless of the length. Brace must be connected between two attachable faces of existing blocks, it cannot be directly attached to a single block.\n\n<Winch> mass: 0.4\nDescription: The Simple Rope + Winch (simply as Winch or Rope) is a machine block composed of two winches at its end node which connects two blocks by a variable-length rope. Winch must be connected between two attachable faces of existing blocks, it cannot be directly attached to a single block.\n\n</available_blocks>\n"
+  },
+  {
+   "kind": "new",
+   "text": "In the BuildArena tools, Small Wooden Block is named \"Single Wooden Block\", Powered Wheel is named \"Wheel\", and Winch is named \"Rope Winch\". No other blocks are available."
+  }
+ ],
+ "user_segments": [
+  {
+   "kind": "ba1",
+   "source": {
+    "file": "levels.yaml",
+    "category": "support",
+    "level": "soft",
+    "note": "the cell's `task` field"
+   },
+   "edits": [],
+   "text": "**Constraints:**\n- Use only one sub-structure.\n\n**Goal:**\n- Build a bridge capable of spanning a gap between two flat terrains (5 units wide, 5 units high).\n- The bridge must be able to support a 2.5 × 2.5 × 1.5 cargo placed at its center.\n\n**Evaluation Protocol:**\n- The terrains are positioned with edges at (x=0, y=2.5, z=5) and (x=0, y=-2.5, z=5), forming a 5-unit-wide gap along the north–south axis with a vertical drop of 5 units.\n- The bridge will be initially placed at (x=0, y=0, z=7), slightly above the terrain tops, so it can gently fall into position.\n- There will be no fixed connection between the bridge and the terrain.\n- A cargo of size 2.5 × 2.5 × 1.5 will be dropped at (x=0, y=0, z=7), directly above the center of the gap.\n- The cargo will rest on the bridge without any fixed connection.\n- The cargo’s weight will gradually and linearly increase from zero (no initial impact).\n- The trajectory of the cargo will be tracked; the load at which the cargo sinks below the gap will be recorded as the bridge’s maximum supported load.\n- If the bridge fails to span the gap or misses the cargo at the start, the score is 0.\n\n**Scoring Metrics:**\n- *Maximum Load:* Maximum load supported before the cargo falls below the gap (higher is better).\n- *Cost:* Number of blocks used to build the bridge (fewer is better).\n"
+  }
+ ]
+}

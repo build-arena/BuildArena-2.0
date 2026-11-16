@@ -1,0 +1,2653 @@
+{
+ "inputs": {
+  "edge:lift_medium_cannon_rows_missing|q|print": "50a30f68d1a343a6875104ba86d22386e517857d12490e6983f698a869cbe346",
+  "edge:lift_medium_cannon_rows_missing|q|reversed": "6eb706742ceb1906c75d5f5abc5380d409d2616a487c445aa34a968f01e78e5d",
+  "edge:lift_medium_cannon_rows_missing|raw|print": "13c94d6324eecdf867c6747205a55404a26bf2a5b479a7f1144a8d67919ceb51",
+  "edge:lift_soft_cannon_no_rows|q|print": "da4a4cc40ba9a287d2181ad524631ffd46796dac6ff6d2e0fe59a696a2ec83b0",
+  "edge:lift_soft_cannon_no_rows|q|reversed": "da4a4cc40ba9a287d2181ad524631ffd46796dac6ff6d2e0fe59a696a2ec83b0",
+  "edge:lift_soft_cannon_no_rows|raw|print": "da4a4cc40ba9a287d2181ad524631ffd46796dac6ff6d2e0fe59a696a2ec83b0",
+  "edge:lift_soft_start_block_only|q|print": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "edge:lift_soft_start_block_only|q|reversed": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "edge:lift_soft_start_block_only|raw|print": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "edge:support_no_cargo_rows|q|print": "ecac463c67ba0a0a1a73a5c87358ecfa801e8e2ccad4336a5907390ed19a1af8",
+  "edge:support_no_cargo_rows|q|reversed": "ecac463c67ba0a0a1a73a5c87358ecfa801e8e2ccad4336a5907390ed19a1af8",
+  "edge:support_no_cargo_rows|raw|print": "ecac463c67ba0a0a1a73a5c87358ecfa801e8e2ccad4336a5907390ed19a1af8",
+  "edge:transport_header_only|q|print": "d7c90ad0a6c8a6287b53e63c9ac32ec5cecc3501c8d5ae7254a9a6aea414dd21",
+  "edge:transport_header_only|q|reversed": "d7c90ad0a6c8a6287b53e63c9ac32ec5cecc3501c8d5ae7254a9a6aea414dd21",
+  "edge:transport_header_only|raw|print": "d7c90ad0a6c8a6287b53e63c9ac32ec5cecc3501c8d5ae7254a9a6aea414dd21",
+  "lift_hard_pass_but_hacked|q|print": "acbeaaabc2d5274bece842ced3b2d9ceccf73547eedf0e92c2584ba9cc5b758e",
+  "lift_hard_six_blocks_all_tracked|q|print": "19e14aac2535b6a9d5674f7f03f71aea5f28de0eff4ee6e86b61bec40dbe761b",
+  "lift_medium_elevation_5_1|q|print": "c1300a31503859c1dc38e93755d4d2bd70a896bd5b2784cc1a67b95af5e61850",
+  "lift_medium_elevation_5_1|q|reversed": "3e7cab58a080a12dd6a7219493ddbd9ea39a3f0c205ef1d1166c1257a1f43c1b",
+  "lift_medium_elevation_exact_5|q|print": "692284ca9374dad65577261e7f3d33ad2f130433c319f6b33032c2a50cc060f4",
+  "lift_medium_flat_above_30|q|print": "c04fea2c965e478238a2ed68bc81d08a7fa593329fe46d80a4e3bf9ee5dd4b0c",
+  "lift_medium_height_30_1|q|print": "a4ac01f36d8d5916f2644aadaaedcd800e0e006432fd011be6832734f7cef5bc",
+  "lift_medium_height_exact_30|q|print": "493191ca847b2e9536cff6a56a473fd387a4453e337358dd8360b8fc18dffdc5",
+  "lift_medium_pass|q|print": "02dcaf146eca4ce5b5fe35521d4bfe08e8ffb59a663d45275ab664bf137144a8",
+  "lift_medium_pass|raw|print": "6238bfba83ce7991eda448f8020d4129098a304f9b0090fbfc1681c162ff0581",
+  "lift_medium_window_edge_7_04|q|print": "f92cf4f08e43724fab4ffa093116913235a63e87b99cbe7edd19beaccdc0b298",
+  "lift_medium_window_edge_7_04|raw|print": "78e646153488ad8dc9b56d4cd0ecd3008763d1f7a947614a00e9563026ac3f7c",
+  "lift_soft_heated_one_tick|q|print": "9feff1407b4619ebcf2515b4854fe2e3fc2cd34e4d7f80d214473b7bdd635286",
+  "lift_soft_none_heated|q|print": "310ffe86606d44325450e6d6befe43b7db2c3425adff0fc7d6cd4e77becaebac",
+  "lift_soft_ratio_just_above_1|q|print": "80c135c007f4814c26b203ea231ca3662a601bc9368998575adb289617c0d9a4",
+  "lift_soft_ratio_just_below_1|q|print": "a113f00438021edfa140a248a139161718ccd11b3683ec71aac3b4353464ebbf",
+  "lift_soft_two_heated|q|print": "4eff98fd1f90534f4b2f320c14eb6cab839025b08fca40caa40e0171cdf4763a",
+  "lift_soft_two_heated|raw|print": "905ff96e011b4d8a57308d31c0f3fbf042a65f79cba581a19a9b8f69968a67e2",
+  "seed:106|q|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:106|q|reversed": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:106|raw|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:30|q|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:30|q|reversed": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:30|raw|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:34|q|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:34|q|reversed": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:34|raw|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:42|q|print": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "seed:42|q|reversed": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "seed:42|raw|print": "89d56269adc000c584894f334c034ce5b703d2eb0979b2528e0b918859118ed7",
+  "seed:84|q|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:84|q|reversed": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "seed:84|raw|print": "4397a7d9bd4aa5658e8aa73c25feea8040c813fadb130757363401af4421f5b8",
+  "support_breaks_at_9s|q|print": "83a0b80cb3762831ad39b077e08dada70dec7a4d04ddbec12b946bdb899611ea",
+  "support_breaks_at_9s|q|reversed": "5497a7aa8de512118643517e3f5d9d829571484adeeeeeb161fdeb67bfa2a6a6",
+  "support_breaks_at_9s|raw|print": "c6bd101a53509d7fd2fdaca71d776530b882586be8ace38078c7062caf1e5004",
+  "support_height_3_96|q|print": "dac8c478477be8c5fbd6491c11fc58aa145e0b28d70dc431e8a05729c3a35ce7",
+  "support_height_3_96|raw|print": "1aa7fe819dec486ad43f346f554323d4967803f3ea1acd5ab2f9fca15a6c28d7",
+  "support_height_exact_4|q|print": "dac8c478477be8c5fbd6491c11fc58aa145e0b28d70dc431e8a05729c3a35ce7",
+  "support_hold_just_above_2s|q|print": "3ebba243964a6da6da14871ac40b281a1faa0d159e9ec27b71b402d0a38d45ac",
+  "support_hold_just_above_2s|q|reversed": "d29e638f888c99a9bb60dbc78cb97f95cc3222233b2aa246d8de589fe515a580",
+  "support_hold_just_below_2s|q|print": "f6bae8a0c95be44fbff2ed3df471a52b5f7e057c49e1ca54bf8cb7d38aee820d",
+  "support_holds_high|q|print": "e2f5273743bdcd01f5430a916ed90c317f764db643211f4583a47664883f40a8",
+  "support_initial_20_0|q|print": "d3ca5003bb3a1c9a24acca890a0f71b02bd569e13a57079fb102cd62c3f4a773",
+  "support_initial_20_1|q|print": "fc795f62d0a7afe999a21508b43d500d941e8bee31a13bfb298f2d255872cdee",
+  "support_never_above|q|print": "84dac469168106ff0cc39b6b2279f570ec5118297fdd878f9dbc66b21e3e71dc",
+  "transport_hard_wheels_split|q|print": "6e3062af954c037f2f21f3f0449d7ea38d28a1250b55d743ce5b5eb1bba0d01c",
+  "transport_hard_wheels_split|q|reversed": "363910b9479ecf75bfc3d51ba57829c07d029f9c42b27b4ec057d9fb20028c2b",
+  "transport_medium_cargo_carried|q|print": "cb3495935b4636cd33a931954723b369eaf2305c5ea01382ef5f475c85145d73",
+  "transport_medium_cargo_carried|raw|print": "d5a77da996c28c642d743496948b35364a1d04fd82cf0793c333036d21a79bd1",
+  "transport_medium_cargo_dropped|q|print": "90ed97224b3d772f0fc00f4040dc6137eb5c818b2b0511c5b5802a7de7965e42",
+  "transport_medium_no_wheels_hacked|q|print": "623e087fc9e4a2ed830aa51c6f826420a2869cd1a4df1d67155e7782f7d087c3",
+  "transport_soft_distance_10_04|q|print": "14ce83bb84fea98b58b69c702932a148d2d070c844a059ec5e5256586464d0f9",
+  "transport_soft_distance_10_04|raw|print": "6b89e8ef519471f7fe72cfab26f7f3075ac2a516dace8027c66ec0eaf9cbf11f",
+  "transport_soft_distance_9_9|q|print": "59f024b87dfed9a688ade73f334c4408b68f318a7dc1e12c41447f1ab1e3a712",
+  "transport_soft_distance_exact_10|q|print": "c9e2386801fcd41a3a983e70fb0aeb7482b01ec66258fad81d4bb5e7108f29ea",
+  "transport_soft_initial_height_19_9|q|print": "6199e459f5496e299695dcf9a21625a9e779deedec53488a1d48e716246bfae4",
+  "transport_soft_initial_height_20_0|q|print": "557f089a9a3f88a42a3fe9b00dcbf20173127801038f14a1637acef44a96d9d9",
+  "transport_soft_initial_height_20_1|q|print": "568012e128b65f3b854b640b596b57c418ad56a9cbffeadc5a844151327f4504",
+  "transport_soft_mass_order|q|print": "07d407f3b91463984b15fac3f3fd46d292c2a34b9f67f820e7472afd05b71d80",
+  "transport_soft_pass|q|print": "dd36e15aaa9c0e96b18eb9e39609472420e180479d048fbf4cbe41b31c558aac",
+  "transport_soft_pass|raw|print": "17e6e5fec4a3b77ea63e8b664f966c24afcce806872faa662c24a51adb1572fe",
+  "transport_soft_three_wheels|q|print": "fc8ce4c86be567882be609ebf1c8509c8c3363afbcee342cddd55b2c5ed4efa3",
+  "transport_soft_west_south|q|print": "fa7c4211520b095ff9206d80e92649e135c5c5c0579442b4e757d3bf1047beee",
+  "transport_soft_wheel_lost|q|print": "3f23f705f76b35c73df03bc1058034416d3128501cbdc022352cba4f2d9c53a6"
+ },
+ "note": "BuildArena 1.0 analyze_simulation_<category> results (c3005b9) on the trajectories of test_scoring_equivalence; keys are run_key(); path and name fields left out.",
+ "results": {
+  "edge:lift_medium_cannon_rows_missing|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 1.0,
+   "effective_propulsion_force": 0.5818181818181819,
+   "elevation_change": 5.0,
+   "final_distance_ratio": 0.9817647058765779,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 31.0,
+   "max_progress_ratio": 0.018235294117539793,
+   "max_speed": 1.0000000000000178,
+   "num_blocks": 3,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 2.75,
+   "total_propulsion_force": 1.6,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 1
+  },
+  "edge:lift_medium_cannon_rows_missing|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 1.0,
+   "effective_propulsion_force": 0.5818181818181819,
+   "elevation_change": 5.0,
+   "final_distance_ratio": 0.9817647058765779,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 31.0,
+   "max_progress_ratio": 0.018235294117539793,
+   "max_speed": 1.0000000000000178,
+   "num_blocks": 3,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 2.75,
+   "total_propulsion_force": 1.6,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 1
+  },
+  "edge:lift_medium_cannon_rows_missing|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 1.0,
+   "effective_propulsion_force": 0.5818181818181819,
+   "elevation_change": 4.999995708465576,
+   "final_distance_ratio": 0.9817880551897528,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.0799999982118609,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 30.96030616760254,
+   "max_progress_ratio": 0.018211944804364954,
+   "max_speed": 1.0000000000001776,
+   "num_blocks": 3,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 2.75,
+   "total_propulsion_force": 1.6,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 1
+  },
+  "edge:lift_soft_cannon_no_rows|q|print": {
+   "raised": "ValueError"
+  },
+  "edge:lift_soft_cannon_no_rows|q|reversed": {
+   "raised": "ValueError"
+  },
+  "edge:lift_soft_cannon_no_rows|raw|print": {
+   "raised": "ValueError"
+  },
+  "edge:lift_soft_start_block_only|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "edge:lift_soft_start_block_only|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "edge:lift_soft_start_block_only|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "edge:support_no_cargo_rows|q|print": {
+   "ballast_max_weight": 0.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 0.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 0.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "edge:support_no_cargo_rows|q|reversed": {
+   "ballast_max_weight": 0.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 0.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 0.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "edge:support_no_cargo_rows|raw|print": {
+   "ballast_max_weight": 0.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 0.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 0.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "edge:transport_header_only|q|print": {
+   "raised": "ValueError"
+  },
+  "edge:transport_header_only|q|reversed": {
+   "raised": "ValueError"
+  },
+  "edge:transport_header_only|raw|print": {
+   "raised": "ValueError"
+  },
+  "lift_hard_pass_but_hacked|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.35842293906810035,
+   "effective_propulsion_force": 0.3368421052631579,
+   "elevation_change": 19.299999999999997,
+   "final_distance_ratio": 0.9763823529354331,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "hard",
+   "max_height": 40.3,
+   "max_progress_ratio": 0.023617647058684604,
+   "max_speed": 2.0000000000000355,
+   "num_blocks": 5,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.75,
+   "total_propulsion_force": 1.6,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 1
+  },
+  "lift_hard_six_blocks_all_tracked|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.35842293906810035,
+   "effective_propulsion_force": 2.871028037383178,
+   "elevation_change": 19.3,
+   "final_distance_ratio": 0.9763235294060217,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "hard",
+   "max_height": 40.5,
+   "max_progress_ratio": 0.02367647058809602,
+   "max_speed": 2.0000000000000355,
+   "num_blocks": 7,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 5.35,
+   "total_propulsion_force": 15.36,
+   "water_cannon_active": 1,
+   "water_cannon_inactive": 1
+  },
+  "lift_medium_elevation_5_1|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.003584229390680991,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 5.100000000000001,
+   "final_distance_ratio": 0.9818235294059893,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 25.8,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 31.0,
+   "max_progress_ratio": 0.018176470588128376,
+   "max_speed": 51.0000000000002,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_elevation_5_1|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.003584229390680991,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 5.100000000000001,
+   "final_distance_ratio": 0.9818235294059893,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 25.8,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 31.0,
+   "max_progress_ratio": 0.018176470588128376,
+   "max_speed": 51.0000000000002,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_elevation_exact_5|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.003584229390680991,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 5.0,
+   "final_distance_ratio": 0.9818823529354008,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 25.8,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 30.9,
+   "max_progress_ratio": 0.018117647058716956,
+   "max_speed": 50.00000000000018,
+   "num_blocks": 4,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_flat_above_30|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9817058823471666,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 31.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 31.2,
+   "max_progress_ratio": 0.01829411764695121,
+   "max_speed": 0.0,
+   "num_blocks": 4,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_height_30_1|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.35842293906810035,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 14.3,
+   "final_distance_ratio": 0.982352941170692,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 30.1,
+   "max_progress_ratio": 0.017647058823425606,
+   "max_speed": 2.0000000000000355,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_height_exact_30|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.35842293906810035,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 14.3,
+   "final_distance_ratio": 0.9824117647001035,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 30.0,
+   "max_progress_ratio": 0.01758823529401419,
+   "max_speed": 2.0000000000000355,
+   "num_blocks": 4,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_pass|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.35842293906810035,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 16.900000000000002,
+   "final_distance_ratio": 0.9793529411707098,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 35.2,
+   "max_progress_ratio": 0.02064705882340796,
+   "max_speed": 2.0000000000000355,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_pass|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.3581619359273337,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 16.999985408782962,
+   "final_distance_ratio": 0.9793529411707098,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 35.2,
+   "max_progress_ratio": 0.02064705882340796,
+   "max_speed": 3.4000000000003108,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_window_edge_7_04|q|print": {
+   "backtrack_penalty": 0.0076470588234844325,
+   "category": "lift",
+   "direction_consistency": 0.003584229390680991,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": -28.000000000000004,
+   "final_distance_ratio": 0.9928823529353361,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 10.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 40.2,
+   "max_progress_ratio": 0.014764705882266093,
+   "max_speed": 280.000000000001,
+   "num_blocks": 4,
+   "pass": false,
+   "path_efficiency": 0.11553784860557781,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_medium_window_edge_7_04|raw|print": {
+   "backtrack_penalty": 0.016470588235197235,
+   "category": "lift",
+   "direction_consistency": 0.0014326476412382925,
+   "effective_propulsion_force": 0.7529411764705882,
+   "elevation_change": 30.000000000000004,
+   "final_distance_ratio": 0.9928823529353361,
+   "hacked": true,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 10.1,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 40.2,
+   "max_progress_ratio": 0.023588235293978896,
+   "max_speed": 750.0007152564195,
+   "num_blocks": 4,
+   "pass": true,
+   "path_efficiency": 0.4463840399002492,
+   "total_mass": 4.25,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_soft_heated_one_tick|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 5.003636363636364,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9993823529352979,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 1.1,
+   "max_progress_ratio": 0.0006176470588198963,
+   "max_speed": 0.0,
+   "num_blocks": 3,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 2.75,
+   "total_propulsion_force": 13.76,
+   "water_cannon_active": 1,
+   "water_cannon_inactive": 0
+  },
+  "lift_soft_none_heated|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.7032967032967034,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9993235294058863,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 1.3,
+   "max_progress_ratio": 0.0006764705882313149,
+   "max_speed": 0.0,
+   "num_blocks": 5,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.55,
+   "total_propulsion_force": 3.2,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 2
+  },
+  "lift_soft_ratio_just_above_1|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 1.0007272727272727,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.999058823523535,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.9,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 2.2,
+   "max_progress_ratio": 0.0009411764705826991,
+   "max_speed": 0.0,
+   "num_blocks": 14,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 13.75,
+   "total_propulsion_force": 13.76,
+   "water_cannon_active": 1,
+   "water_cannon_inactive": 0
+  },
+  "lift_soft_ratio_just_below_1|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.9793594306049821,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9990294117588292,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.9,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 2.3,
+   "max_progress_ratio": 0.0009705882352884084,
+   "max_speed": 0.0,
+   "num_blocks": 15,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 14.05,
+   "total_propulsion_force": 13.76,
+   "water_cannon_active": 1,
+   "water_cannon_inactive": 0
+  },
+  "lift_soft_two_heated|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 6.048351648351648,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9993235294058863,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 1.3,
+   "max_progress_ratio": 0.0006764705882313149,
+   "max_speed": 0.0,
+   "num_blocks": 5,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.55,
+   "total_propulsion_force": 27.52,
+   "water_cannon_active": 2,
+   "water_cannon_inactive": 0
+  },
+  "lift_soft_two_heated|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 6.048351648351648,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 0.9993235294058863,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 1.1,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 1.3,
+   "max_progress_ratio": 0.0006764705882313149,
+   "max_speed": 0.0,
+   "num_blocks": 5,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.55,
+   "total_propulsion_force": 27.52,
+   "water_cannon_active": 2,
+   "water_cannon_inactive": 0
+  },
+  "seed:106|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:106|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:106|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:30|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:30|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:30|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:34|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:34|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:34|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:42|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:42|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:42|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "soft",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:84|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:84|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "seed:84|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "lift",
+   "direction_consistency": 0.0,
+   "effective_propulsion_force": 0.0,
+   "elevation_change": 0.0,
+   "final_distance_ratio": 1.0,
+   "hacked": false,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 30.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     0.0,
+     0.0,
+     1700.0
+    ]
+   },
+   "initial_max_height": 0.0,
+   "lateral_deviation": 0.0,
+   "level": "medium",
+   "max_height": 0.0,
+   "max_progress_ratio": 0.0,
+   "max_speed": 0.0,
+   "num_blocks": 1,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 0.25,
+   "total_propulsion_force": 0.0,
+   "water_cannon_active": 0,
+   "water_cannon_inactive": 0
+  },
+  "support_breaks_at_9s|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 876.1,
+   "ballast_min_height": 2.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 9.2,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "medium",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 7.800000000000001,
+   "total_mass": 0.55
+  },
+  "support_breaks_at_9s|q|reversed": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 868.1,
+   "ballast_min_height": 2.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 9.1,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "medium",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 7.9,
+   "total_mass": 0.55
+  },
+  "support_breaks_at_9s|raw|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 876.0859785079957,
+   "ballast_min_height": 2.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 9.159993134438992,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "medium",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 7.760015487670898,
+   "total_mass": 0.55
+  },
+  "support_height_3_96|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 1500.0,
+   "ballast_min_height": 4.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 17.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "support_height_3_96|raw|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 3.96,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 0.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 16.92000862210989,
+   "total_mass": 0.55
+  },
+  "support_height_exact_4|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 1500.0,
+   "ballast_min_height": 4.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 17.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "support_hold_just_above_2s|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 166.5,
+   "ballast_min_height": 1.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 2.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "hard",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 15.0,
+   "total_mass": 0.55
+  },
+  "support_hold_just_above_2s|q|reversed": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 162.5,
+   "ballast_min_height": 1.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 2.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "hard",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 15.0,
+   "total_mass": 0.55
+  },
+  "support_hold_just_below_2s|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 1.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 1.9,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "hard",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 15.1,
+   "total_mass": 0.55
+  },
+  "support_holds_high|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 1500.0,
+   "ballast_min_height": 6.0,
+   "category": "support",
+   "hacked": true,
+   "hold_time_above_threshold": 17.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "support_initial_20_0|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 1500.0,
+   "ballast_min_height": 6.0,
+   "category": "support",
+   "hacked": true,
+   "hold_time_above_threshold": 17.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": true,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "support_initial_20_1|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 6.0,
+   "category": "support",
+   "hacked": true,
+   "hold_time_above_threshold": 17.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 0.0,
+   "total_mass": 0.55
+  },
+  "support_never_above|q|print": {
+   "ballast_max_weight": 1500.0,
+   "ballast_max_weight_at_threshold": 0.0,
+   "ballast_min_height": 1.0,
+   "category": "support",
+   "hacked": false,
+   "hold_time_above_threshold": 0.0,
+   "hyperparameters": {
+    "HEIGHT_THRESHOLD": 4.0,
+    "HOLD_THRESHOLD": 2.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0
+   },
+   "level": "soft",
+   "num_blocks": 2,
+   "pass": false,
+   "time_below_threshold": 17.0,
+   "total_mass": 0.55
+  },
+  "transport_hard_wheels_split|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.9,
+   "lateral_deviation": 0.1131370849098476,
+   "level": "hard",
+   "max_height": 4.9,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 1.927650679707566,
+   "num_blocks": 5,
+   "one_piece": false,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 4
+  },
+  "transport_hard_wheels_split|q|reversed": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.4659498207885304,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.9,
+   "lateral_deviation": 0.1131370849098476,
+   "level": "hard",
+   "max_height": 4.9,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 2.2360679774998293,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 1.927650679707566,
+   "num_blocks": 5,
+   "one_piece": false,
+   "pass": true,
+   "path_efficiency": 0.625,
+   "total_mass": 4.25,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 4
+  },
+  "transport_medium_cargo_carried|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.9,
+   "lateral_deviation": 0.1131370849098476,
+   "level": "medium",
+   "max_height": 4.9,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 4
+  },
+  "transport_medium_cargo_carried|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.8223474570167069,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.864000003039837,
+   "lateral_deviation": 0.11313708490984761,
+   "level": "medium",
+   "max_height": 4.864000003039837,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 0.4919003695211749,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 4
+  },
+  "transport_medium_cargo_dropped|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.0,
+   "final_distance_ratio": 0.9949999992964287,
+   "final_position": [
+    0.3,
+    -0.2
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.9,
+   "lateral_deviation": 0.11586630218063484,
+   "level": "medium",
+   "max_height": 4.9,
+   "max_progress_ratio": 0.004999999996464464,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 0.36055512754639896,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 4
+  },
+  "transport_medium_no_wheels_hacked|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043016,
+   "final_distance_ratio": 0.09999999992928936,
+   "final_position": [
+    9.0,
+    9.0
+   ],
+   "hacked": true,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 4.9,
+   "lateral_deviation": 0.1131370849098476,
+   "level": "medium",
+   "max_height": 4.9,
+   "max_progress_ratio": 0.8999999993636038,
+   "max_speed": 1.4142135623731202,
+   "max_transport_distance": 12.727922061357855,
+   "max_wheel_distance_variation": 0.0,
+   "num_blocks": 3,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 0.85,
+   "tracking_target": "ID_Ballast",
+   "wheel_count": 0
+  },
+  "transport_soft_distance_10_04|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10391174920662531,
+   "final_distance_ratio": 0.49999999964644665,
+   "final_position": [
+    10.0,
+    0.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.3017590377554055,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.49999999964644654,
+   "max_speed": 1.0000000000000355,
+   "max_transport_distance": 10.0,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_distance_10_04|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.5814874633480263,
+   "final_distance_ratio": 0.4979999996478609,
+   "final_position": [
+    10.04,
+    0.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.30129147026151326,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.5019999996450323,
+   "max_speed": 0.4365217391306028,
+   "max_transport_distance": 10.04,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.4117541068503736,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_distance_9_9|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043033,
+   "final_distance_ratio": 0.2999999997878681,
+   "final_position": [
+    7.0,
+    7.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.6999999995050251,
+   "max_speed": 1.4142135623731327,
+   "max_transport_distance": 9.899494936611665,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_distance_exact_10|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10137731629914648,
+   "final_distance_ratio": 0.49999999964644665,
+   "final_position": [
+    10.0,
+    0.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.30097147350720793,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.49999999964644654,
+   "max_speed": 1.0000000000000355,
+   "max_transport_distance": 10.0,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_initial_height_19_9|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 19.9,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 19.9,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_initial_height_20_0|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 20.0,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 20.0,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_initial_height_20_1|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": true,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 20.1,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 20.1,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_mass_order|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 13,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 7.65,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_pass|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_pass|raw|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.8223474570167069,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.04242640684119284,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 0.4919003695211749,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_three_wheels|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.39052429175127007,
+   "num_blocks": 4,
+   "one_piece": true,
+   "pass": false,
+   "path_efficiency": 0.0,
+   "total_mass": 3.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 3
+  },
+  "transport_soft_west_south|q|print": {
+   "backtrack_penalty": 0.29999999978786773,
+   "category": "transport",
+   "direction_consistency": 0.0,
+   "final_distance_ratio": 1.899999998656497,
+   "final_position": [
+    -9.0,
+    -9.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.0,
+   "max_speed": 1.4142135623731327,
+   "max_transport_distance": 12.727922061357855,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 424264067.7119283,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  },
+  "transport_soft_wheel_lost|q|print": {
+   "backtrack_penalty": 0.0,
+   "category": "transport",
+   "direction_consistency": 0.10752688172043005,
+   "final_distance_ratio": 0.19999999985857872,
+   "final_position": [
+    8.0,
+    8.0
+   ],
+   "hacked": false,
+   "hyperparameters": {
+    "DISTANCE_THRESHOLD": 10.0,
+    "INITIAL_HEIGHT_THRESHOLD": 20.0,
+    "START_POSITION": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "START_TIME_SPEED": 2.0,
+    "START_TIME_TRAJECTORY": 2.0,
+    "TARGET_POSITION": [
+     10.0,
+     10.0,
+     0.0
+    ],
+    "WHEEL_DISTANCE_THRESHOLD": 1.0
+   },
+   "initial_max_height": 0.6,
+   "lateral_deviation": 0.042426406841192844,
+   "level": "soft",
+   "max_height": 0.6,
+   "max_progress_ratio": 0.7999999994343144,
+   "max_speed": 1.4142135623731455,
+   "max_transport_distance": 11.313708498984761,
+   "max_wheel_distance_variation": 0.3905242917512701,
+   "num_blocks": 5,
+   "one_piece": true,
+   "pass": true,
+   "path_efficiency": 0.0,
+   "total_mass": 4.25,
+   "tracking_target": "ID_1",
+   "wheel_count": 4
+  }
+ }
+}
