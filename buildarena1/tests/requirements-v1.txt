@@ -1,0 +1,10 @@
+# Extra packages for the live comparison with BuildArena 1.0 (BA1_ROOT set):
+# 1.0's spatial/utils.py imports matplotlib at module level, so importing the
+# 1.0 judges needs it. Not needed for the stored-result comparison.
+matplotlib==3.10.9
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.68.0
+kiwisolver==1.5.1
+packaging==26.3
+pyparsing==3.3.3
