@@ -296,8 +296,8 @@ control_descriptor = "mechanical"
 
 [by_id.47]
 block_name = "Torch"
-summary = "Pointer torch; spherical heating zone ahead of the flame nozzle."
-description = "Pointer-type block: a short horizontal support about 0.5 units long and a vertical shaft about 1 unit long, with the flame at the end of the shaft (per block layout). It heats a sphere of radius 0.3 centered at the body position plus the outward orientation vector—the same center reported by the torch descriptor. Flammable blocks, structures, and entities in that region can catch fire; water cannons and steam can extinguish or interfere, and other burning blocks can reignite. Common use is preheating water cannons for steam. No attachable faces for further chaining beyond the mount."
+summary = "Pointer torch; heating region near the flame at the shaft tip."
+description = "Pointer-type block: a short horizontal support about 0.5 units long and a vertical shaft about 1 unit long, with the flame at the end of the shaft. The descriptor reports the approximate heating box's center and local half-extents; the region moves and rotates with the torch, including shifts and twists. Local +Y follows the shaft and local +Z points outward from the mounting face. Flammable blocks, structures, and entities overlapping that region can catch fire; water cannons and steam can extinguish or interfere, and other burning blocks can reignite. Common use is preheating water cannons for steam. No attachable faces for further chaining beyond the mount."
 descriptor = "torch"
 
 [by_id.48]
