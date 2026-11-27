@@ -119,7 +119,7 @@ To locate the install, use **Steam → Besiege → Manage → Browse local files
 Rerun setup after resolving a missing prerequisite. It checks actual artifacts
 before continuing.
 
-## Run three automatic machine examples
+## Run four automatic machine examples
 
 **Run these only after [one-command setup](#one-command-setup) passes**
 (`.local/setup-report.json`: `status=passed`). From the repository root, run
@@ -138,6 +138,9 @@ uv run python control/examples/transforming_car_aerobatics/run.py
 
 # Shuttle: orbital flight, twin-booster return, and glide recovery
 uv run python control/examples/shuttle_booster_recovery/run.py
+
+# Starship Flight 14 replica: hot staging, booster return, orbit, Starlink deploy, and ship recovery
+uv run python control/examples/starship_flight14/run.py
 ```
 
 Each example directory contains only `machine.json` and its Python launch/control

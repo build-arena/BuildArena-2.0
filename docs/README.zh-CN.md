@@ -108,7 +108,7 @@ bash scripts/setup.sh --besiege-data "$HOME/Library/Application Support/Steam/st
 
 补齐缺失前提后重新运行配置。脚本会在继续前检查真实产物。
 
-## 三种自动控制案例
+## 四种自动控制案例
 
 **只有[一键配置](#一键配置)通过验收后**（`.local/setup-report.json` 中
 `status=passed`），才能在仓库根目录运行以下案例。**每次只运行一个，结束后再运行下一个**。
@@ -122,6 +122,8 @@ uv run python control/examples/rocket_orbit_return/run.py
 uv run python control/examples/transforming_car_aerobatics/run.py
 # 航天飞机轨道飞行、双助推器返回与滑翔回收
 uv run python control/examples/shuttle_booster_recovery/run.py
+# 星舰第 14 次试飞复刻：热分离、助推器返航、入轨、星链部署与飞船回收
+uv run python control/examples/starship_flight14/run.py
 ```
 
 每个目录只含一份 `machine.json` MCP 建造历史与 Python 启动/控制代码。
